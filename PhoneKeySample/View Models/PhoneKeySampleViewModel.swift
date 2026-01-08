@@ -92,6 +92,31 @@ final class PhoneKeySampleViewModel {
             self.append("Stub: backend acknowledged registration.")
         }
     }
+    
+    
+    
+    func validateCurrentKey() -> Bool {
+        do {
+            // If ensureKeys() was called earlier, you already have info.seed in memory
+            let info = try keyMgr.ensureKeys() // ensures and returns current key
+            let validated = try keyMgr.loadExistingKey(info.seed)
+            if validated != nil {
+                status = "Ready"
+                append("Key validated: keyId=\(info.keyId)")
+                keyId = info.keyId
+                publicKeyBase64 = info.publicKeyRaw.base64EncodedString()
+                return true
+            } else {
+                status = "No Key"
+                append("No key found.")
+                return false
+            }
+        } catch {
+            status = "Error"
+            append("Validation failed: \(error.localizedDescription)")
+            return false
+        }
+    }
 
     private func append(_ line: String) {
         logs.append("• \(line)")

@@ -98,6 +98,15 @@ final class PhoneKeyManager {
         }
     }
     
+    
+    func loadExistingKey(_ seed: Data) throws -> PhoneKeyInfo? {
+        let pub = try derivePublicKey(fromSeed: seed)
+        return PhoneKeyInfo(keyId: keyIdFromSeed(seed),
+                            algorithm: .ed25519,
+                            publicKeyRaw: pub,
+                            seed: seed)
+    }
+    
     // MARK: - Helpers
     private func derivePublicKey(fromSeed seed: Data) throws -> Data {
         if #available(iOS 13.0, *) {

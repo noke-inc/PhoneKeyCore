@@ -22,6 +22,28 @@ struct PhoneKeySampleScreen: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("Current Key Status") {
+                    Button {
+                        let exists = vm.validateCurrentKey()
+                        keyId = vm.keyId
+                        publicKeyBase64 = vm.publicKeyBase64
+                        status = vm.status
+                        logs = vm.logs
+                    } label: {
+                        Label("Check Current Key", systemImage: "magnifyingglass")
+                    }
+                    
+                    if status == "Ready" {
+                        Text("✅ Current Key Available")
+                            .foregroundStyle(.green)
+                        Text("Key ID: \(vm.keyId)").font(.caption)
+                        Text("Public Key: \(publicKeyBase64.prefix(32))…").font(.caption)
+                    } else if status == "No Key" {
+                        Text("⚠️ No Key Found").foregroundStyle(.orange)
+                    } else if status == "Error" {
+                        Text("❌ Error validating key").foregroundStyle(.red)
+                    }
+                }
                 // Phone Key
                 Section("Phone Key") {
                     HStack {
