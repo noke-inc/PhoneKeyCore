@@ -17,21 +17,43 @@ enum KeychainKeys {
 }
 
 /// Signature algorithm (kept for future extensibility).
-enum SignatureAlgorithm: String {
+enum SignatureAlgorithm: String, Codable {
     case ed25519 = "Ed25519"
 }
 
+enum PhoneKeyStatus: String, Codable {
+    case active = "active"
+    case revoked = "revoked"
+    case expired = "expired"
+}
+
+//struct PhoneKeyInfoRequest: Codable {
+//    let keyId: String
+//    let algorithm: String   // "Ed25519"
+//    let publicKey: String   // Base64
+//    let phoneId: String
+//    let userId: String
+//}
+
 /// Unified key info for Ed25519 across OS versions
-struct PhoneKeyInfo {
+struct PhoneKeyInfo: Codable {
     let keyId: String
     let algorithm: SignatureAlgorithm
     let publicKeyRaw: Data
     let seed: Data
+    var status: PhoneKeyStatus
+//    let phoneId: String
+//    let userId: String
+//    let createdAt: String  // ISO 8601
+//    let updatedAt: String  // ISO 8601
+//    let keyStatus: String // "active"
+//    let comments: String?
 }
 
 final class PhoneKeyManager {
     private let keychain: KeychainHelper
     private let sodium = Sodium()
+    private let serviceName: String
     
     /// Cached key info (derived from seed).
     private(set) var keyInfo: PhoneKeyInfo?
@@ -40,6 +62,7 @@ final class PhoneKeyManager {
     public init(serviceName: String, accessGroup: String? = nil) {
         let queryable = GenericPasswordQueryable(service: serviceName, accessGroup: accessGroup)
         self.keychain = KeychainHelper(keychainQueryable: queryable)
+        self.serviceName = serviceName
     }
     
     // MARK: Public API
@@ -50,7 +73,7 @@ final class PhoneKeyManager {
         // 1) Try loading existing seed (Base64 string) via your helper
         if let base64 = try keychain.getValue(forKey: KeychainKeys.ed25519Seed), let seed = Data(base64Encoded: base64) {
             let pub = try derivePublicKey(fromSeed: seed)
-            let existing = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed)
+            let existing = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed, status: .active)
             self.keyInfo = existing
             return existing
         }
@@ -67,7 +90,7 @@ final class PhoneKeyManager {
         
         // 4) Derive public key and return info
         let pub = try derivePublicKey(fromSeed: seed)
-        let newKeyInfo = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed)
+        let newKeyInfo = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed, status: .active)
         self.keyInfo = newKeyInfo
         return newKeyInfo
     }
@@ -104,7 +127,44 @@ final class PhoneKeyManager {
         return PhoneKeyInfo(keyId: keyIdFromSeed(seed),
                             algorithm: .ed25519,
                             publicKeyRaw: pub,
-                            seed: seed)
+                            seed: seed,
+                            status: .active)
+    }
+    
+    // Soft-expire: mark status and/or expiry timestamp (POC only)
+    func expireCurrentKeyPOC(expiresAt: Date? = Date()) {
+        guard var info = self.keyInfo else {
+            return
+        }
+        info.status = .expired
+        self.keyInfo = info
+    }
+    
+    // Soft-revoke (POC): status revoked
+    func revokeCurrentKeyPOC(reason: String? = nil) {
+        guard var info = self.keyInfo else {
+            return
+        }
+        info.status = .revoked
+        self.keyInfo = info
+    }
+    
+    // Hard-expire: delete seed and derived keys (from earlier guidance)
+    func deleteAllKeys() throws {
+        try deleteSeed()
+        self.keyInfo = nil
+    }
+    
+    func deleteSeed() throws {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: "ed25519.seed"
+        ]
+        let status = SecItemDelete(query as CFDictionary)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw NSError(domain: "Keychain", code: Int(status))
+        }
     }
     
     // MARK: - Helpers

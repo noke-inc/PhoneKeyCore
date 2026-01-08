@@ -117,6 +117,32 @@ final class PhoneKeySampleViewModel {
             return false
         }
     }
+    
+    // MARK: - Expire (soft)
+    func expireKey() {
+        keyMgr.expireCurrentKeyPOC()
+        status = "Expired"
+        append("Soft-expired current key.")
+    }
+    
+    // MARK: - Revoke (soft)
+    func revokeKey() {
+        keyMgr.revokeCurrentKeyPOC()
+        status = "Revoked"
+        append("Soft-revoked current key.")
+    }
+    
+    func clearKeychain() {
+        do {
+            try keyMgr.deleteSeed()
+            status = "No Key"
+            keyId = ""
+            publicKeyBase64 = ""
+            append("Deleted seed from Keychain for test.")
+        } catch {
+            append("Failed to delete seed: \(error.localizedDescription)")
+        }
+    }
 
     private func append(_ line: String) {
         logs.append("• \(line)")

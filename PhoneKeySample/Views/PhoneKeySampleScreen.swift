@@ -152,6 +152,53 @@ struct PhoneKeySampleScreen: View {
                     }
                     .frame(minHeight: 160)
                 }
+                Section("Key Lifecycle (POC)") {
+                    // 3 equal-width columns
+                    let columns = [
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12),
+                        GridItem(.flexible(), spacing: 12)
+                    ]
+                    
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 12) {
+                        Button {
+                            vm.expireKey()
+                            status = vm.status
+                            logs = vm.logs
+                        } label: {
+                            Label("Expire", systemImage: "clock.badge.exclamationmark")
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .buttonStyle(.bordered)
+                        .contentShape(.rect) // isolate hit area
+                        
+                        Button {
+                            vm.revokeKey()
+                            status = vm.status
+                            logs = vm.logs
+                        } label: {
+                            Label("Revoke", systemImage: "xmark.seal")
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .buttonStyle(.bordered)
+                        .contentShape(.rect)
+                        
+                        Button {
+                            vm.clearKeychain()
+                            keyId = ""
+                            publicKeyBase64 = ""
+                            status = vm.status
+                            logs = vm.logs
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                        .labelStyle(.titleAndIcon)
+                        .buttonStyle(.bordered)
+                        .tint(.red)                  // visual cue
+                        .contentShape(.rect)
+                    }
+                }
+
             }
             .navigationTitle("Phone Key POC")
         }
