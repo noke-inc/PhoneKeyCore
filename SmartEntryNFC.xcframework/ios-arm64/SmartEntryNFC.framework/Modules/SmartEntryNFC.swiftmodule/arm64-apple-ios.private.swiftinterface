@@ -1,0 +1,51 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.1 effective-5.10 (swiftlang-6.2.1.4.8 clang-1700.4.4.1)
+// swift-module-flags: -target arm64-apple-ios26.1 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name SmartEntryNFC
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.1
+import CoreNFC
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct NokeTagInfo : Swift.Codable, Swift.Equatable {
+  public let v: Swift.Int
+  public let label: Swift.String
+  public init(v: Swift.Int = 1, label: Swift.String)
+  public static func == (a: SmartEntryNFC.NokeTagInfo, b: SmartEntryNFC.NokeTagInfo) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum NFCError : Swift.Error {
+  case notAvailable
+  case invalidPayload
+  case writeUnsupported
+  case sessionError(Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @available(iOSApplicationExtension, unavailable)
+final public class NFCReaderWriter : ObjectiveC.NSObject {
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func startReadNDEF(completion: @escaping (Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>) -> Swift.Void)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func startReadISO15693(completion: @escaping (Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>) -> Swift.Void)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @available(iOS 13.0, *)
+  final public func startWrite(info: SmartEntryNFC.NokeTagInfo, completion: @escaping (Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+  #endif
+  @objc override dynamic public init()
+  @objc deinit
+}
+@available(iOSApplicationExtension, unavailable)
+extension SmartEntryNFC.NFCReaderWriter : CoreNFC.NFCNDEFReaderSessionDelegate {
+  @objc final public func readerSessionDidBecomeActive(_ session: CoreNFC.NFCNDEFReaderSession)
+  @objc final public func readerSession(_ session: CoreNFC.NFCNDEFReaderSession, didInvalidateWithError error: any Swift.Error)
+  @objc final public func readerSession(_ session: CoreNFC.NFCNDEFReaderSession, didDetectNDEFs messages: [CoreNFC.NFCNDEFMessage])
+}
+@available(iOSApplicationExtension, unavailable)
+extension SmartEntryNFC.NFCReaderWriter : CoreNFC.NFCTagReaderSessionDelegate {
+  final public func tagReaderSessionDidBecomeActive(_ session: CoreNFC.NFCTagReaderSession)
+  final public func tagReaderSession(_ session: CoreNFC.NFCTagReaderSession, didInvalidateWithError error: any Swift.Error)
+  final public func tagReaderSession(_ session: CoreNFC.NFCTagReaderSession, didDetect tags: [CoreNFC.NFCTag])
+}

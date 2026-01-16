@@ -8,11 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		8507AB4372701A61D9D2CB73 /* Pods_PhoneKeySample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */; };
+		B4C4A3B32F1562920054EF8A /* SmartEntryNFC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */; };
+		B4C4A3B42F1562920054EF8A /* SmartEntryNFC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B4C4A3B52F1562920054EF8A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B4C4A3B42F1562920054EF8A /* SmartEntryNFC.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3AF03CA8CB5AE1637CC6A898 /* Pods-PhoneKeySample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.release.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.release.xcconfig"; sourceTree = "<group>"; };
 		B4C4A2A92F0F15240054EF8A /* PhoneKeySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneKeySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SmartEntryNFC.xcframework; sourceTree = "<group>"; };
 		B91A857E86877071999D9E79 /* Pods-PhoneKeySample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.debug.xcconfig"; sourceTree = "<group>"; };
 		CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneKeySample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -30,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4C4A3B32F1562920054EF8A /* SmartEntryNFC.xcframework in Frameworks */,
 				8507AB4372701A61D9D2CB73 /* Pods_PhoneKeySample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,6 +58,7 @@
 		49F332B33B6F0DF9F976D47C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */,
 				CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */,
 			);
 			name = Frameworks;
@@ -83,6 +102,7 @@
 				B4C4A2A52F0F15240054EF8A /* Sources */,
 				B4C4A2A62F0F15240054EF8A /* Frameworks */,
 				B4C4A2A72F0F15240054EF8A /* Resources */,
+				B4C4A3B52F1562920054EF8A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -312,6 +332,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -364,6 +385,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

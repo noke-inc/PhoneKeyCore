@@ -1,0 +1,1039 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "SmartEntryNFC",
+    "printedName": "SmartEntryNFC",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreNFC",
+        "printedName": "CoreNFC",
+        "declKind": "Import",
+        "moduleName": "SmartEntryNFC"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "NokeTagInfo",
+        "printedName": "NokeTagInfo",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "v",
+            "printedName": "v",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV1vSivp",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV1vSivp",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV1vSivg",
+                "mangledName": "$s13SmartEntryNFC11NokeTagInfoV1vSivg",
+                "moduleName": "SmartEntryNFC",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "label",
+            "printedName": "label",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV5labelSSvp",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV5labelSSvp",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV5labelSSvg",
+                "mangledName": "$s13SmartEntryNFC11NokeTagInfoV5labelSSvg",
+                "moduleName": "SmartEntryNFC",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(v:label:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NokeTagInfo",
+                "printedName": "SmartEntryNFC.NokeTagInfo",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "hasDefaultArg": true,
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV1v5labelACSi_SStcfc",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV1v5labelACSi_SStcfc",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NokeTagInfo",
+                "printedName": "SmartEntryNFC.NokeTagInfo",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "SmartEntryNFC",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV6encode2toys7Encoder_p_tKF",
+            "moduleName": "SmartEntryNFC",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NokeTagInfo",
+                "printedName": "SmartEntryNFC.NokeTagInfo",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NokeTagInfo",
+                "printedName": "SmartEntryNFC.NokeTagInfo",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC11NokeTagInfoV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s13SmartEntryNFC11NokeTagInfoV2eeoiySbAC_ACtFZ",
+            "moduleName": "SmartEntryNFC",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:13SmartEntryNFC11NokeTagInfoV",
+        "mangledName": "$s13SmartEntryNFC11NokeTagInfoV",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "NFCError",
+        "printedName": "NFCError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "notAvailable",
+            "printedName": "notAvailable",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(SmartEntryNFC.NFCError.Type) -> SmartEntryNFC.NFCError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NFCError",
+                    "printedName": "SmartEntryNFC.NFCError",
+                    "usr": "s:13SmartEntryNFC8NFCErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "SmartEntryNFC.NFCError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NFCError",
+                        "printedName": "SmartEntryNFC.NFCError",
+                        "usr": "s:13SmartEntryNFC8NFCErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13SmartEntryNFC8NFCErrorO12notAvailableyA2CmF",
+            "mangledName": "$s13SmartEntryNFC8NFCErrorO12notAvailableyA2CmF",
+            "moduleName": "SmartEntryNFC"
+          },
+          {
+            "kind": "Var",
+            "name": "invalidPayload",
+            "printedName": "invalidPayload",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(SmartEntryNFC.NFCError.Type) -> SmartEntryNFC.NFCError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NFCError",
+                    "printedName": "SmartEntryNFC.NFCError",
+                    "usr": "s:13SmartEntryNFC8NFCErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "SmartEntryNFC.NFCError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NFCError",
+                        "printedName": "SmartEntryNFC.NFCError",
+                        "usr": "s:13SmartEntryNFC8NFCErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13SmartEntryNFC8NFCErrorO14invalidPayloadyA2CmF",
+            "mangledName": "$s13SmartEntryNFC8NFCErrorO14invalidPayloadyA2CmF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "writeUnsupported",
+            "printedName": "writeUnsupported",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(SmartEntryNFC.NFCError.Type) -> SmartEntryNFC.NFCError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NFCError",
+                    "printedName": "SmartEntryNFC.NFCError",
+                    "usr": "s:13SmartEntryNFC8NFCErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "SmartEntryNFC.NFCError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NFCError",
+                        "printedName": "SmartEntryNFC.NFCError",
+                        "usr": "s:13SmartEntryNFC8NFCErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13SmartEntryNFC8NFCErrorO16writeUnsupportedyA2CmF",
+            "mangledName": "$s13SmartEntryNFC8NFCErrorO16writeUnsupportedyA2CmF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "sessionError",
+            "printedName": "sessionError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(SmartEntryNFC.NFCError.Type) -> (Swift.String) -> SmartEntryNFC.NFCError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.String) -> SmartEntryNFC.NFCError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NFCError",
+                        "printedName": "SmartEntryNFC.NFCError",
+                        "usr": "s:13SmartEntryNFC8NFCErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "SmartEntryNFC.NFCError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NFCError",
+                        "printedName": "SmartEntryNFC.NFCError",
+                        "usr": "s:13SmartEntryNFC8NFCErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:13SmartEntryNFC8NFCErrorO12sessionErroryACSScACmF",
+            "mangledName": "$s13SmartEntryNFC8NFCErrorO12sessionErroryACSScACmF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:13SmartEntryNFC8NFCErrorO",
+        "mangledName": "$s13SmartEntryNFC8NFCErrorO",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "NFCReaderWriter",
+        "printedName": "NFCReaderWriter",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "startReadNDEF",
+            "printedName": "startReadNDEF(completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NokeTagInfo",
+                        "printedName": "SmartEntryNFC.NokeTagInfo",
+                        "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "any Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC13startReadNDEF10completionyys6ResultOyAA11NokeTagInfoVs5Error_pGc_tF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC13startReadNDEF10completionyys6ResultOyAA11NokeTagInfoVs5Error_pGc_tF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "startReadISO15693",
+            "printedName": "startReadISO15693(completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<SmartEntryNFC.NokeTagInfo, any Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "NokeTagInfo",
+                        "printedName": "SmartEntryNFC.NokeTagInfo",
+                        "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "any Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC17startReadISO1569310completionyys6ResultOyAA11NokeTagInfoVs5Error_pGc_tF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC17startReadISO1569310completionyys6ResultOyAA11NokeTagInfoVs5Error_pGc_tF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "startWrite",
+            "printedName": "startWrite(info:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NokeTagInfo",
+                "printedName": "SmartEntryNFC.NokeTagInfo",
+                "usr": "s:13SmartEntryNFC11NokeTagInfoV"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<(), any Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<(), any Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "any Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC10startWrite4info10completionyAA11NokeTagInfoV_ys6ResultOyyts5Error_pGctF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC10startWrite4info10completionyAA11NokeTagInfoV_ys6ResultOyyts5Error_pGctF",
+            "moduleName": "SmartEntryNFC",
+            "intro_iOS": "13.0",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "Available",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NFCReaderWriter",
+                "printedName": "SmartEntryNFC.NFCReaderWriter",
+                "usr": "c:@M@SmartEntryNFC@objc(cs)NFCReaderWriter"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@SmartEntryNFC@objc(cs)NFCReaderWriter(im)init",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterCACycfc",
+            "moduleName": "SmartEntryNFC",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "readerSessionDidBecomeActive",
+            "printedName": "readerSessionDidBecomeActive(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCNDEFReaderSession",
+                "printedName": "CoreNFC.NFCNDEFReaderSession",
+                "usr": "c:objc(cs)NFCNDEFReaderSession"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@SmartEntryNFC@objc(cs)NFCReaderWriter(im)readerSessionDidBecomeActive:",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC28readerSessionDidBecomeActiveyySo013NFCNDEFReaderG0CF",
+            "moduleName": "SmartEntryNFC",
+            "objc_name": "readerSessionDidBecomeActive:",
+            "declAttributes": [
+              "Final",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "readerSession",
+            "printedName": "readerSession(_:didInvalidateWithError:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCNDEFReaderSession",
+                "printedName": "CoreNFC.NFCNDEFReaderSession",
+                "usr": "c:objc(cs)NFCNDEFReaderSession"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@SmartEntryNFC@objc(cs)NFCReaderWriter(im)readerSession:didInvalidateWithError:",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC13readerSession_22didInvalidateWithErrorySo013NFCNDEFReaderG0C_s0K0_ptF",
+            "moduleName": "SmartEntryNFC",
+            "objc_name": "readerSession:didInvalidateWithError:",
+            "declAttributes": [
+              "Final",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "readerSession",
+            "printedName": "readerSession(_:didDetectNDEFs:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCNDEFReaderSession",
+                "printedName": "CoreNFC.NFCNDEFReaderSession",
+                "usr": "c:objc(cs)NFCNDEFReaderSession"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[CoreNFC.NFCNDEFMessage]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NFCNDEFMessage",
+                    "printedName": "CoreNFC.NFCNDEFMessage",
+                    "usr": "c:objc(cs)NFCNDEFMessage"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@SmartEntryNFC@objc(cs)NFCReaderWriter(im)readerSession:didDetectNDEFs:",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC13readerSession_14didDetectNDEFsySo013NFCNDEFReaderG0C_SaySo14NFCNDEFMessageCGtF",
+            "moduleName": "SmartEntryNFC",
+            "objc_name": "readerSession:didDetectNDEFs:",
+            "declAttributes": [
+              "Final",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "tagReaderSessionDidBecomeActive",
+            "printedName": "tagReaderSessionDidBecomeActive(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCTagReaderSession",
+                "printedName": "CoreNFC.NFCTagReaderSession",
+                "usr": "c:objc(cs)NFCTagReaderSession"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC31tagReaderSessionDidBecomeActiveyySo06NFCTaggH0CF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC31tagReaderSessionDidBecomeActiveyySo06NFCTaggH0CF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "tagReaderSession",
+            "printedName": "tagReaderSession(_:didInvalidateWithError:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCTagReaderSession",
+                "printedName": "CoreNFC.NFCTagReaderSession",
+                "usr": "c:objc(cs)NFCTagReaderSession"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC16tagReaderSession_22didInvalidateWithErrorySo06NFCTaggH0C_s0L0_ptF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC16tagReaderSession_22didInvalidateWithErrorySo06NFCTaggH0C_s0L0_ptF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "tagReaderSession",
+            "printedName": "tagReaderSession(_:didDetect:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NFCTagReaderSession",
+                "printedName": "CoreNFC.NFCTagReaderSession",
+                "usr": "c:objc(cs)NFCTagReaderSession"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[CoreNFC.NFCTag]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NFCTag",
+                    "printedName": "CoreNFC.NFCTag",
+                    "usr": "s:7CoreNFC6NFCTagO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartEntryNFC15NFCReaderWriterC16tagReaderSession_9didDetectySo06NFCTaggH0C_Say04CoreC00K0OGtF",
+            "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC16tagReaderSession_9didDetectySo06NFCTaggH0C_Say04CoreC00K0OGtF",
+            "moduleName": "SmartEntryNFC",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@SmartEntryNFC@objc(cs)NFCReaderWriter",
+        "mangledName": "$s13SmartEntryNFC15NFCReaderWriterC",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "Available",
+          "RawDocComment",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "NFCTagReaderSessionDelegate",
+            "printedName": "NFCTagReaderSessionDelegate",
+            "usr": "s:7CoreNFC27NFCTagReaderSessionDelegateP",
+            "mangledName": "$s7CoreNFC27NFCTagReaderSessionDelegateP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreNFC",
+        "printedName": "CoreNFC",
+        "declKind": "Import",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SmartEntryNFC",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/joffreymann\/Documents\/projects\/NFCTagReadingPOC\/SmartEntryNFC\/NFC\/NFCReaderWriter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 510,
+      "length": 1,
+      "value": "1"
+    }
+  ]
+}
