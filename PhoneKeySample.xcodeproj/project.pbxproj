@@ -7,10 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8507AB4372701A61D9D2CB73 /* Pods_PhoneKeySample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */; };
-		B4C4A3B32F1562920054EF8A /* SmartEntryNFC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */; };
-		B4C4A3B42F1562920054EF8A /* SmartEntryNFC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		296E22DDB92132804FB99A62 /* Pods_PhoneKeySample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61AB3C6DDD16C54A85DC4D41 /* Pods_PhoneKeySample.framework */; };
+		8433D502ADD7A60F3EEA0A2F /* Pods_PhoneKeyCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA12E97D8AFC5039897D8714 /* Pods_PhoneKeyCoreTests.framework */; };
+		B4C4A46F2F20294C0054EF8A /* PhoneKeyCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; };
+		B4C4A4702F20294C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B4C4A47B2F202A8C0054EF8A /* PhoneKeyCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; };
+		B4C4A47C2F202A8C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B4C4A4662F20294C0054EF8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B4C4A2A12F0F15240054EF8A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B4C4A4592F20294A0054EF8A;
+			remoteInfo = PhoneKeyCore;
+		};
+		B4C4A4682F20294C0054EF8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B4C4A2A12F0F15240054EF8A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B4C4A2A82F0F15240054EF8A;
+			remoteInfo = PhoneKeySample;
+		};
+		B4C4A46D2F20294C0054EF8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B4C4A2A12F0F15240054EF8A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B4C4A4592F20294A0054EF8A;
+			remoteInfo = PhoneKeyCore;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B4C4A3B52F1562920054EF8A /* Embed Frameworks */ = {
@@ -19,7 +46,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B4C4A3B42F1562920054EF8A /* SmartEntryNFC.xcframework in Embed Frameworks */,
+				B4C4A4702F20294C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4C4A47D2F202A8C0054EF8A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B4C4A47C2F202A8C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -27,17 +65,54 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3AF03CA8CB5AE1637CC6A898 /* Pods-PhoneKeySample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.release.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.release.xcconfig"; sourceTree = "<group>"; };
+		0A333732FE38AC4A43062D7D /* Pods-PhoneKeySample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.release.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.release.xcconfig"; sourceTree = "<group>"; };
+		30B47DAC2D4111D243D766EB /* Pods-PhoneKeyCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeyCoreTests.release.xcconfig"; path = "Target Support Files/Pods-PhoneKeyCoreTests/Pods-PhoneKeyCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		61AB3C6DDD16C54A85DC4D41 /* Pods_PhoneKeySample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneKeySample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C4A2A92F0F15240054EF8A /* PhoneKeySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneKeySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SmartEntryNFC.xcframework; sourceTree = "<group>"; };
-		B91A857E86877071999D9E79 /* Pods-PhoneKeySample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.debug.xcconfig"; sourceTree = "<group>"; };
-		CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneKeySample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhoneKeyCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4C4A4642F20294C0054EF8A /* PhoneKeyCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhoneKeyCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA12E97D8AFC5039897D8714 /* Pods_PhoneKeyCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneKeyCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD409B4BE27B4673A07C698F /* Pods-PhoneKeySample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.debug.xcconfig"; sourceTree = "<group>"; };
+		F08105BFF40690558635BE6A /* Pods-PhoneKeyCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeyCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeyCoreTests/Pods-PhoneKeyCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B4C4A48D2F2141250054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/PhoneKeyAcl.swift,
+				"Use Cases/SigningUseCases.swift",
+			);
+			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
+		};
+		B4C4A48F2F2141290054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeySample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/PhoneKeyAcl.swift,
+				"Use Cases/SigningUseCases.swift",
+			);
+			target = B4C4A2A82F0F15240054EF8A /* PhoneKeySample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PhoneKeySample;
+			sourceTree = "<group>";
+		};
+		B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B4C4A48F2F2141290054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeySample" target */,
+				B4C4A48D2F2141250054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */,
+			);
+			path = PhoneKeyCore;
+			sourceTree = "<group>";
+		};
+		B4C4A46A2F20294C0054EF8A /* PhoneKeyCoreTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PhoneKeyCoreTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -47,19 +122,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4C4A3B32F1562920054EF8A /* SmartEntryNFC.xcframework in Frameworks */,
-				8507AB4372701A61D9D2CB73 /* Pods_PhoneKeySample.framework in Frameworks */,
+				B4C4A46F2F20294C0054EF8A /* PhoneKeyCore.framework in Frameworks */,
+				296E22DDB92132804FB99A62 /* Pods_PhoneKeySample.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4C4A4572F20294A0054EF8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4C4A4612F20294C0054EF8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4C4A47B2F202A8C0054EF8A /* PhoneKeyCore.framework in Frameworks */,
+				8433D502ADD7A60F3EEA0A2F /* Pods_PhoneKeyCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		49F332B33B6F0DF9F976D47C /* Frameworks */ = {
+		5B8CA963B5E485184FD74D86 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B4C4A3B12F15628F0054EF8A /* SmartEntryNFC.xcframework */,
-				CD0239D987A21DB2051B7E6D /* Pods_PhoneKeySample.framework */,
+				CA12E97D8AFC5039897D8714 /* Pods_PhoneKeyCoreTests.framework */,
+				61AB3C6DDD16C54A85DC4D41 /* Pods_PhoneKeySample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -68,9 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */,
+				B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */,
+				B4C4A46A2F20294C0054EF8A /* PhoneKeyCoreTests */,
 				B4C4A2AA2F0F15240054EF8A /* Products */,
 				DDF21172EEE12CB2ED9483E5 /* Pods */,
-				49F332B33B6F0DF9F976D47C /* Frameworks */,
+				5B8CA963B5E485184FD74D86 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -78,6 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				B4C4A2A92F0F15240054EF8A /* PhoneKeySample.app */,
+				B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */,
+				B4C4A4642F20294C0054EF8A /* PhoneKeyCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -85,20 +180,32 @@
 		DDF21172EEE12CB2ED9483E5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B91A857E86877071999D9E79 /* Pods-PhoneKeySample.debug.xcconfig */,
-				3AF03CA8CB5AE1637CC6A898 /* Pods-PhoneKeySample.release.xcconfig */,
+				F08105BFF40690558635BE6A /* Pods-PhoneKeyCoreTests.debug.xcconfig */,
+				30B47DAC2D4111D243D766EB /* Pods-PhoneKeyCoreTests.release.xcconfig */,
+				DD409B4BE27B4673A07C698F /* Pods-PhoneKeySample.debug.xcconfig */,
+				0A333732FE38AC4A43062D7D /* Pods-PhoneKeySample.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		B4C4A4552F20294A0054EF8A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		B4C4A2A82F0F15240054EF8A /* PhoneKeySample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B4C4A2B42F0F15250054EF8A /* Build configuration list for PBXNativeTarget "PhoneKeySample" */;
 			buildPhases = (
-				C23607CF12B1B76519032CE3 /* [CP] Check Pods Manifest.lock */,
+				F9F1095410F9A52D1DBA4548 /* [CP] Check Pods Manifest.lock */,
 				B4C4A2A52F0F15240054EF8A /* Sources */,
 				B4C4A2A62F0F15240054EF8A /* Frameworks */,
 				B4C4A2A72F0F15240054EF8A /* Resources */,
@@ -107,6 +214,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B4C4A46E2F20294C0054EF8A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */,
@@ -115,6 +223,51 @@
 			productName = PhoneKeySample;
 			productReference = B4C4A2A92F0F15240054EF8A /* PhoneKeySample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B4C4A4592F20294A0054EF8A /* PhoneKeyCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B4C4A4752F20294C0054EF8A /* Build configuration list for PBXNativeTarget "PhoneKeyCore" */;
+			buildPhases = (
+				B4C4A4552F20294A0054EF8A /* Headers */,
+				B4C4A4562F20294A0054EF8A /* Sources */,
+				B4C4A4572F20294A0054EF8A /* Frameworks */,
+				B4C4A4582F20294A0054EF8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */,
+			);
+			name = PhoneKeyCore;
+			productName = PhoneKeyCore;
+			productReference = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B4C4A4632F20294C0054EF8A /* PhoneKeyCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B4C4A4762F20294C0054EF8A /* Build configuration list for PBXNativeTarget "PhoneKeyCoreTests" */;
+			buildPhases = (
+				21649AC419D12C927AE8B368 /* [CP] Check Pods Manifest.lock */,
+				B4C4A4602F20294C0054EF8A /* Sources */,
+				B4C4A4612F20294C0054EF8A /* Frameworks */,
+				B4C4A4622F20294C0054EF8A /* Resources */,
+				B4C4A47D2F202A8C0054EF8A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B4C4A4672F20294C0054EF8A /* PBXTargetDependency */,
+				B4C4A4692F20294C0054EF8A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B4C4A46A2F20294C0054EF8A /* PhoneKeyCoreTests */,
+			);
+			name = PhoneKeyCoreTests;
+			productName = PhoneKeyCoreTests;
+			productReference = B4C4A4642F20294C0054EF8A /* PhoneKeyCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -128,6 +281,13 @@
 				TargetAttributes = {
 					B4C4A2A82F0F15240054EF8A = {
 						CreatedOnToolsVersion = 26.1.1;
+					};
+					B4C4A4592F20294A0054EF8A = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					B4C4A4632F20294C0054EF8A = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = B4C4A2A82F0F15240054EF8A;
 					};
 				};
 			};
@@ -146,6 +306,8 @@
 			projectRoot = "";
 			targets = (
 				B4C4A2A82F0F15240054EF8A /* PhoneKeySample */,
+				B4C4A4592F20294A0054EF8A /* PhoneKeyCore */,
+				B4C4A4632F20294C0054EF8A /* PhoneKeyCoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -158,10 +320,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4C4A4582F20294A0054EF8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4C4A4622F20294C0054EF8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C23607CF12B1B76519032CE3 /* [CP] Check Pods Manifest.lock */ = {
+		21649AC419D12C927AE8B368 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhoneKeyCoreTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9F1095410F9A52D1DBA4548 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -193,7 +391,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4C4A4562F20294A0054EF8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B4C4A4602F20294C0054EF8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B4C4A4672F20294C0054EF8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
+			targetProxy = B4C4A4662F20294C0054EF8A /* PBXContainerItemProxy */;
+		};
+		B4C4A4692F20294C0054EF8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B4C4A2A82F0F15240054EF8A /* PhoneKeySample */;
+			targetProxy = B4C4A4682F20294C0054EF8A /* PBXContainerItemProxy */;
+		};
+		B4C4A46E2F20294C0054EF8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
+			targetProxy = B4C4A46D2F20294C0054EF8A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B4C4A2B22F0F15250054EF8A /* Debug */ = {
@@ -314,7 +544,7 @@
 		};
 		B4C4A2B52F0F15250054EF8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B91A857E86877071999D9E79 /* Pods-PhoneKeySample.debug.xcconfig */;
+			baseConfigurationReference = DD409B4BE27B4673A07C698F /* Pods-PhoneKeySample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -367,7 +597,7 @@
 		};
 		B4C4A2B62F0F15250054EF8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3AF03CA8CB5AE1637CC6A898 /* Pods-PhoneKeySample.release.xcconfig */;
+			baseConfigurationReference = 0A333732FE38AC4A43062D7D /* Pods-PhoneKeySample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -418,6 +648,134 @@
 			};
 			name = Release;
 		};
+		B4C4A4712F20294C0054EF8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4XCB84M6V;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B4C4A4722F20294C0054EF8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4XCB84M6V;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B4C4A4732F20294C0054EF8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F08105BFF40690558635BE6A /* Pods-PhoneKeyCoreTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4XCB84M6V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhoneKeySample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhoneKeySample";
+			};
+			name = Debug;
+		};
+		B4C4A4742F20294C0054EF8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30B47DAC2D4111D243D766EB /* Pods-PhoneKeyCoreTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4XCB84M6V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhoneKeySample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PhoneKeySample";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -435,6 +793,24 @@
 			buildConfigurations = (
 				B4C4A2B52F0F15250054EF8A /* Debug */,
 				B4C4A2B62F0F15250054EF8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B4C4A4752F20294C0054EF8A /* Build configuration list for PBXNativeTarget "PhoneKeyCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B4C4A4712F20294C0054EF8A /* Debug */,
+				B4C4A4722F20294C0054EF8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B4C4A4762F20294C0054EF8A /* Build configuration list for PBXNativeTarget "PhoneKeyCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B4C4A4732F20294C0054EF8A /* Debug */,
+				B4C4A4742F20294C0054EF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

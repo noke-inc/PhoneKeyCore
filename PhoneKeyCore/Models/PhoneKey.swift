@@ -8,23 +8,29 @@
 
 import Foundation
 import Security
-import Sodium
 // CryptoKit exists in the SDK; guarded at use sites for iOS 13+
 import CryptoKit
 
-enum KeychainKeys {
+public enum KeychainKeys {
     static let ed25519Seed = "ed25519.seed"
 }
 
 /// Signature algorithm (kept for future extensibility).
-enum SignatureAlgorithm: String, Codable {
+public enum SignatureAlgorithm: String, Codable {
     case ed25519 = "Ed25519"
 }
 
-enum PhoneKeyStatus: String, Codable {
+public enum PhoneKeyStatus: String, Codable {
     case active = "active"
     case revoked = "revoked"
     case expired = "expired"
+}
+
+public protocol CryptoProvider: AnyObject {
+    func generateEd25519Seed() throws -> Data
+    func derivePublicKey(fromSeed seed: Data) throws -> Data
+    func sign(message: Data, withSeed seed: Data) throws -> Data
+    func getHash(of data: Data) throws -> Data
 }
 
 //struct PhoneKeyInfoRequest: Codable {
@@ -36,12 +42,12 @@ enum PhoneKeyStatus: String, Codable {
 //}
 
 /// Unified key info for Ed25519 across OS versions
-struct PhoneKeyInfo: Codable {
-    let keyId: String
-    let algorithm: SignatureAlgorithm
-    let publicKeyRaw: Data
-    let seed: Data
-    var status: PhoneKeyStatus
+public struct PhoneKeyInfo: Codable {
+    public let keyId: String
+    public let algorithm: SignatureAlgorithm
+    public let publicKeyRaw: Data
+    public let seed: Data
+    public var status: PhoneKeyStatus
 //    let phoneId: String
 //    let userId: String
 //    let createdAt: String  // ISO 8601
@@ -50,47 +56,69 @@ struct PhoneKeyInfo: Codable {
 //    let comments: String?
 }
 
-final class PhoneKeyManager {
+public final class PhoneKeyManager {
     private let keychain: KeychainHelper
-    private let sodium = Sodium()
+    private var provider: CryptoProvider?
     private let serviceName: String
     
     /// Cached key info (derived from seed).
     private(set) var keyInfo: PhoneKeyInfo?
     
     /// Initialize with existing KeychainHelper (service + optional access group).
-    public init(serviceName: String, accessGroup: String? = nil) {
+    public init(serviceName: String, accessGroup: String? = nil, provider: CryptoProvider?) {
         let queryable = GenericPasswordQueryable(service: serviceName, accessGroup: accessGroup)
         self.keychain = KeychainHelper(keychainQueryable: queryable)
         self.serviceName = serviceName
+        self.provider = provider
     }
     
     // MARK: Public API
     
     // Ensure an Ed25519 keypair exists, generating and storing one if needed.
+    
     @discardableResult
     public func ensureKeys() throws -> PhoneKeyInfo {
-        // 1) Try loading existing seed (Base64 string) via your helper
-        if let base64 = try keychain.getValue(forKey: KeychainKeys.ed25519Seed), let seed = Data(base64Encoded: base64) {
+
+        // 1. Try loading existing seed from Keychain
+        if let base64 = try keychain.getValue(forKey: KeychainKeys.ed25519Seed),
+           let seed = Data(base64Encoded: base64) {
+
             let pub = try derivePublicKey(fromSeed: seed)
-            let existing = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed, status: .active)
+
+            let existing = PhoneKeyInfo(
+                keyId: keyIdFromSeed(seed),
+                algorithm: .ed25519,
+                publicKeyRaw: pub,
+                seed: seed,
+                status: .active
+            )
+
             self.keyInfo = existing
             return existing
         }
-        
-        // 2) Generate new 32-byte seed using libsodium CSPRNG
-        guard let seedBytes = sodium.randomBytes.buf(length: 32) else {
-            throw SEError(message: "Failed to generate Ed25519 seed.")
+
+        // 2. We need to generate a new seed. Provider MUST exist.
+        guard let provider = provider else {
+            throw SEError(message: "CryptoProvider not set for key generation.")
         }
-        
-        let seed = Data(seedBytes)
-        
-        // 3) Persist as Base64 string (uses your helper's setValue(_:forKey:))
+
+        // 3. Generate fresh Ed25519 seed (32 bytes)
+        let seed = try provider.generateEd25519Seed()
+
+        // 4. Save to Keychain (Base64)
         try keychain.setValue(seed.base64EncodedString(), forKey: KeychainKeys.ed25519Seed)
-        
-        // 4) Derive public key and return info
+
+        // 5. Derive public key from seed
         let pub = try derivePublicKey(fromSeed: seed)
-        let newKeyInfo = PhoneKeyInfo(keyId: keyIdFromSeed(seed), algorithm: .ed25519, publicKeyRaw: pub, seed: seed, status: .active)
+
+        let newKeyInfo = PhoneKeyInfo(
+            keyId: keyIdFromSeed(seed),
+            algorithm: .ed25519,
+            publicKeyRaw: pub,
+            seed: seed,
+            status: .active
+        )
+
         self.keyInfo = newKeyInfo
         return newKeyInfo
     }
@@ -114,15 +142,19 @@ final class PhoneKeyManager {
             return signature
         } else {
             // Swift-Sodium path: derive secretKey from seed and sign
-            guard let kp = sodium.sign.keyPair(seed: Array(info.seed)), let signature = sodium.sign.signature(message: Array(data), secretKey: kp.secretKey) else {
+            guard let provider = provider else {
+                throw SEError(message: "CryptoProvider not set.")
+            }
+            do {
+                return try provider.sign(message: data, withSeed: info.seed)
+            } catch {
                 throw SEError(message: "Failed to sign data with Ed25519.")
             }
-            return Data(signature)
         }
     }
     
     
-    func loadExistingKey(_ seed: Data) throws -> PhoneKeyInfo? {
+    public func loadExistingKey(_ seed: Data) throws -> PhoneKeyInfo? {
         let pub = try derivePublicKey(fromSeed: seed)
         return PhoneKeyInfo(keyId: keyIdFromSeed(seed),
                             algorithm: .ed25519,
@@ -132,7 +164,7 @@ final class PhoneKeyManager {
     }
     
     // Soft-expire: mark status and/or expiry timestamp (POC only)
-    func expireCurrentKeyPOC(expiresAt: Date? = Date()) {
+    public func expireCurrentKeyPOC(expiresAt: Date? = Date()) {
         guard var info = self.keyInfo else {
             return
         }
@@ -141,7 +173,7 @@ final class PhoneKeyManager {
     }
     
     // Soft-revoke (POC): status revoked
-    func revokeCurrentKeyPOC(reason: String? = nil) {
+    public func revokeCurrentKeyPOC(reason: String? = nil) {
         guard var info = self.keyInfo else {
             return
         }
@@ -155,7 +187,7 @@ final class PhoneKeyManager {
         self.keyInfo = nil
     }
     
-    func deleteSeed() throws {
+    public func deleteSeed() throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: serviceName,
@@ -174,10 +206,14 @@ final class PhoneKeyManager {
             let publicKey = privateKey.publicKey
             return publicKey.rawRepresentation
         } else {
-            guard let kp = sodium.sign.keyPair(seed: Array(seed)) else {
-                throw SEError(message: "Failed to derive Ed25519 keypair from seed.")
+            do {
+                guard let provider = provider else {
+                    throw SEError(message: "CryptoProvider not set.")
+                }
+                return try provider.derivePublicKey(fromSeed: seed)
+            } catch {
+                throw SEError(message: "Failed to derive public key from seed.")
             }
-            return Data(kp.publicKey)
         }
     }
     
@@ -186,7 +222,7 @@ final class PhoneKeyManager {
             let digest = SHA256.hash(data: seed)
             return uuidFromDigest(Data(digest))
         } else {
-            guard let hash = sodium.genericHash.hash(message: Array(seed)) else {
+            guard let provider = provider, let hash = try? provider.getHash(of: seed) else {
                 return uuidFromDigest(Data(Array(repeating: 0, count: 16)))
             }
             return uuidFromDigest(Data(hash))

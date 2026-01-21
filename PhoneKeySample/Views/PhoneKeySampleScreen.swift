@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import PhoneKeyCore
 
 struct PhoneKeySampleScreen: View {
     // Your existing VM (plain class)
-    private let vm = PhoneKeySampleViewModel()
+    private let vm = PhoneKeySampleViewModel(keyMgr: PhoneKeyManager(serviceName: "com.noke.PhoneKeyCore", provider: SodiumCryptoProvider()))
     
     // Local @State mirrors so SwiftUI re-renders
     @State private var keyId: String = ""

@@ -10,7 +10,7 @@ import Foundation
 
 
 /// A resilient ISO‑8601 parser that supports Zulu UTC, offsets, and fractional seconds.
-enum ISO8601 {
+public enum ISO8601 {
     /// Primary: supports fractional seconds and time zone offsets.
     static let withFractional: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -84,8 +84,8 @@ private func sortJSON(_ any: Any) -> Any {
     }
 }
 
-struct PhoneKeyAcl: Codable {
-    struct TimeWindow: Codable {
+public struct PhoneKeyAcl: Codable {
+    public struct TimeWindow: Codable {
         let start: Date
         let end: Date
         
@@ -94,12 +94,12 @@ struct PhoneKeyAcl: Codable {
             case end
         }
         
-        init(start: Date, end: Date) {
+        public init(start: Date, end: Date) {
             self.start = start
             self.end = end
         }
         
-        init(from decoder: Decoder) throws {
+        public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let startStr = try container.decode(String.self, forKey: .start)
             let endStr = try container.decode(String.self, forKey: .end)
@@ -114,7 +114,7 @@ struct PhoneKeyAcl: Codable {
             self.end = endDate
         }
         
-        func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             let startStr = ISO8601.string(from: start)
             let endStr = ISO8601.string(from: end)
@@ -122,18 +122,46 @@ struct PhoneKeyAcl: Codable {
             try container.encode(endStr, forKey: .end)
         }
     }
-    struct Permissions: Codable {
+    public struct Permissions: Codable {
         let unlock: Bool
         let overrideOverlock: Bool
         let configWrite: Bool
         let fwUpdate: Bool
+        
+        public init(from decoder: any Decoder) throws {
+            let container: KeyedDecodingContainer<PhoneKeyAcl.Permissions.CodingKeys> = try decoder.container(keyedBy: PhoneKeyAcl.Permissions.CodingKeys.self)
+            self.unlock = try container.decode(Bool.self, forKey: PhoneKeyAcl.Permissions.CodingKeys.unlock)
+            self.overrideOverlock = try container.decode(Bool.self, forKey: PhoneKeyAcl.Permissions.CodingKeys.overrideOverlock)
+            self.configWrite = try container.decode(Bool.self, forKey: PhoneKeyAcl.Permissions.CodingKeys.configWrite)
+            self.fwUpdate = try container.decode(Bool.self, forKey: PhoneKeyAcl.Permissions.CodingKeys.fwUpdate)
+        }
+        
+        public init(unlock: Bool, overrideOverlock: Bool, configWrite: Bool, fwUpdate: Bool) {
+            self.unlock = unlock
+            self.overrideOverlock = overrideOverlock
+            self.configWrite = configWrite
+            self.fwUpdate = fwUpdate
+        }
     }
-    struct Meta: Codable {
+    public struct Meta: Codable {
         let ttlHours: Int
         let timeSource: String
         let hwType: String
+        
+        public init(from decoder: any Decoder) throws {
+            let container: KeyedDecodingContainer<PhoneKeyAcl.Meta.CodingKeys> = try decoder.container(keyedBy: PhoneKeyAcl.Meta.CodingKeys.self)
+            self.ttlHours = try container.decode(Int.self, forKey: PhoneKeyAcl.Meta.CodingKeys.ttlHours)
+            self.timeSource = try container.decode(String.self, forKey: PhoneKeyAcl.Meta.CodingKeys.timeSource)
+            self.hwType = try container.decode(String.self, forKey: PhoneKeyAcl.Meta.CodingKeys.hwType)
+        }
+        
+        public init(ttlHours: Int, timeSource: String, hwType: String) {
+            self.ttlHours = ttlHours
+            self.timeSource = timeSource
+            self.hwType = hwType
+        }
     }
-    struct Signature: Codable {
+    public struct Signature: Codable {
         let algorithm: String   // "Ed25519"
         let value: String       // Base64
     }
@@ -147,39 +175,45 @@ struct PhoneKeyAcl: Codable {
     let schedule: [TimeWindow]
     let permissions: Permissions
     let meta: Meta
-    var signature: Signature
-}
-
-// Stripped ACL used only for canonicalization/signature creation (no `signature` field)
-private struct ACLForCanonical: Codable {
-    let aclId: String
-    let lockMac: String
-    let phoneKeyId: String
-    let phonePublicKey: String
-    let issuedAt: Date
-    let expiresAt: Date
-    let schedule: [PhoneKeyAcl.TimeWindow]
-    let permissions: PhoneKeyAcl.Permissions
-    let meta: PhoneKeyAcl.Meta
-}
-
-func canonicalize(acl: PhoneKeyAcl) throws -> Data {
-    // Remove the signature object for signing
-    let aclForCanonical = ACLForCanonical(
-        aclId: acl.aclId,
-        lockMac: acl.lockMac,
-        phoneKeyId: acl.phoneKeyId,
-        phonePublicKey: acl.phonePublicKey,
-        issuedAt: acl.issuedAt,
-        expiresAt: acl.expiresAt,
-        schedule: acl.schedule,
-        permissions: acl.permissions,
-        meta: acl.meta
-    )
+    public var signature: Signature?
     
-    // Encode with canonical date format, then sort keys deterministically
-    let raw = try ISO8601Canonical.encoder.encode(aclForCanonical)
-    return try canonicalizeJSON(raw)
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.aclId = try container.decode(String.self, forKey: .aclId)
+        self.lockMac = try container.decode(String.self, forKey: .lockMac)
+        self.phoneKeyId = try container.decode(String.self, forKey: .phoneKeyId)
+        self.phonePublicKey = try container.decode(String.self, forKey: .phonePublicKey)
+        self.issuedAt = try container.decode(Date.self, forKey: .issuedAt)
+        self.expiresAt = try container.decode(Date.self, forKey: .expiresAt)
+        self.schedule = try container.decode([PhoneKeyAcl.TimeWindow].self, forKey: .schedule)
+        self.permissions = try container.decode(PhoneKeyAcl.Permissions.self, forKey: .permissions)
+        self.meta = try container.decode(PhoneKeyAcl.Meta.self, forKey: .meta)
+        self.signature = try container.decodeIfPresent(PhoneKeyAcl.Signature.self, forKey: .signature)
+    }
+    
+    public init (
+    aclId: String,
+    lockMac: String,
+    phoneKeyId: String,
+    phonePublicKey: String,
+    issuedAt: Date,
+    expiresAt: Date,
+    schedule: [PhoneKeyAcl.TimeWindow],
+    permissions: PhoneKeyAcl.Permissions,
+    meta: PhoneKeyAcl.Meta,
+    signature: PhoneKeyAcl.Signature
+    ) {
+        self.aclId = aclId
+        self.lockMac = lockMac
+        self.phoneKeyId = phoneKeyId
+        self.phonePublicKey = phonePublicKey
+        self.issuedAt = issuedAt
+        self.expiresAt = expiresAt
+        self.schedule = schedule
+        self.permissions = permissions
+        self.meta = meta
+        self.signature = signature
+    }
 }
 
 extension PhoneKeyAcl {

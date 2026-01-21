@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import PhoneKeyCore
 
 @MainActor
 @Observable
@@ -18,8 +19,13 @@ final class PhoneKeySampleViewModel {
 
     var overlockOverride: Bool = false
     var signedCommandJSON: String = ""
+    let cryptoProvider: CryptoProvider = SodiumCryptoProvider()
 
-    private let keyMgr = PhoneKeyManager(serviceName: "com.noke.phonekey.sample")
+    private var keyMgr: PhoneKeyManager
+    
+    init(keyMgr: PhoneKeyManager) {
+        self.keyMgr = keyMgr
+    }
 
     // MARK: - Ensure / Load Phone Key
     func ensurePhoneKey() {
