@@ -13,6 +13,7 @@
 		B4C4A4702F20294C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B4C4A47B2F202A8C0054EF8A /* PhoneKeyCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; };
 		B4C4A47C2F202A8C0054EF8A /* PhoneKeyCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B4C4A5682F215D490054EF8A /* PhoneKeyCore.podspec in Resources */ = {isa = PBXBuildFile; fileRef = B4C4A5672F215D490054EF8A /* PhoneKeyCore.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,29 +72,11 @@
 		B4C4A2A92F0F15240054EF8A /* PhoneKeySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneKeySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C4A45A2F20294A0054EF8A /* PhoneKeyCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhoneKeyCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C4A4642F20294C0054EF8A /* PhoneKeyCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhoneKeyCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4C4A5672F215D490054EF8A /* PhoneKeyCore.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = PhoneKeyCore.podspec; sourceTree = "<group>"; };
 		CA12E97D8AFC5039897D8714 /* Pods_PhoneKeyCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneKeyCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD409B4BE27B4673A07C698F /* Pods-PhoneKeySample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeySample.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeySample/Pods-PhoneKeySample.debug.xcconfig"; sourceTree = "<group>"; };
 		F08105BFF40690558635BE6A /* Pods-PhoneKeyCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeyCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeyCoreTests/Pods-PhoneKeyCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B4C4A48D2F2141250054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Models/PhoneKeyAcl.swift,
-				"Use Cases/SigningUseCases.swift",
-			);
-			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
-		};
-		B4C4A48F2F2141290054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeySample" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Models/PhoneKeyAcl.swift,
-				"Use Cases/SigningUseCases.swift",
-			);
-			target = B4C4A2A82F0F15240054EF8A /* PhoneKeySample */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */ = {
@@ -103,10 +86,6 @@
 		};
 		B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B4C4A48F2F2141290054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeySample" target */,
-				B4C4A48D2F2141250054EF8A /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */,
-			);
 			path = PhoneKeyCore;
 			sourceTree = "<group>";
 		};
@@ -158,6 +137,7 @@
 		B4C4A2A02F0F15240054EF8A = {
 			isa = PBXGroup;
 			children = (
+				B4C4A5672F215D490054EF8A /* PhoneKeyCore.podspec */,
 				B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */,
 				B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */,
 				B4C4A46A2F20294C0054EF8A /* PhoneKeyCoreTests */,
@@ -317,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4C4A5682F215D490054EF8A /* PhoneKeyCore.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +536,11 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhoneKeySample/dist",
+					"$(PROJECT_DIR)/PhoneKeySample/dist/PhoneKeyCore\\ 2026-01-21\\ 14-10-48/Products/Library/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -608,6 +594,11 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PhoneKeySample/dist",
+					"$(PROJECT_DIR)/PhoneKeySample/dist/PhoneKeyCore\\ 2026-01-21\\ 14-10-48/Products/Library/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -674,7 +665,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -714,7 +705,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.noke.PhoneKeyCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -41,6 +41,51 @@ public func canonicalCommandBytes(for command: PhoneKeySignedCommand) throws -> 
     return try canonicalizeJSON(raw)
 }
 
+// MARK: - ISO8601 Utilities (UTC, with fractional seconds)
+enum ISO8601Canonical {
+    static let encoder: JSONEncoder = {
+        let enc = JSONEncoder()
+        // Precise, deterministic timestamps (UTC + fractional seconds)
+        enc.dateEncodingStrategy = .custom { date, encoder in
+            var container = encoder.singleValueContainer()
+            let formatted = withFractional.string(from: date)
+            try container.encode(formatted)
+        }
+        // Stable: no .sortedKeys here (Apple’s built-in sortedKeys affects only Encoder’s *own* ordering).
+        // We will sort after encoding using JSONSerialization.
+        return enc
+    }()
+
+    static let withFractional: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        f.timeZone = TimeZone(secondsFromGMT: 0)
+        return f
+    }()
+}
+
+private func sortJSON(_ any: Any) -> Any {
+    switch any {
+    case let dict as [String: Any]:
+        let keys = dict.keys.sorted()
+        var out: [String: Any] = [:]
+        for k in keys { out[k] = sortJSON(dict[k]!) }
+        return out
+    case let arr as [Any]:
+        // Arrays keep their order (canonicalization doesn’t sort arrays)
+        return arr.map(sortJSON)
+    default:
+        return any
+    }
+}
+
+// MARK: - JSON Sorting (stable key ordering)
+func canonicalizeJSON(_ data: Data) throws -> Data {
+    let obj = try JSONSerialization.jsonObject(with: data, options: [])
+    let sorted = sortJSON(obj)
+    return try JSONSerialization.data(withJSONObject: sorted, options: [])
+}
+
 private struct CommandForCanonical: Codable {
     let command: PhoneKeySignedCommand
     

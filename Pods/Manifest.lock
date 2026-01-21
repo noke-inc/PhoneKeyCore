@@ -1,16 +1,21 @@
 PODS:
+  - PhoneKeyCore (1.0.0)
   - Sodium (0.8.0)
 
 DEPENDENCIES:
+  - PhoneKeyCore (= 1.0.0)
   - Sodium
 
 SPEC REPOS:
+  "git@github.com:noke-inc/Specs.git":
+    - PhoneKeyCore
   trunk:
     - Sodium
 
 SPEC CHECKSUMS:
+  PhoneKeyCore: 0e49a8c3576429dc8ac868d2ad73792bd2586ab6
   Sodium: 63c0ca312a932e6da481689537d4b35568841bdc
 
-PODFILE CHECKSUM: 87cd1be7fe43431d23ac28c2bfc1cd30d2651b61
+PODFILE CHECKSUM: 33a35f88df9e6605f43546b8afecdffee8e4ce6b
 
 COCOAPODS: 1.16.2
