@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhoneKeyCore'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'Ed25519 key generation, storage, and signing for iOS.'
   s.description      = <<-DESC
 PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
@@ -10,6 +10,11 @@ PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
   s.homepage         = 'git@github.com:noke-inc/Specs.git'
   s.license          = { :type => 'MIT' }
   s.author           = { 'Noke Inc.' => 'support@noke.com' }
+  
+  s.platforms = {
+    :ios => '12.0',
+    :watchos => '6.2'
+  }
 
   # <— KEY PART —
   # The ZIP file lives inside the Specs repo itself.
@@ -27,5 +32,5 @@ PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
   s.vendored_frameworks = 'PhoneKeyCore.xcframework'
 
   # Because you are distributing a binary SDK
-  s.static_framework = true
+  #s.static_framework = true
 end

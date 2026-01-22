@@ -87,8 +87,9 @@ public struct PhoneKeyAcl : Swift.Codable {
     public func encode(to encoder: any Swift.Encoder) throws
   }
   public struct Signature : Swift.Codable {
-    public func encode(to encoder: any Swift.Encoder) throws
     public init(from decoder: any Swift.Decoder) throws
+    public init(algorithm: Swift.String, value: Swift.String)
+    public func encode(to encoder: any Swift.Encoder) throws
   }
   public var signature: PhoneKeyCore.PhoneKeyAcl.Signature?
   public init(from decoder: any Swift.Decoder) throws
@@ -306,6 +307,24 @@ extension PhoneKeyCore.KeychainHelperError : Foundation.LocalizedError {
   #if compiler(>=5.3) && $NonescapableTypes
   public var errorDescription: Swift.String? {
     get
+  }
+  #endif
+}
+public protocol PhoneKeyCoreProviding : AnyObject {
+  #if compiler(>=5.3) && $NonescapableTypes
+  var currentKeyInfo: PhoneKeyCore.PhoneKeyInfo? { get }
+  #endif
+  @discardableResult
+  func ensureKeys() throws -> PhoneKeyCore.PhoneKeyInfo
+  func sign(_ data: Foundation.Data) throws -> Foundation.Data
+  func currentPublicKey() throws -> Foundation.Data
+  func destroyKeys() throws
+}
+public enum PhoneKeyCoreBridge {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static var shared: (any PhoneKeyCore.PhoneKeyCoreProviding)? {
+    get
+    set
   }
   #endif
 }
