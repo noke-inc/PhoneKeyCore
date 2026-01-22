@@ -1,0 +1,13 @@
+//
+//  PhoneKeyCore.modulemap
+//  PhoneKeyCore
+//
+//  Created by Joffrey Mann on 1/22/26.
+//
+
+framework module PhoneKeyore {
+  umbrella header "PhoneKeyKit.h"
+
+  export *
+  module * { export * }
+}
