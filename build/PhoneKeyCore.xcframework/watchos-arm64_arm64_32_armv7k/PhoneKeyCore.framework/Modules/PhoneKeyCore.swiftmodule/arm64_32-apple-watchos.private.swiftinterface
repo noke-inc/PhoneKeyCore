@@ -107,146 +107,12 @@ public struct PhoneKeySignedCommand : Swift.Codable {
   public init(commandId: Swift.String, type: Swift.String, createdAt: Swift.String, nonce: Swift.String, payload: [Swift.String : Swift.String], signature: PhoneKeyCore.PhoneKeySignedCommand.Signature)
   public func encode(to encoder: any Swift.Encoder) throws
 }
-public enum SEErrorCode : Swift.Int {
-  case ErrMemberNotInGroup
-  case ErrRecordingActivity
-  case ErrInput
-  case ErrLoginAccessRevoked
-  case ErrCompanyAccessRevoked
-  case ErrLoginAttempts
-  case ErrIncorrectPassword
-  case ErrIncorrectCredentials
-  case ErrToken
-  case ErrInternalServer
-  case ErrPermission
-  case ErrLockNotFound
-  case ErrNoActivity
-  case ErrUsernameExists
-  case ErrNoUsers
-  case ErrNoPadlocks
-  case ErrNoSchedule
-  case ErrItemDeleted
-  case ErrMemberInGroup
-  case ErrGroupNotFound
-  case ErrActivityRecording
-  case ErrPermissionChecking
-  case ErrNoChanges
-  case ErrArchiveNotFound
-  case ErrEmailNotFound
-  case ErrIncorrectAppKey
-  case ErrNoQuickClicks
-  case ErrItemNotFound
-  case ErrFobNeedsSetup
-  case ErrJsonFormat
-  case ErrSessionLength
-  case ErrLockNotSetup
-  case ErrNoActiveSchedule
-  case ErrParseSession
-  case ErrMacLength
-  case ErrNameLength
-  case ErrNotLock
-  case ErrNotFob
-  case ErrSessionType
-  case ErrFobNotSetup
-  case ErrFobAlreadySetup
-  case ErrLockAlreadySetup
-  case ErrFobNotFound
-  case ErrNoQCsAvailable
-  case ErrNoExpiredGroups
-  case ErrNoScheduleFound
-  case ErrUserNotFound
-  case ErrCompanyNotFound
-  case ErrTimeOutOfSync
-  case ErrFileUpload
-  case ErrInputImageSize
-  case ErrInputUniqueDomain
-  case ErrRequestMethod
-  case ErrInvalidEndpoint
-  case ErrPaymentFailure
-  case ErrCompanySuspended
-  case ErrInvalidGroupType
-  case ErrDisabledAllSteps
-  case ErrSameUsername
-  case ErrUserMerge
-  case ErrFeatureNotSupported
-  case ErrInactiveCompany
-  case ErrNoAccessDelinquentPayment
-  case ErrAccountNotActive
-  case ErrSelfShare
-  case ErrAccountNotActiveText
-  case ErrAccountNotActiveEmail
-  case ErrPinExpired
-  case ErrShareNotFound
-  case ErrOverlock
-  case ErrNoSites
-  case ErrNoMac
-  case ErrNoIP
-  case ErrShortQuery
-  case ErrNoSearchType
-  case ErrPassRequired
-  case ErrUserIdRequired
-  case ErrLockStateRequired
-  case ErrLockIdRequired
-  case ErrInvalidLockState
-  case ErrUnregisteredGateway
-  case ErrSiteNotFound
-  case ErrNoPhoneOrEmail
-  case ErrBillNotPaid
-  case ErrGatewayNoSite
-  case ErrNoAssignedUser
-  case ErrInvalidLockType
-  case ErrInvalidLockName
-  case ErrBadLoginFrozenAccount
-  case ErrInvalidUnitState
-  case ErrAppOutOfDate
-  case ErrGateHours
-  case ErrNoSitePMS
-  case ErrMultipleCompanysFound
-  case ErrGatewayNotFound
-  case ErrHistoryNotFound
-  case ErrInvalidFileType
-  case ErrDuplicateAccessCode
-  case ErrPhoneNotUnique
-  case ErrResultsFailedToMatch
-  case ErrNotifyFailed
-  case ErrRoleInUse
-  case ErrMassUpdateDisallowed
-  case ErrSSOQueryStringMissing
-  case ErrPasswordReuse
-  case ErrInvalidAccount
-  case ErrNotificationsOff
-  case ErrHoldOutsideSiteHours
-  case ErrUnverifiedMethod
-  case ErrSiteNotInInstallerMode
-  case ErrDuplicateLock
-  case ErrInvalidPin
-  case ErrPrelet
-  case ErrCheckout
-  case InvalidOfflineKey
-  case InvalidOfflineKeyRekeyed
-  case NokeOneLowBattery
-  case IONJammedUnlocking
-  case ErrInvalidJson
-  case ErrFailedToConnect
-  case ErrFallbackUnlockInProgress
-  case EmptySession
-  case FobNeedsFwUpdate
-  case ErrorInvalidKey
-  case ErrorInvalidCmd
-  case ErrorInvalidPermission
-  case ErrorInvalidData
-  case ErrorInvalidResult
-  case DeviceErrorUnknown
-  case OutOfScheduleUnlock
-  case EmptyCommands
-  case FreeExitMessage
-  case Unknown
-  case Offline
-  case RequestTimedOut
-  case NoDataReturned
-  case RemoteUnlockInLessThan30Seconds
-  case ErrorNoActiveInstallSites
+public enum SEPhoneKeyErrorCode : Swift.Int {
   case NoError
+  case ErrCryptoProviderNotSet
+  case ErrFailedToSignData
+  case ErrFailedToDerivePublicKey
+  case Unknown
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
   #endif
@@ -255,9 +121,9 @@ public enum SEErrorCode : Swift.Int {
     get
   }
 }
-public struct SEError : Swift.Error {
+public struct SEPhoneKeyError : Swift.Error {
   public var rawCode: Swift.Int
-  public var code: PhoneKeyCore.SEErrorCode
+  public var code: PhoneKeyCore.SEPhoneKeyErrorCode
   public var userFacingValue: Swift.String
   public var subcode: Swift.Int
   public var type: Swift.String
@@ -269,9 +135,13 @@ public struct SEError : Swift.Error {
   public var custom: Swift.String
   public var messageString: Swift.String
   public init(message: Swift.String)
-  public init(userFacingValue: Swift.String, code: PhoneKeyCore.SEErrorCode)
+  public init(userFacingValue: Swift.String, code: PhoneKeyCore.SEPhoneKeyErrorCode)
   public init(code: Swift.Int, subcode: Swift.Int, type: Swift.String, messageString: Swift.String = "")
   public init(rawCode: Swift.Int)
+  public static func string(from code: PhoneKeyCore.SEPhoneKeyErrorCode) -> Swift.String
+  public static func cryptoProviderNotSet() -> PhoneKeyCore.SEPhoneKeyError
+  public static func failedToSignData() -> PhoneKeyCore.SEPhoneKeyError
+  public static func failedToDerivePublicKey() -> PhoneKeyCore.SEPhoneKeyError
 }
 public protocol KeychainQueryable {
   var query: [Swift.String : Any] { get }
@@ -334,6 +204,6 @@ extension PhoneKeyCore.SignatureAlgorithm : Swift.RawRepresentable {}
 extension PhoneKeyCore.PhoneKeyStatus : Swift.Equatable {}
 extension PhoneKeyCore.PhoneKeyStatus : Swift.Hashable {}
 extension PhoneKeyCore.PhoneKeyStatus : Swift.RawRepresentable {}
-extension PhoneKeyCore.SEErrorCode : Swift.Equatable {}
-extension PhoneKeyCore.SEErrorCode : Swift.Hashable {}
-extension PhoneKeyCore.SEErrorCode : Swift.RawRepresentable {}
+extension PhoneKeyCore.SEPhoneKeyErrorCode : Swift.Equatable {}
+extension PhoneKeyCore.SEPhoneKeyErrorCode : Swift.Hashable {}
+extension PhoneKeyCore.SEPhoneKeyErrorCode : Swift.RawRepresentable {}

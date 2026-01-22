@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhoneKeyCore'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'Ed25519 key generation, storage, and signing for iOS.'
   s.description      = <<-DESC
 PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.

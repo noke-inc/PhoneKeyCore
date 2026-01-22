@@ -10,11 +10,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		0I3ZPY7iMLGvUbPZDGS126oX0uU=
+		OvJjIQcDPJLfAZ1dJUPEMbIY1NM=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		XPIllc7ufuvpQpdLWjohsgKhiZs=
+		ByFCJjbBjjgtxpWGk9HrY/6jUUU=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -22,19 +22,19 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		XPIllc7ufuvpQpdLWjohsgKhiZs=
+		ByFCJjbBjjgtxpWGk9HrY/6jUUU=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Aawt/obIFsLJlZEPvUbhQaByoe4=
+		RG9Uc5o9TAxVcj5B2jkqOUv/zCk=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		0I3ZPY7iMLGvUbPZDGS126oX0uU=
+		OvJjIQcDPJLfAZ1dJUPEMbIY1NM=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		usxBWXZz4HJuQ+GxVE494OpMYcc=
+		5JhqqYWYhnE5B4Nb1scQlOesRAU=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -42,11 +42,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		usxBWXZz4HJuQ+GxVE494OpMYcc=
+		5JhqqYWYhnE5B4Nb1scQlOesRAU=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		q6rRa1A76D6qNkCKI7ulA+FOEAM=
+		7nUPHZGVO0T7H7Bn+2Kf279eUJo=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -55,14 +55,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Xtv6T4ev3QJDtAPJX0ENqi4XoZSz7h7aaHo9a57IAz0=
+			ylgAbchz4MFwHQkg37Ecbs1IrlyCIn2JtEGvoIv3RaE=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5su+qOA/IsUKq6v77u2bGiHH6GRwpiELJS5142f0sk8=
+			YLbCZODR/Kp39oyo/gVnavzY210uETAann84fpmKIh8=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -76,28 +76,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5su+qOA/IsUKq6v77u2bGiHH6GRwpiELJS5142f0sk8=
+			YLbCZODR/Kp39oyo/gVnavzY210uETAann84fpmKIh8=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2BbJU43XEPK61b9CX4fu5qZ60vfENJigDpJJHFWa6xI=
+			82iy27Tk/CtS5RO8NwVH36Wr86pJNlPMTK/egYAgR+8=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Xtv6T4ev3QJDtAPJX0ENqi4XoZSz7h7aaHo9a57IAz0=
+			ylgAbchz4MFwHQkg37Ecbs1IrlyCIn2JtEGvoIv3RaE=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			s2JmZ7FhRGCeYUDFYYQVeZ+A1K6xWJcryHk/Nrffgiw=
+			arKAsMxlX8MrWEdFF+C5eGr5YLA8EJcwbIP5nwvZcaQ=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -111,14 +111,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			s2JmZ7FhRGCeYUDFYYQVeZ+A1K6xWJcryHk/Nrffgiw=
+			arKAsMxlX8MrWEdFF+C5eGr5YLA8EJcwbIP5nwvZcaQ=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			eQtk+w/mjzDpm2DJjUgwMfBm8j+Hh5t2afPtPOTTLo8=
+			UNdTJRHRq0HOdt1ViRVxjx0U7D61mMsMo0/BPtKiFY4=
 			</data>
 		</dict>
 	</dict>
