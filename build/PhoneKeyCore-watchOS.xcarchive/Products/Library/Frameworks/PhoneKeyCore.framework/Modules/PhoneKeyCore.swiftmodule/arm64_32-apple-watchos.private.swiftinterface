@@ -68,6 +68,9 @@ final public class PhoneKeyManager {
   final public func deleteSeed() throws
   @objc deinit
 }
+extension PhoneKeyCore.PhoneKeyManager {
+  final public func buildACLChunks(acl: Foundation.Data) throws -> [Swift.String]
+}
 public enum ISO8601 {
 }
 public struct PhoneKeyAcl : Swift.Codable {

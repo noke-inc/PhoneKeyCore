@@ -249,3 +249,59 @@ public final class PhoneKeyManager {
         return u.uuidString
     }
 }
+
+// MARK: - ACL Chunking / Signing
+public extension PhoneKeyManager {
+
+    /// Build a signed ACL payload and return it chunked into 128-byte hex packets.
+    ///
+    /// - Parameter acl: Raw ACL bytes (NOT including signature).
+    /// - Returns: Array of hex strings (each packet = header + payload).
+    ///
+    /// The format required by the lock:
+    ///   • Chunk 0..N-1:   "NN" + 128 hex bytes
+    ///   • Final chunk:    "xx" + 4 hex digits of total ACL length
+    ///   • Signature:      32-byte Ed25519 signature *after* all the ACL bytes
+    ///
+    func buildACLChunks(acl: Data) throws -> [String] {
+
+        // 1. Ensure keys exist
+        let keyInfo = try ensureKeys()
+
+        // 2. Compute signature over entire ACL
+        let signature = try sign(acl)
+
+        // 3. Final payload = ACL + 32-byte signature
+        var fullPayload = Data()
+        fullPayload.append(acl)
+        fullPayload.append(signature)
+
+        // 4. Chunking parameters
+        let chunkSize = 128
+        let totalLen = acl.count    // IMPORTANT: spec says "length of ACL only"
+        let chunkCount = Int(ceil(Double(fullPayload.count) / Double(chunkSize)))
+
+        var result: [String] = []
+
+        for chunkIndex in 0..<chunkCount {
+            let start = chunkIndex * chunkSize
+            let end = min(start + chunkSize, fullPayload.count)
+
+            let chunkBytes = fullPayload[start..<end]
+            let hexPayload = chunkBytes.map { String(format:"%02x", $0) }.joined()
+
+            if chunkIndex < chunkCount - 1 {
+                // Normal chunk: "00", "01", ...
+                let header = String(format: "%02x", chunkIndex)
+                result.append(header + hexPayload)
+            } else {
+                // FINAL chunk: "xx" + 4 hex digits of ACL length
+                let lengthField = String(format: "%04x", totalLen)
+                let header = "xx" + lengthField
+                result.append(header + hexPayload)
+            }
+        }
+
+        return result
+    }
+}
