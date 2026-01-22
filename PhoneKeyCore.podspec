@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhoneKeyCore'
-  s.version          = '1.0.9'
+  s.version          = '1.0.0'
   s.summary          = 'Ed25519 key generation, storage, and signing for iOS.'
   s.description      = <<-DESC
 PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
@@ -26,7 +26,7 @@ PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
   }
 
   s.ios.deployment_target = '12.0'
-  s.swift_versions = ['5.9', '5.10']
+  s.swift_versions = ['5.0']
 
   # This MUST match the name inside your ZIP
   s.vendored_frameworks = 'PhoneKeyCore.xcframework'
