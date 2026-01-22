@@ -78,6 +78,16 @@
 		F08105BFF40690558635BE6A /* Pods-PhoneKeyCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneKeyCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-PhoneKeyCoreTests/Pods-PhoneKeyCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B48A316C2F22070F00835F27 /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			publicHeaders = (
+				PhoneKeyKit.h,
+			);
+			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -86,6 +96,9 @@
 		};
 		B4C4A45B2F20294A0054EF8A /* PhoneKeyCore */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B48A316C2F22070F00835F27 /* Exceptions for "PhoneKeyCore" folder in "PhoneKeyCore" target */,
+			);
 			path = PhoneKeyCore;
 			sourceTree = "<group>";
 		};
