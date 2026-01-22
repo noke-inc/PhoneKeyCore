@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/PhoneKeyKit.h</key>
+		<data>
+		vuIOWbOrkaEzmWYSbWBnnw92+cE=
+		</data>
 		<key>Info.plist</key>
 		<data>
 		RNkBx5zXeJ+Wb+Ub8Jhe8tNrEOs=
@@ -71,6 +75,17 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/PhoneKeyKit.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vuIOWbOrkaEzmWYSbWBnnw92+cE=
+			</data>
+			<key>hash2</key>
+			<data>
+			T+yIWj5aAYaddJSrDR/ybSHslRxROMdOdBfVa3xTjVw=
+			</data>
+		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos.abi.json</key>
 		<dict>
 			<key>hash</key>

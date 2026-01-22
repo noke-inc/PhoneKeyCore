@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/PhoneKeyKit.h</key>
+		<data>
+		vuIOWbOrkaEzmWYSbWBnnw92+cE=
+		</data>
 		<key>Info.plist</key>
 		<data>
 		QXEZxO77zCg6WVYnUZwZqyp2OAw=
@@ -51,6 +55,13 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/PhoneKeyKit.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			T+yIWj5aAYaddJSrDR/ybSHslRxROMdOdBfVa3xTjVw=
+			</data>
+		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
