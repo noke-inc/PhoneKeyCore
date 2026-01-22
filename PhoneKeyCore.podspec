@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhoneKeyCore'
-  s.version          = '1.0.8'
+  s.version          = '1.0.9'
   s.summary          = 'Ed25519 key generation, storage, and signing for iOS.'
   s.description      = <<-DESC
 PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
@@ -32,5 +32,8 @@ PhoneKeyCore is an internal iOS SDK for Ed25519 signing and key management.
   s.vendored_frameworks = 'PhoneKeyCore.xcframework'
 
   # Because you are distributing a binary SDK
-  #s.static_framework = true
+  s.static_framework = true
+  s.pod_target_xconding = {
+    'DEFINES_MODULE' => 'YES'
+  }
 end
