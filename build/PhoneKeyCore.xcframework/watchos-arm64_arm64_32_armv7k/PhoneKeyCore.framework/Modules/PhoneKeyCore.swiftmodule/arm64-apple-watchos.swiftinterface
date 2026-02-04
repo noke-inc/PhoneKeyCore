@@ -13,6 +13,7 @@ public enum KeychainKeys {
 }
 public enum SignatureAlgorithm : Swift.String, Swift.Codable {
   case ed25519
+  case ecdsaP256
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
   #endif
@@ -45,17 +46,22 @@ public struct PhoneKeyInfo : Swift.Codable {
   public let publicKeyRaw: Foundation.Data
   public let seed: Foundation.Data
   public var status: PhoneKeyCore.PhoneKeyStatus
+  public let keyTag: Foundation.Data?
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
 final public class PhoneKeyManager {
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(serviceName: Swift.String, accessGroup: Swift.String? = nil, provider: (any PhoneKeyCore.CryptoProvider)?)
+  public init(serviceName: Swift.String, accessGroup: Swift.String? = nil, provider: (any PhoneKeyCore.CryptoProvider)?, preferredAlgorithm: PhoneKeyCore.SignatureAlgorithm = .ecdsaP256)
   #endif
   @discardableResult
   final public func ensureKeys() throws -> PhoneKeyCore.PhoneKeyInfo
+  @discardableResult
+  final public func ensureKeys(algorithm: PhoneKeyCore.SignatureAlgorithm) throws -> PhoneKeyCore.PhoneKeyInfo
   final public func destroyKeys() throws
-  final public func sign(_ data: Foundation.Data) throws -> Foundation.Data
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func sign(_ data: Foundation.Data, algorithm: PhoneKeyCore.SignatureAlgorithm? = nil) throws -> Foundation.Data
+  #endif
   #if compiler(>=5.3) && $NonescapableTypes
   final public func loadExistingKey(_ seed: Foundation.Data) throws -> PhoneKeyCore.PhoneKeyInfo?
   #endif
@@ -66,38 +72,72 @@ final public class PhoneKeyManager {
   final public func revokeCurrentKeyPOC(reason: Swift.String? = nil)
   #endif
   final public func deleteSeed() throws
+  final public func deleteP256Key() throws
   @objc deinit
 }
 extension PhoneKeyCore.PhoneKeyManager {
-  final public func buildACLChunks(acl: Foundation.Data) throws -> [Swift.String]
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func buildACLChunks(acl: Foundation.Data, algorithm: PhoneKeyCore.SignatureAlgorithm? = nil) throws -> [Swift.String]
+  #endif
 }
 public enum ISO8601 {
+  public static let withFractional: Foundation.ISO8601DateFormatter
+  public static let basic: Foundation.ISO8601DateFormatter
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parse(_ s: Swift.String) -> Foundation.Date?
+  #endif
+  public static func string(from date: Foundation.Date) -> Swift.String
+}
+public struct PhoneKeyAclEnvelope : Swift.Codable {
+  public let result: Swift.String
+  public var acl: PhoneKeyCore.PhoneKeyAcl
+  public var aclSignature: Swift.String
+  public init(result: Swift.String, acl: PhoneKeyCore.PhoneKeyAcl, aclSignature: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
 }
 public struct PhoneKeyAcl : Swift.Codable {
-  public struct TimeWindow : Swift.Codable {
-    public init(start: Foundation.Date, end: Foundation.Date)
-    public init(from decoder: any Swift.Decoder) throws
-    public func encode(to encoder: any Swift.Encoder) throws
-  }
   public struct Permissions : Swift.Codable {
+    public let unlock: Swift.Bool
+    public let overrideOverlock: Swift.Bool
     public init(from decoder: any Swift.Decoder) throws
     public init(unlock: Swift.Bool, overrideOverlock: Swift.Bool, configWrite: Swift.Bool, fwUpdate: Swift.Bool)
     public func encode(to encoder: any Swift.Encoder) throws
   }
-  public struct Meta : Swift.Codable {
-    public init(from decoder: any Swift.Decoder) throws
-    public init(ttlHours: Swift.Int, timeSource: Swift.String, hwType: Swift.String)
-    public func encode(to encoder: any Swift.Encoder) throws
-  }
   public struct Signature : Swift.Codable {
-    public init(from decoder: any Swift.Decoder) throws
-    public init(algorithm: Swift.String, value: Swift.String)
+    public let algorithm: Swift.String
+    public let value: Swift.String
+    public init(algorithm: Swift.String = "ECDSA_P256", value: Swift.String)
     public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
+  public let trackingId: Swift.String
+  public let lockMac: Swift.String
+  public let phonePublicKey: Swift.String
+  public let issuedAt: Foundation.Date
+  public let expiresAt: Foundation.Date
+  public let schedule: Swift.String
+  public let permissions: PhoneKeyCore.PhoneKeyAcl.Permissions
   public var signature: PhoneKeyCore.PhoneKeyAcl.Signature?
   public init(from decoder: any Swift.Decoder) throws
-  public init(aclId: Swift.String, lockMac: Swift.String, phoneKeyId: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: [PhoneKeyCore.PhoneKeyAcl.TimeWindow], permissions: PhoneKeyCore.PhoneKeyAcl.Permissions, meta: PhoneKeyCore.PhoneKeyAcl.Meta, signature: PhoneKeyCore.PhoneKeyAcl.Signature)
   public func encode(to encoder: any Swift.Encoder) throws
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(trackingId: Swift.String, lockMac: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: Swift.String, permissions: PhoneKeyCore.PhoneKeyAcl.Permissions, signature: PhoneKeyCore.PhoneKeyAcl.Signature?)
+  #endif
+}
+public enum JSONISO8601 {
+  public static func encoder() -> Foundation.JSONEncoder
+  public static func decoder() -> Foundation.JSONDecoder
+}
+extension PhoneKeyCore.PhoneKeyAcl {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func mockEd25519(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "ed25519-key-0001", trackingId: Swift.String = "1", includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func mockP256(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "p256-key-0001", trackingId: Swift.String = "2", p256PublicKeyLength: Swift.Int = 65, includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
+  #endif
+  public static func mockEd25519JSON(now: Foundation.Date = Date()) throws -> Foundation.Data
+  public static func mockP256JSON(now: Foundation.Date = Date(), p256PublicKeyLength: Swift.Int = 65) throws -> Foundation.Data
 }
 public struct PhoneKeySignedCommand : Swift.Codable {
   public struct Signature : Swift.Codable {

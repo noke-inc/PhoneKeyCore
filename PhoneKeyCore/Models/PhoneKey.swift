@@ -13,11 +13,14 @@ import CryptoKit
 
 public enum KeychainKeys {
     static let ed25519Seed = "ed25519.seed"
+    // NEW: persistent tag to store P-256 SecKey in Keychain
+    static let p256PrivateKeyTag = "p256.signing.privatekey"
 }
 
 /// Signature algorithm (kept for future extensibility).
 public enum SignatureAlgorithm: String, Codable {
     case ed25519 = "Ed25519"
+    case ecdsaP256 = "ECDSA_P256" // NEW
 }
 
 public enum PhoneKeyStatus: String, Codable {
@@ -33,60 +36,71 @@ public protocol CryptoProvider: AnyObject {
     func getHash(of data: Data) throws -> Data
 }
 
-//struct PhoneKeyInfoRequest: Codable {
-//    let keyId: String
-//    let algorithm: String   // "Ed25519"
-//    let publicKey: String   // Base64
-//    let phoneId: String
-//    let userId: String
-//}
-
-/// Unified key info for Ed25519 across OS versions
+/// Unified key info for Ed25519 across OS versions; extended for P-256 via keyTag
 public struct PhoneKeyInfo: Codable {
     public let keyId: String
     public let algorithm: SignatureAlgorithm
-    public let publicKeyRaw: Data
-    public let seed: Data
+    public let publicKeyRaw: Data  // Ed25519: 32 bytes; P-256: 65 bytes (0x04 || X || Y)
+    public let seed: Data          // Ed25519: 32-byte seed; P-256: unused/empty (kept for compatibility)
     public var status: PhoneKeyStatus
-//    let phoneId: String
-//    let userId: String
-//    let createdAt: String  // ISO 8601
-//    let updatedAt: String  // ISO 8601
-//    let keyStatus: String // "active"
-//    let comments: String?
+    // NEW: for P-256 SecKey lookup (application tag used to store/find in Keychain)
+    public let keyTag: Data? = nil
 }
 
 public final class PhoneKeyManager {
     private let keychain: KeychainHelper
     private var provider: CryptoProvider?
     private let serviceName: String
-    
-    /// Cached key info (derived from seed).
+    private let accessGroup: String? // NEW: keep access group for SecKey creation
+    private let preferredAlgorithm: SignatureAlgorithm // NEW
+
+    /// Cached key info (derived from seed for Ed25519; from SecKey for P-256)
     private(set) var keyInfo: PhoneKeyInfo?
-    
+
     /// Initialize with existing KeychainHelper (service + optional access group).
-    public init(serviceName: String, accessGroup: String? = nil, provider: CryptoProvider?) {
+    public init(serviceName: String,
+                accessGroup: String? = nil,
+                provider: CryptoProvider?,
+                preferredAlgorithm: SignatureAlgorithm = .ecdsaP256) { // NEW default
         let queryable = GenericPasswordQueryable(service: serviceName, accessGroup: accessGroup)
         self.keychain = KeychainHelper(keychainQueryable: queryable)
         self.serviceName = serviceName
         self.provider = provider
+        self.accessGroup = accessGroup
+        self.preferredAlgorithm = preferredAlgorithm
     }
-    
+
     // MARK: Public API
-    
-    // Ensure an Ed25519 keypair exists, generating and storing one if needed.
-    
+
+    /// Ensure a keypair exists for the preferred algorithm. Backward compatible with Ed25519-only flow.
     @discardableResult
     public func ensureKeys() throws -> PhoneKeyInfo {
+        return try ensureKeys(algorithm: preferredAlgorithm)
+    }
 
+    /// Ensure a keypair exists for the requested algorithm.
+    @discardableResult
+    public func ensureKeys(algorithm: SignatureAlgorithm) throws -> PhoneKeyInfo {
+        switch algorithm {
+        case .ed25519:
+            return try ensureEd25519Keys()
+        case .ecdsaP256:
+            return try ensureP256Keys()
+        }
+    }
+
+    // MARK: - Ed25519 path (unchanged behavior)
+
+    @discardableResult
+    private func ensureEd25519Keys() throws -> PhoneKeyInfo {
         // 1. Try loading existing seed from Keychain
         if let base64 = try keychain.getValue(forKey: KeychainKeys.ed25519Seed),
            let seed = Data(base64Encoded: base64) {
 
-            let pub = try derivePublicKey(fromSeed: seed)
+            let pub = try derivePublicKeyEd25519(fromSeed: seed)
 
             let existing = PhoneKeyInfo(
-                keyId: keyIdFromSeed(seed),
+                keyId: keyIdFromEd25519Seed(seed),
                 algorithm: .ed25519,
                 publicKeyRaw: pub,
                 seed: seed,
@@ -109,10 +123,10 @@ public final class PhoneKeyManager {
         try keychain.setValue(seed.base64EncodedString(), forKey: KeychainKeys.ed25519Seed)
 
         // 5. Derive public key from seed
-        let pub = try derivePublicKey(fromSeed: seed)
+        let pub = try derivePublicKeyEd25519(fromSeed: seed)
 
         let newKeyInfo = PhoneKeyInfo(
-            keyId: keyIdFromSeed(seed),
+            keyId: keyIdFromEd25519Seed(seed),
             algorithm: .ed25519,
             publicKeyRaw: pub,
             seed: seed,
@@ -122,47 +136,101 @@ public final class PhoneKeyManager {
         self.keyInfo = newKeyInfo
         return newKeyInfo
     }
-    
-    /// Remove the seed from Keychain and clear cache.
+
+    // MARK: - NEW: ECDSA P-256 path
+
+    /// Ensures a P-256 ECDSA signing key exists in the Keychain (SecKey), derives public key in X9.63 format.
+    @discardableResult
+    private func ensureP256Keys() throws -> PhoneKeyInfo {
+        // Attempt to load existing private key by tag
+        let tagData = Data(KeychainKeys.p256PrivateKeyTag.utf8)
+        if let privateKey = try fetchExistingP256PrivateKey(tag: tagData) {
+            let pubRaw = try exportP256PublicKeyRaw(privateKey: privateKey)
+            let keyId = keyIdFromPublicKey(pubRaw)
+            let info = PhoneKeyInfo(
+                keyId: keyId,
+                algorithm: .ecdsaP256,
+                publicKeyRaw: pubRaw,
+                seed: Data(), // unused for P-256; kept empty for compatibility
+                status: .active
+            )
+            self.keyInfo = info
+            return info
+        }
+
+        // Generate a new P-256 key and store in Keychain (permanent)
+        let privateKey = try generateP256PrivateKey(tag: tagData, accessGroup: accessGroup)
+        let pubRaw = try exportP256PublicKeyRaw(privateKey: privateKey)
+        let keyId = keyIdFromPublicKey(pubRaw)
+
+        let info = PhoneKeyInfo(
+            keyId: keyId,
+            algorithm: .ecdsaP256,
+            publicKeyRaw: pubRaw,
+            seed: Data(), // unused for P-256
+            status: .active
+        )
+        self.keyInfo = info
+        return info
+    }
+
+    /// Remove the Ed25519 seed from Keychain and clear cache.
     public func destroyKeys() throws {
         try keychain.removeValue(for: KeychainKeys.ed25519Seed)
+        // Also attempt to delete P-256 key (no-throw if not found)
+        try? deleteP256Key()
         self.keyInfo = nil
     }
-    
-    /// Signs arbitrary data with Ed25519 using CryptoKit on iOS 13+ or Swift-Sodium otherwise.
+
+    /// Signs arbitrary data with the current or preferred algorithm.
     /// - Parameter data: The canonicalized bytes to sign.
-    /// - Returns: 64-byte Ed25519 signature as Data.
-    public func sign(_ data: Data) throws -> Data {
-        let info = try self.keyInfo ?? ensureKeys()
-        
-        if #available(iOS 13.0, *) {
-            // CryptoKit path: reconstruct from 32-byte seed
-            let privateKey = try Curve25519.Signing.PrivateKey(rawRepresentation: info.seed)
-            let signature = try privateKey.signature(for: data)
-            return signature
-        } else {
-            // Swift-Sodium path: derive secretKey from seed and sign
-            guard let provider = provider else {
-                throw SEPhoneKeyError.cryptoProviderNotSet()
+    /// - Parameter algorithm: Optional override; defaults to ensure (preferred) keys.
+    /// - Returns: Signature bytes (Ed25519: 64; P-256: 64 raw r||s).
+    public func sign(_ data: Data, algorithm: SignatureAlgorithm? = nil) throws -> Data {
+        let info = try self.keyInfo ?? ensureKeys(algorithm: algorithm ?? preferredAlgorithm)
+
+        switch info.algorithm {
+        case .ed25519:
+            if #available(iOS 13.0, *) {
+                // CryptoKit path: reconstruct from 32-byte seed
+                let privateKey = try Curve25519.Signing.PrivateKey(rawRepresentation: info.seed)
+                let signature = try privateKey.signature(for: data)
+                return signature
+            } else {
+                // Swift-Sodium path: derive secretKey from seed and sign
+                guard let provider = provider else {
+                    throw SEPhoneKeyError.cryptoProviderNotSet()
+                }
+                do {
+                    return try provider.sign(message: data, withSeed: info.seed)
+                } catch {
+                    throw SEPhoneKeyError.failedToSignData()
+                }
             }
-            do {
-                return try provider.sign(message: data, withSeed: info.seed)
-            } catch {
-                throw SEPhoneKeyError.failedToSignData()
+
+        case .ecdsaP256:
+            // Prefer Security (SecKey) so the key stays in the Keychain.
+            let tagData = Data(KeychainKeys.p256PrivateKeyTag.utf8)
+            guard let privateKey = try fetchExistingP256PrivateKey(tag: tagData) else {
+                throw SEPhoneKeyError.failedToSignData() // shouldn't happen since ensureKeys() ran
             }
+            // Create DER-encoded ECDSA signature, then convert to raw 64 bytes (r||s)
+            let derSig = try signP256WithSecKey(privateKey: privateKey, message: data)
+            let raw64 = try ecdsaSignatureDERToRawRS(der: derSig, componentSize: 32)
+            return raw64
         }
     }
-    
-    
+
     public func loadExistingKey(_ seed: Data) throws -> PhoneKeyInfo? {
-        let pub = try derivePublicKey(fromSeed: seed)
-        return PhoneKeyInfo(keyId: keyIdFromSeed(seed),
-                            algorithm: .ed25519,
+        // Backward compatibility: Ed25519 only
+        let pub = try derivePublicKeyEd25519(fromSeed: seed)
+        return PhoneKeyInfo(keyId: keyIdFromEd25519Seed(seed),
+                            algorithm: .ecdsaP256,
                             publicKeyRaw: pub,
                             seed: seed,
                             status: .active)
     }
-    
+
     // Soft-expire: mark status and/or expiry timestamp (POC only)
     public func expireCurrentKeyPOC(expiresAt: Date? = Date()) {
         guard var info = self.keyInfo else {
@@ -171,7 +239,7 @@ public final class PhoneKeyManager {
         info.status = .expired
         self.keyInfo = info
     }
-    
+
     // Soft-revoke (POC): status revoked
     public func revokeCurrentKeyPOC(reason: String? = nil) {
         guard var info = self.keyInfo else {
@@ -180,13 +248,14 @@ public final class PhoneKeyManager {
         info.status = .revoked
         self.keyInfo = info
     }
-    
+
     // Hard-expire: delete seed and derived keys (from earlier guidance)
     func deleteAllKeys() throws {
         try deleteSeed()
+        try? deleteP256Key()
         self.keyInfo = nil
     }
-    
+
     public func deleteSeed() throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -198,9 +267,28 @@ public final class PhoneKeyManager {
             throw NSError(domain: "Keychain", code: Int(status))
         }
     }
-    
+
+    // NEW: Delete P-256 SecKey by tag
+    public func deleteP256Key() throws {
+        let tagData = Data(KeychainKeys.p256PrivateKeyTag.utf8)
+        var query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecAttrApplicationTag as String: tagData
+        ]
+        if let accessGroup = accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
+        let status = SecItemDelete(query as CFDictionary)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw NSError(domain: "Keychain", code: Int(status))
+        }
+    }
+
     // MARK: - Helpers
-    private func derivePublicKey(fromSeed seed: Data) throws -> Data {
+
+    // Ed25519 public derivation
+    private func derivePublicKeyEd25519(fromSeed seed: Data) throws -> Data {
         if #available(iOS 13.0, *) {
             let privateKey = try Curve25519.Signing.PrivateKey(rawRepresentation: seed)
             let publicKey = privateKey.publicKey
@@ -216,8 +304,8 @@ public final class PhoneKeyManager {
             }
         }
     }
-    
-    private func keyIdFromSeed(_ seed: Data) -> String {
+
+    private func keyIdFromEd25519Seed(_ seed: Data) -> String {
         if #available(iOS 13.0, *) {
             let digest = SHA256.hash(data: seed)
             return uuidFromDigest(Data(digest))
@@ -228,25 +316,136 @@ public final class PhoneKeyManager {
             return uuidFromDigest(Data(hash))
         }
     }
-    
-    private func uuidFromDigest(_ data: Data) -> String {
-        // Convert Data to [UInt8]
-        var bytes: [UInt8] = Array(data)
-        
-        // Ensure we have at least 16 bytes (UUID requires 16)
-        if bytes.count < 16 {
-            bytes += Array(repeating: 0, count: 16 - bytes.count)
+
+    private func keyIdFromPublicKey(_ pubRaw: Data) -> String {
+        if #available(iOS 13.0, *) {
+            let digest = SHA256.hash(data: pubRaw)
+            return uuidFromDigest(Data(digest))
+        } else {
+            // SHA-256 via CommonCrypto could be added; reuse Ed25519 provider if present
+            if let provider = provider, let hash = try? provider.getHash(of: pubRaw) {
+                return uuidFromDigest(Data(hash))
+            }
+            return uuidFromDigest(Data(Array(repeating: 0, count: 16)))
         }
-        
-        // Use only the first 16 bytes
+    }
+
+    private func uuidFromDigest(_ data: Data) -> String {
+        var bytes: [UInt8] = Array(data)
+        if bytes.count < 16 { bytes += Array(repeating: 0, count: 16 - bytes.count) }
         let u = UUID(uuid: (
             bytes[0], bytes[1], bytes[2], bytes[3],
             bytes[4], bytes[5], bytes[6], bytes[7],
             bytes[8], bytes[9], bytes[10], bytes[11],
             bytes[12], bytes[13], bytes[14], bytes[15]
         ))
-        
         return u.uuidString
+    }
+
+    // MARK: - P-256 Security helpers
+
+    private func fetchExistingP256PrivateKey(tag: Data) throws -> SecKey? {
+        var query: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecAttrApplicationTag as String: tag,
+            kSecReturnRef as String: true
+        ]
+        if let accessGroup = accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
+
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+        if status == errSecItemNotFound { return nil }
+        guard status == errSecSuccess else {
+            throw NSError(domain: "Keychain", code: Int(status))
+        }
+
+        // Success path: item must be a SecKey
+        return (item as! SecKey)
+    }
+
+    private func generateP256PrivateKey(tag: Data, accessGroup: String?) throws -> SecKey {
+        var attributes: [String: Any] = [
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecAttrKeySizeInBits as String: 256,
+            kSecPrivateKeyAttrs as String: [
+                kSecAttrIsPermanent as String: true,
+                kSecAttrApplicationTag as String: tag
+            ]
+        ]
+        if let accessGroup = accessGroup {
+            var privAttrs = attributes[kSecPrivateKeyAttrs as String] as! [String: Any]
+            privAttrs[kSecAttrAccessGroup as String] = accessGroup
+            attributes[kSecPrivateKeyAttrs as String] = privAttrs
+        }
+        var error: Unmanaged<CFError>?
+        guard let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &error) else {
+            throw (error?.takeRetainedValue() as Error?) ?? SEPhoneKeyError.failedToDerivePublicKey()
+        }
+        return privateKey
+    }
+
+    /// Export P-256 public key in X9.63 (uncompressed, 65 bytes: 0x04 || X || Y)
+    private func exportP256PublicKeyRaw(privateKey: SecKey) throws -> Data {
+        guard let publicKey = SecKeyCopyPublicKey(privateKey) else {
+            throw SEPhoneKeyError.failedToDerivePublicKey()
+        }
+        var error: Unmanaged<CFError>?
+        guard let data = SecKeyCopyExternalRepresentation(publicKey, &error) as Data? else {
+            throw (error?.takeRetainedValue() as Error?) ?? SEPhoneKeyError.failedToDerivePublicKey()
+        }
+        return data
+    }
+
+    /// Sign with SecKey using ECDSA + SHA-256; returns DER-encoded signature
+    private func signP256WithSecKey(privateKey: SecKey, message: Data) throws -> Data {
+        let algorithm = SecKeyAlgorithm.ecdsaSignatureMessageX962SHA256
+        guard SecKeyIsAlgorithmSupported(privateKey, .sign, algorithm) else {
+            throw SEPhoneKeyError.failedToSignData()
+        }
+        var error: Unmanaged<CFError>?
+        guard let signature = SecKeyCreateSignature(privateKey, algorithm, message as CFData, &error) as Data? else {
+            throw (error?.takeRetainedValue() as Error?) ?? SEPhoneKeyError.failedToSignData()
+        }
+        return signature
+    }
+
+    /// Convert ASN.1 DER ECDSA signature to raw (r||s), each component fixed-width
+    private func ecdsaSignatureDERToRawRS(der: Data, componentSize: Int) throws -> Data {
+        // Very small ASN.1 parser for SEQUENCE { INTEGER r; INTEGER s }
+        var idx = 0
+        func readByte() throws -> UInt8 {
+            guard idx < der.count else { throw SEPhoneKeyError.failedToSignData() }
+            let b = der[idx]; idx += 1; return b
+        }
+        func readLength() throws -> Int {
+            let first = try readByte()
+            if first & 0x80 == 0 { return Int(first) }
+            let count = Int(first & 0x7F)
+            guard count > 0 && count <= 4 && idx + count <= der.count else { throw SEPhoneKeyError.failedToSignData() }
+            var len = 0
+            for _ in 0..<count { len = (len << 8) | Int(try readByte()) }
+            return len
+        }
+        func readInteger() throws -> Data {
+            guard try readByte() == 0x02 else { throw SEPhoneKeyError.failedToSignData() }
+            let len = try readLength()
+            guard idx + len <= der.count else { throw SEPhoneKeyError.failedToSignData() }
+            let bytes = der[idx..<(idx+len)]; idx += len
+            // Strip possible leading 0x00 padding and left-pad to componentSize
+            let trimmed = Data(bytes.drop(while: { $0 == 0x00 }).suffix(componentSize)) // cap to componentSize
+            if trimmed.count > componentSize { throw SEPhoneKeyError.failedToSignData() }
+            return Data(repeating: 0, count: componentSize - trimmed.count) + trimmed
+        }
+
+        guard try readByte() == 0x30 else { throw SEPhoneKeyError.failedToSignData() }
+        _ = try readLength()
+        let r = try readInteger()
+        let s = try readInteger()
+        return r + s
     }
 }
 
@@ -255,23 +454,27 @@ public extension PhoneKeyManager {
 
     /// Build a signed ACL payload and return it chunked into 128-byte hex packets.
     ///
-    /// - Parameter acl: Raw ACL bytes (NOT including signature).
+    /// - Parameters:
+    ///   - acl: Raw ACL bytes (NOT including signature).
+    ///   - algorithm: Which algorithm to use (default = preferred).
     /// - Returns: Array of hex strings (each packet = header + payload).
     ///
     /// The format required by the lock:
     ///   • Chunk 0..N-1:   "NN" + 128 hex bytes
-    ///   • Final chunk:    "xx" + 4 hex digits of total ACL length
-    ///   • Signature:      32-byte Ed25519 signature *after* all the ACL bytes
+    ///   • Final chunk:    "xx" + 4 hex digits of total ACL length (ACL only, not including signature)
+    ///   • Signature:      Appended after ACL:
+    ///         - Ed25519: 64 bytes
+    ///         - ECDSA P-256: 64 bytes raw (r||s)
     ///
-    func buildACLChunks(acl: Data) throws -> [String] {
+    func buildACLChunks(acl: Data, algorithm: SignatureAlgorithm? = nil) throws -> [String] {
 
         // 1. Ensure keys exist
-        let keyInfo = try ensureKeys()
+        let keyInfo = try ensureKeys(algorithm: algorithm ?? preferredAlgorithm)
 
         // 2. Compute signature over entire ACL
-        let signature = try sign(acl)
+        let signature = try sign(acl, algorithm: keyInfo.algorithm)
 
-        // 3. Final payload = ACL + 32-byte signature
+        // 3. Final payload = ACL + signature (length depends on algorithm)
         var fullPayload = Data()
         fullPayload.append(acl)
         fullPayload.append(signature)
