@@ -9,6 +9,24 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+public struct PhoneKeyInfoRequest : Swift.Encodable {
+  public let userId: Swift.String
+  public let phoneUdid: Swift.String
+  public let publicKey: Swift.String
+  public init(userId: Swift.String, phoneUdid: Swift.String, publicKey: Swift.String)
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct PhoneKeyInfoResponse : Swift.Codable {
+  public let status: Swift.String
+  public let keyId: Swift.String?
+  public let detail: Swift.String?
+  public let error: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(status: Swift.String, keyId: Swift.String?, detail: Swift.String?, error: Swift.String?)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
 public enum KeychainKeys {
 }
 public enum SignatureAlgorithm : Swift.String, Swift.Codable {
