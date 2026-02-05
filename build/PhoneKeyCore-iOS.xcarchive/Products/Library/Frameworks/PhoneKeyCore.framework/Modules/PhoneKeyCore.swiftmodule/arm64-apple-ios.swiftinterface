@@ -55,18 +55,18 @@ public struct PhoneKeyAcl : Swift.Codable {
     public func encode(to encoder: any Swift.Encoder) throws
     public init(from decoder: any Swift.Decoder) throws
   }
-  public let trackingId: Swift.String
+  public let trackingId: Swift.String?
   public let lockMac: Swift.String
   public let phonePublicKey: Swift.String
   public let issuedAt: Foundation.Date
   public let expiresAt: Foundation.Date
-  public let schedule: Swift.String
+  public let schedule: Swift.String?
   public let permissions: PhoneKeyCore.PhoneKeyAcl.Permissions
   public var signature: PhoneKeyCore.PhoneKeyAcl.Signature?
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(trackingId: Swift.String, lockMac: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: Swift.String, permissions: PhoneKeyCore.PhoneKeyAcl.Permissions, signature: PhoneKeyCore.PhoneKeyAcl.Signature?)
+  public init(trackingId: Swift.String?, lockMac: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: Swift.String?, permissions: PhoneKeyCore.PhoneKeyAcl.Permissions, signature: PhoneKeyCore.PhoneKeyAcl.Signature?)
   #endif
 }
 public enum JSONISO8601 {
@@ -75,10 +75,10 @@ public enum JSONISO8601 {
 }
 extension PhoneKeyCore.PhoneKeyAcl {
   #if compiler(>=5.3) && $NonescapableTypes
-  public static func mockEd25519(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "ed25519-key-0001", trackingId: Swift.String = "1", includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
+  public static func mockEd25519(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "ed25519-key-0001", trackingId: Swift.String? = "1", includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  public static func mockP256(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "p256-key-0001", trackingId: Swift.String = "2", p256PublicKeyLength: Swift.Int = 65, includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
+  public static func mockP256(now: Foundation.Date = Date(), lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "p256-key-0001", trackingId: Swift.String? = "2", p256PublicKeyLength: Swift.Int = 65, includeSignature: Swift.Bool = true) -> PhoneKeyCore.PhoneKeyAcl
   #endif
   public static func mockEd25519JSON(now: Foundation.Date = Date()) throws -> Foundation.Data
   public static func mockP256JSON(now: Foundation.Date = Date(), p256PublicKeyLength: Swift.Int = 65) throws -> Foundation.Data
@@ -168,14 +168,18 @@ extension PhoneKeyCore.PhoneKeyManager {
 extension PhoneKeyCore.PhoneKeyManager {
   final public func saveACL(_ acl: PhoneKeyCore.PhoneKeyAcl) throws
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getACL(trackingId: Swift.String) throws -> PhoneKeyCore.PhoneKeyAcl?
-  #endif
-  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   final public func updateACL(_ updated: PhoneKeyCore.PhoneKeyAcl, merge: ((PhoneKeyCore.PhoneKeyAcl) -> PhoneKeyCore.PhoneKeyAcl)? = nil) throws -> PhoneKeyCore.PhoneKeyAcl
   #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func getACL(trackingId: Swift.String) throws -> PhoneKeyCore.PhoneKeyAcl?
+  #endif
   final public func deleteACL(trackingId: Swift.String) throws
   final public func listACLs() throws -> [PhoneKeyCore.PhoneKeyAcl]
+  @discardableResult
+  final public func saveACLOrAssignTempId(_ acl: PhoneKeyCore.PhoneKeyAcl) throws -> Swift.String
+  final public func migrateACLTrackingId(fromTempId: Swift.String, toServerId: Swift.String) throws
+  final public func isTempTrackingId(_ id: Swift.String) -> Swift.Bool
 }
 public struct PhoneKeySignedCommand : Swift.Codable {
   public struct Signature : Swift.Codable {

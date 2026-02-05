@@ -509,77 +509,83 @@ public extension PhoneKeyManager {
     }
 }
 
-// MARK: - ACL Local Persistence (Keychain) – Non-invasive CRUD
+// MARK: - ACL Local Persistence (Keychain) – Non-invasive CRUD (strengthened)
 
 public extension PhoneKeyManager {
-    /// Namespacing for ACL storage in KeychainHelper
+
+    // MARK: - Namespacing & Constants
+
     private enum ACLStoreKeys {
         static let index = "acl.index"                 // JSON array of trackingIds
         static func item(_ trackingId: String) -> String { "acl.item.\(trackingId)" }
     }
 
+    private enum ACLError: LocalizedError {
+        case missingTrackingId
+        case identicalIds
+        case notFound
+        case migrateNeedsSourceId
+        case invalidId
+
+        var errorDescription: String? {
+            switch self {
+            case .missingTrackingId:
+                return "ACL must have a non-empty 'trackingId' for this operation."
+            case .identicalIds:
+                return "Source and destination trackingId are identical; nothing to migrate."
+            case .notFound:
+                return "ACL not found for the given trackingId."
+            case .migrateNeedsSourceId:
+                return "Migration requires a valid source trackingId."
+            case .invalidId:
+                return "Invalid trackingId."
+            }
+        }
+    }
+
+    // MARK: - Encoders
+
     /// Dedicated encoder/decoder for ACL JSON (epoch seconds are handled by PhoneKeyAcl itself).
     private var aclEncoder: JSONEncoder {
         let e = JSONEncoder()
-        e.outputFormatting = [] // compact
+        e.outputFormatting = [] // compact (deterministic layout comes from the model)
         return e
     }
-    private var aclDecoder: JSONDecoder {
-        JSONDecoder()
-    }
+    private var aclDecoder: JSONDecoder { JSONDecoder() }
+
+    // MARK: - Public CRUD
 
     /// Save (create or replace) an ACL by `trackingId`.
-    /// - Important: `acl.trackingId` must be non-empty and unique.
+    /// Requires a **non-empty `trackingId`** (server or temp).
     func saveACL(_ acl: PhoneKeyAcl) throws {
+        let trackingId = normalize(acl.trackingId)
+        guard !trackingId.isEmpty else {
+            throw ACLError.missingTrackingId
+        }
         // 1) Serialize ACL
         let data = try aclEncoder.encode(acl)
 
         // 2) Persist item
-        let itemKey = ACLStoreKeys.item(acl.trackingId)
+        let itemKey = ACLStoreKeys.item(trackingId)
         try keychain.setValue(data.base64EncodedString(), forKey: itemKey)
 
-        // 3) Update index
+        // 3) Update index (dedupe)
         var index = try loadACLIndex()
-        if !index.contains(acl.trackingId) {
-            index.append(acl.trackingId)
+        if !index.contains(trackingId) {
+            index.append(trackingId)
             try storeACLIndex(index)
         }
     }
 
-    /// Fetch an ACL by `trackingId`.
-    func getACL(trackingId: String) throws -> PhoneKeyAcl? {
-        let itemKey = ACLStoreKeys.item(trackingId)
-        guard let b64 = try keychain.getValue(forKey: itemKey),
-              let data = Data(base64Encoded: b64) else {
-            return nil
-        }
-        return try aclDecoder.decode(PhoneKeyAcl.self, from: data)
-    }
-
-    /// Update (upsert) an ACL. If it exists, you can patch it with `merge` (optional).
-    /// If it does not exist, `updated` is saved as-is.
-    ///
-    /// Example usage:
-    /// ```
-    /// try manager.updateACL(updatedACL) { existing in
-    ///     PhoneKeyAcl(
-    ///         trackingId: existing.trackingId,
-    ///         lockMac: existing.lockMac,
-    ///         phoneKeyId: existing.phoneKeyId,
-    ///         phonePublicKey: existing.phonePublicKey,
-    ///         issuedAt: existing.issuedAt,
-    ///         expiresAt: newExpiry,
-    ///         schedule: existing.schedule,
-    ///         permissions: existing.permissions,
-    ///         meta: existing.meta,
-    ///         signature: existing.signature
-    ///     )
-    /// }
-    /// ```
+    /// Upsert with optional merge. Requires a **non-empty** trackingId.
     @discardableResult
     func updateACL(_ updated: PhoneKeyAcl,
                    merge: ((PhoneKeyAcl) -> PhoneKeyAcl)? = nil) throws -> PhoneKeyAcl {
-        if let existing = try getACL(trackingId: updated.trackingId), let merge = merge {
+        let trackingId = normalize(updated.trackingId)
+        guard !trackingId.isEmpty else {
+            throw ACLError.missingTrackingId
+        }
+        if let existing = try getACL(trackingId: trackingId), let merge = merge {
             let merged = merge(existing)
             try saveACL(merged)
             return merged
@@ -589,15 +595,25 @@ public extension PhoneKeyManager {
         }
     }
 
+    /// Fetch an ACL by `trackingId` (server or temp).
+    func getACL(trackingId: String) throws -> PhoneKeyAcl? {
+        let id = normalize(trackingId)
+        let itemKey = ACLStoreKeys.item(id)
+        guard let b64 = try keychain.getValue(forKey: itemKey),
+              let data = Data(base64Encoded: b64) else {
+            return nil
+        }
+        return try aclDecoder.decode(PhoneKeyAcl.self, from: data)
+    }
+
     /// Delete an ACL by `trackingId`. No-op if not found.
     func deleteACL(trackingId: String) throws {
-        let itemKey = ACLStoreKeys.item(trackingId)
-        // Remove item
+        let id = normalize(trackingId)
+        let itemKey = ACLStoreKeys.item(id)
         try keychain.removeValue(for: itemKey)
 
-        // Update index
         var index = try loadACLIndex()
-        if let i = index.firstIndex(of: trackingId) {
+        if let i = index.firstIndex(of: id) {
             index.remove(at: i)
             try storeACLIndex(index)
         }
@@ -613,12 +629,75 @@ public extension PhoneKeyManager {
             if let acl = try getACL(trackingId: id) {
                 out.append(acl)
             } else {
-                // If an item is missing/corrupt, drop it from index.
-                // This keeps the store self-healing.
+                // If an item is missing/corrupt, drop it from index (self-healing).
                 try removeIdFromIndex(id)
             }
         }
         return out
+    }
+
+    // MARK: - New: Save with Temporary ID (for server-less drafts)
+
+    /// Persist an ACL that may not yet have a server-assigned trackingId.
+    /// - Returns: The **trackingId used for persistence** (server id if present; otherwise a generated temp id).
+    @discardableResult
+    func saveACLOrAssignTempId(_ acl: PhoneKeyAcl) throws -> String {
+        let serverId = normalize(acl.trackingId)
+        if !serverId.isEmpty {
+            try saveACL(acl)
+            return serverId
+        }
+
+        // Create a temp id and persist a copy of the ACL under that id.
+        let tempId = makeTempTrackingId()
+        let draft = PhoneKeyAcl(
+            trackingId: tempId,
+            lockMac: acl.lockMac,
+            phonePublicKey: acl.phonePublicKey,
+            issuedAt: acl.issuedAt,
+            expiresAt: acl.expiresAt,
+            schedule: acl.schedule,                  // may be nil
+            permissions: acl.permissions,
+            signature: acl.signature
+        )
+        try saveACL(draft)
+        return tempId
+    }
+
+    // MARK: - New: Migration from temp -> server trackingId
+
+    /// Migrate a stored ACL from a **temporary** trackingId to a **server** trackingId.
+    /// - Parameters:
+    ///   - fromTempId: the existing temp id (e.g., "temp:...").
+    ///   - toServerId: the definitive server id (non-empty).
+    /// - Behavior:
+    ///   1) Loads temp item; 2) re-saves under server id with `trackingId` updated in the payload;
+    ///   3) removes the temp item; 4) updates index atomically.
+    func migrateACLTrackingId(fromTempId: String, toServerId: String) throws {
+        let fromId = normalize(fromTempId)
+        let toId = normalize(toServerId)
+
+        guard !fromId.isEmpty else { throw ACLError.migrateNeedsSourceId }
+        guard !toId.isEmpty else { throw ACLError.invalidId }
+        guard fromId != toId else { throw ACLError.identicalIds }
+
+        guard let acl = try getACL(trackingId: fromId) else { throw ACLError.notFound }
+
+        // Rebuild with the new server trackingId
+        let migrated = PhoneKeyAcl(
+            trackingId: toId,
+            lockMac: acl.lockMac,
+            phonePublicKey: acl.phonePublicKey,
+            issuedAt: acl.issuedAt,
+            expiresAt: acl.expiresAt,
+            schedule: acl.schedule,
+            permissions: acl.permissions,
+            signature: acl.signature
+        )
+
+        // Save new, then delete old; update index accordingly
+        try saveACL(migrated)
+        try deleteACL(trackingId: fromId)
     }
 
     // MARK: - Index helpers
@@ -627,13 +706,17 @@ public extension PhoneKeyManager {
         if let b64 = try keychain.getValue(forKey: ACLStoreKeys.index),
            let data = Data(base64Encoded: b64),
            let array = try? JSONSerialization.jsonObject(with: data) as? [String] {
-            return array
+            // Ensure unique + normalized ids in memory
+            let unique = Array(Set(array.map(normalize))).sorted()
+            return unique
         }
         return []
     }
 
     private func storeACLIndex(_ ids: [String]) throws {
-        let data = try JSONSerialization.data(withJSONObject: ids, options: [])
+        // Store unique + normalized ids
+        let unique = Array(Set(ids.map(normalize))).sorted()
+        let data = try JSONSerialization.data(withJSONObject: unique, options: [])
         try keychain.setValue(data.base64EncodedString(), forKey: ACLStoreKeys.index)
     }
 
@@ -643,5 +726,22 @@ public extension PhoneKeyManager {
             index.remove(at: i)
             try storeACLIndex(index)
         }
+    }
+
+    // MARK: - Utilities
+
+    /// Normalize ids (trim whitespace). Keep case as-is (server-defined).
+    private func normalize(_ id: String?) -> String {
+        (id ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// `temp:` + UUID – avoids collisions with numeric server ids and makes intent explicit.
+    private func makeTempTrackingId() -> String {
+        "temp:\(UUID().uuidString)"
+    }
+
+    /// Public helper if callers need to check whether an id is client-generated.
+    func isTempTrackingId(_ id: String) -> Bool {
+        normalize(id).hasPrefix("temp:")
     }
 }

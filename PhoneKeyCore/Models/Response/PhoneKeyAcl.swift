@@ -154,13 +154,14 @@ public struct PhoneKeyAcl: Codable {
 
     // MARK: Properties
 
-    /// Kept as String but decodes from Int or String.
-    public let trackingId: String
+    /// NOW OPTIONAL; decodes from Int or String; stores as String?
+    public let trackingId: String?
     public let lockMac: String
     public let phonePublicKey: String        // JSON key: "phonePubKey"
     public let issuedAt: Date                // Epoch seconds in payload
     public let expiresAt: Date               // Epoch seconds in payload
-    public let schedule: String
+    /// NOW OPTIONAL
+    public let schedule: String?
     public let permissions: Permissions
     public var signature: Signature?         // Attached via envelope
 
@@ -172,7 +173,6 @@ public struct PhoneKeyAcl: Codable {
         case expiresAt
         case schedule
         case permissions
-        case meta
         case signature
     }
 
@@ -181,11 +181,13 @@ public struct PhoneKeyAcl: Codable {
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
 
-        // trackingId: accept Int or String; store as String
+        // trackingId: accept Int or String; allow missing -> nil
         if let idInt = try? c.decode(Int.self, forKey: .trackingId) {
             self.trackingId = String(idInt)
+        } else if let idString = try? c.decode(String.self, forKey: .trackingId) {
+            self.trackingId = idString
         } else {
-            self.trackingId = try c.decode(String.self, forKey: .trackingId)
+            self.trackingId = nil
         }
 
         self.lockMac = try c.decode(String.self, forKey: .lockMac)
@@ -195,7 +197,8 @@ public struct PhoneKeyAcl: Codable {
         self.issuedAt = try Self.decodeFlexibleDate(container: c, key: .issuedAt)
         self.expiresAt = try Self.decodeFlexibleDate(container: c, key: .expiresAt)
 
-        self.schedule = try c.decode(String.self, forKey: .schedule)
+        // schedule is optional
+        self.schedule = try? c.decode(String.self, forKey: .schedule)
         self.permissions = try c.decode(Permissions.self, forKey: .permissions)
         self.signature = try c.decodeIfPresent(Signature.self, forKey: .signature) // Usually nil; set by envelope
     }
@@ -205,11 +208,13 @@ public struct PhoneKeyAcl: Codable {
     public func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
 
-        // trackingId: if numeric string, encode as Int like the server does; else as String
-        if let idInt = Int(trackingId) {
-            try c.encode(idInt, forKey: .trackingId)
-        } else {
-            try c.encode(trackingId, forKey: .trackingId)
+        // trackingId: encode when non-nil; Int if numeric string, else String
+        if let trackingId {
+            if let idInt = Int(trackingId) {
+                try c.encode(idInt, forKey: .trackingId)
+            } else {
+                try c.encode(trackingId, forKey: .trackingId)
+            }
         }
 
         try c.encode(lockMac, forKey: .lockMac)
@@ -219,7 +224,9 @@ public struct PhoneKeyAcl: Codable {
         try c.encode(Int(issuedAt.timeIntervalSince1970), forKey: .issuedAt)
         try c.encode(Int(expiresAt.timeIntervalSince1970), forKey: .expiresAt)
 
-        try c.encode(schedule, forKey: .schedule)
+        // schedule: omit when nil
+        if let schedule { try c.encode(schedule, forKey: .schedule) }
+
         try c.encode(permissions, forKey: .permissions)
         try c.encodeIfPresent(signature, forKey: .signature) // Not used by server in sample; envelope handles top-level
     }
@@ -227,12 +234,12 @@ public struct PhoneKeyAcl: Codable {
     // MARK: Inits
 
     public init(
-        trackingId: String,
+        trackingId: String?,
         lockMac: String,
         phonePublicKey: String,
         issuedAt: Date,
         expiresAt: Date,
-        schedule: String,
+        schedule: String?,
         permissions: PhoneKeyAcl.Permissions,
         signature: PhoneKeyAcl.Signature?
     ) {
@@ -330,20 +337,20 @@ public extension PhoneKeyAcl {
     ///   - now: Base time for issuedAt/expiresAt.
     ///   - lockMac: Bluetooth MAC-like string (cosmetic).
     ///   - phoneKeyId: Arbitrary key id.
-    ///   - trackingId: Arbitrary ACL id.
+    ///   - trackingId: Optional ACL id.
     ///   - includeSignature: Include a dummy signature (Base64 of 64 bytes).
     /// - Returns: PhoneKeyAcl
     static func mockEd25519(
         now: Date = Date(),
         lockMac: String = "AA:BB:CC:DD:EE:FF",
         phoneKeyId: String? = "ed25519-key-0001",
-        trackingId: String = "1",
+        trackingId: String? = "1",
         includeSignature: Bool = true
     ) -> PhoneKeyAcl {
 
         let issuedAt = now
         let expiresAt = now.addingTimeInterval(72 * 3600) // +72h
-        let schedule = "697A332A-697AA300,697B75F0-697B84AA"
+        let schedule: String? = "697A332A-697AA300,697B75F0-697B84AA"
 
         // 32-byte Ed25519 public key → Base64
         let pub32 = sequentialBytes(32, start: 0x11).base64EncodedString()
@@ -378,14 +385,14 @@ public extension PhoneKeyAcl {
         now: Date = Date(),
         lockMac: String = "AA:BB:CC:DD:EE:FF",
         phoneKeyId: String? = "p256-key-0001",
-        trackingId: String = "2",
+        trackingId: String? = "2",
         p256PublicKeyLength: Int = 65,
         includeSignature: Bool = true
     ) -> PhoneKeyAcl {
 
         let issuedAt = now
         let expiresAt = now.addingTimeInterval(48 * 3600) // +48h
-        let schedule = "697A332A-697AA300,697B75F0-697B84AA"
+        let schedule: String? = "697A332A-697AA300,697B75F0-697B84AA"
         
         // Build a plausible public key buffer.
         // If uncompressed (65), first byte is 0x04; rest are XY coordinates.
@@ -420,13 +427,13 @@ public extension PhoneKeyAcl {
     /// Note: When encoding `PhoneKeyAcl` itself, dates are encoded as **epoch seconds** per server shape.
     static func mockEd25519JSON(now: Date = Date()) throws -> Data {
         let acl = mockEd25519(now: now)
-        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds
+        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds; omits optionals when nil
     }
 
     /// JSON-encoded bytes for a mock P-256 ACL.
     static func mockP256JSON(now: Date = Date(), p256PublicKeyLength: Int = 65) throws -> Data {
         let acl = mockP256(now: now, p256PublicKeyLength: p256PublicKeyLength)
-        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds
+        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds; omits optionals when nil
     }
 }
 
@@ -450,10 +457,11 @@ let sample = """
 
 do {
     let env = try JSONDecoder().decode(PhoneKeyAclEnvelope.self, from: sample)
-    print("Decoded trackingId:", env.acl.trackingId) // "1"
+    print("Decoded trackingId:", env.acl.trackingId ?? "<nil>") // "1"
+    print("Schedule:", env.acl.schedule ?? "<nil>")
     print("Permissions.unlock:", env.acl.permissions.unlock) // true
     print("Signature algo:", env.acl.signature?.algorithm ?? "nil")
-    // Re-encode back to the same shape:
+    // Re-encode back to the same shape (trackingId & schedule omitted if nil):
     let out = try JSONEncoder().encode(env)
     print(String(data: out, encoding: .utf8)!)
 } catch {
