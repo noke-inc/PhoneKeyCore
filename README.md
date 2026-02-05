@@ -1,202 +1,236 @@
+📱🔐 PhoneKeyCore + Sample App
+Unified Phone‑Key Generation, ACL Handling, Command Signing & Demo UI
+This repository contains:
 
-# SmartEntryCore POCs – Phone Key & NFC Tag Demo
 
-This repo contains two small, focused proofs of concept you can run on-device:
+PhoneKeyCore — a standalone framework that handles:
 
-- **Phone Key Generation & Command Signing (Ed25519)** — iOS 12+ (Sodium fallback) / iOS 13+ (CryptoKit)
-- **NFC Tag Read/Write (NDEF)** — Read on iOS 11+, Write on iOS 13+
+Phone‑key generation & storage
+Ed25519 and ECDSA P‑256 signing
+ACL decoding, canonicalization, signing & chunking
+JSON utilities, ISO‑8601 helpers
+Lock‑compatible ACL storage in Keychain
 
-Both are designed to be integrated into **SmartEntryCore** with clean boundaries and extension‑safe builds.
 
----
 
-## Table of Contents
-- [Overview](#overview)
-- [Project Structure](#project-structure)
-- [Phone Key POC](#phone-key-poc)
-  - [Model: `PhoneKeySignedCommand`](#model-phonekeysignedcommand)
-  - [Canonicalization & Signing](#canonicalization--signing)
-  - [SwiftUI Demo Screen](#swiftui-demo-screen)
-  - [Troubleshooting (Sodium/Clibsodium)](#troubleshooting-sodiumclibsodium)
-- [NFC POC](#nfc-poc)
-  - [Minimal Tag Model: `NokeTagInfo`](#minimal-tag-model-noketaginfo)
-  - [Read (iOS 11+) & Write (iOS 13+)](#read-ios-11--write-ios-13)
-  - [SmartEntryCore Integration Notes](#smartentrycore-integration-notes)
-- [Build & Run](#build--run)
-- [FAQ](#faq)
-- [License](#license)
+PhoneKeySample App — an end‑to‑end demonstration showing:
 
----
+How to ensure/load a phone key
+How to send your public key to your backend
+How to build, canonicalize & sign unlock commands
+How to test key lifecycle events (expire, revoke, delete)
+How to integrate with PhoneKeyManager in UI code
 
-## Overview
 
-**Phone Key POC**
-- Generates/loads a **phone key** (Ed25519 private seed in Keychain, public key derivation).
-- Builds a minimal unlock command, **canonicalizes** (stable ISO‑8601 w/ fractional secs + lexicographic key order), and **signs** with the phone key.
-- Displays the **Key ID**, **Public Key (Base64)**, and **Signed Command JSON**, with copy actions.
 
-**NFC POC**
-- Reads an NFC tag carrying a small JSON payload (NDEF). *(iOS 11+ real device)*
-- Writes a minimal JSON payload to compatible tags via NDEF. *(iOS 13+ real device)*
-- Uses availability guards and target membership rules to stay extension‑safe.
+This README explains both.
 
-> **Note**: Core NFC is available only on real devices and is **not available in app extensions**.
+Table of Contents
 
----
+#overview
+#phonekeycore-features
+#installation
+#key-architecture
+#key-generation
+#phonekeyinfo-api
+#acl-models
+#signing--canonicalization
+#acl-chunk-builder
+#local-acl-storage
+#sample-app-overview
+#sample-app-screens
+#crypto-provider
+#faq
 
-## Project Structure
 
-```
-PhoneKeySample/
-├─ Models/
-│  ├─ PhoneKeySignedCommand.swift        # Command model + canonicalization helper
-├─ Use Cases/
-│  ├─ PhoneKeySampleViewModel.swift      # View model that ensures key, signs command
-├─ Views/
-│  ├─ PhoneKeySampleScreen.swift         # SwiftUI UI for key + signing
-├─ NFC/
-│  ├─ NFCReaderWriter.swift              # Read (iOS 11+) + write wrapper with guards
-│  ├─ NFCWriter13.swift                  # iOS 13+ tag writing via NFCTagReaderSession
-│  └─ NfcPayload.swift                   # Encode/decode NDEF payloads
-├─ Podfile                                # CocoaPods – Sodium/Clibsodium etc.
-└─ README.md
-```
+🧭 Overview
+PhoneKeyCore provides everything needed for mobile‑generated authentication keys in secure lock systems:
 
----
+Automatic private key creation
+Deterministic public key derivation
+Command signing
+ACL validation and chunking
+Backend contract models
 
-## Phone Key POC
+It is designed to be dropped into any iOS app.
 
-### Model: `PhoneKeySignedCommand`
-A compact schema for phone‑signed commands (string timestamps to ensure deterministic canonicalization):
+🔐 PhoneKeyCore Features
+🔑 Key Generation
+Supports:
 
-```swift
-struct PhoneKeySignedCommand: Codable {
-    struct Signature: Codable {
-        let algorithm: String       // "Ed25519"
-        let value: String           // Base64
-    }
-    let commandId: String
-    let type: String
-    let createdAt: String          // ISO-8601 UTC with fractional seconds
-    let nonce: String              // Base64 16–32 bytes
-    let payload: [String:String]
-    var signature: Signature
-}
-```
 
-### Canonicalization & Signing
 
-- **Canonicalization**: `canonicalCommandBytes(for:)` → encodes `PhoneKeySignedCommand` into deterministic bytes (ISO‑8601 UTC w/ fractional seconds + lexicographic key order).
-- **Signing**: `signCommand(with:base:)` → signs canonical bytes with the phone key and returns a fully signed command.
 
-```swift
-func signCommand(with manager: PhoneKeyManager, base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommand {
-    let bytes = try canonicalCommandBytes(for: base)
-    let signature = try manager.sign(bytes)
-    var signed = base
-    signed.signature = .init(algorithm: SignatureAlgorithm.ed25519.rawValue,
-                             value: signature.base64EncodedString())
-    return signed
-}
-```
 
-### SwiftUI Demo Screen
-The `PhoneKeySampleScreen` view calls your view model methods to:
-- **Ensure Key** → shows Key ID & Public Key
-- **Sign Unlock Command** → shows Signed Command JSON
-- **Copy** actions for quick testing
 
-> If your `PhoneKeySampleViewModel` is not an `ObservableObject`, mirror values into local `@State` after actions (see sample view). If you make the VM `ObservableObject` with `@Published` properties, the UI will auto‑update without glue code.
 
-### Troubleshooting (Sodium/Clibsodium)
-- If you see **Unable to find module dependency: 'Sodium'** or **'Clibsodium'**:
-  - Add both pods to the target that imports them:
-    ```ruby
-    use_frameworks! :linkage => :static
-    target 'PhoneKeySample' do
-      pod 'Sodium'
-      pod 'Clibsodium'
-    end
-    ```
-  - Run `pod install`, open the **.xcworkspace**, clean DerivedData, rebuild.
-  - Ensure files with `import Sodium` belong to the **PhoneKeySample** target (File Inspector → Target Membership).
-  - Avoid mixing SPM and Pods for Sodium.
 
----
 
-## NFC POC
 
-### Minimal Tag Model: `NokeTagInfo`
-Keep NFC payload tiny and versioned for testing:
 
-```swift
-public struct NokeTagInfo: Codable, Equatable {
-    public let v: Int     // schema version (start at 1)
-    public let label: String   // short label or app route
-    public init(v: Int = 1, label: String) { self.v = v; self.label = label }
-}
-```
 
-Helpers for NDEF external type (e.g., `noke.tag/info`):
 
-```swift
-enum NfcPayload {
-    static let externalType = "noke.tag/info"
-    #if canImport(CoreNFC)
-    static func makePayload(from info: NokeTagInfo) throws -> NFCNDEFPayload { /* ... */ }
-    static func parse(_ record: NFCNDEFPayload) throws -> NokeTagInfo { /* ... */ }
-    #endif
-}
-```
 
-### Read (iOS 11+) & Write (iOS 13+)
-- **Read**: `NFCNDEFReaderSession` (iOS 11+) on a **real device**; parse first record as `NokeTagInfo`.
-- **Write**: `NFCTagReaderSession` (iOS 13+); connect to `NFCNDEFTag` and call `writeNDEF(...)` with a minimal payload.
-- Valid polling options for writing: `.iso14443`, `.iso15693`, `.iso18092`.
 
-> Core NFC isn’t available on the simulator and not allowed in app extensions. Keep NFC files out of extension targets or wrap with `#if !APP_EXTENSION` and annotate classes with `@available(iOSApplicationExtension, unavailable)`.
 
-### SmartEntryCore Integration Notes
-- Link **CoreNFC** weakly in the framework target:
-  - **Build Settings → Other Linker Flags**: `-weak_framework CoreNFC`
-- Keep iOS 13+ writer in `NFCWriter13.swift` annotated `@available(iOS 13.0, *)`.
-- Exclude NFC sources from extension target membership (File Inspector) or via compile flag `APP_EXTENSION`.
-- App target must add capability **Near Field Communication Tag Reading** and `NFCReaderUsageDescription` in Info.plist.
 
----
 
-## Build & Run
 
-1. **CocoaPods**
-   ```bash
-   pod repo update
-   pod install
-   ```
-   Open `PhoneKeySample.xcworkspace` (not the project).
 
-2. **Device**
-   - Phone Key POC: runs on simulator or device.
-   - NFC POC: requires a **real iPhone** (NFC hardware). Writing requires **iOS 13+**.
+AlgorithmPrivate Key StorageNotesECDSA P‑256 (default)Secure, persistent SecKeyOptimal for 13+ / modern devicesEd2551932‑byte seed stored in KeychainUses Sodium for iOS 12 fallback
+Both produce deterministic UUID‑style keyId (SHA‑256 → 16 bytes → UUID).
 
-3. **SwiftUI Screens**
-   - Set `PhoneKeySampleScreen()` as your app’s root view for the Phone Key demo.
-   - For NFC, present the read/write screen from your app; ensure Info.plist and capability are set on the app target.
+🧾 ACL Handling
+PhoneKeyCore includes:
 
----
+PhoneKeyAcl
+PhoneKeyAclEnvelope (lock-compatible)
+PhoneKeyAclRequest
+Flexible decoding for:
 
-## FAQ
+int/string IDs
+ISO‑8601 or epoch seconds
+Permissions array or keyed booleans
 
-**Why does the UI not update after actions?**  
-If your view model isn’t `ObservableObject` with `@Published` properties, SwiftUI won’t auto‑refresh. Either mirror values into local `@State` after each action or adopt `ObservableObject/@Published`.
 
-**I get '.iso7816' polling errors.**  
-Use only `.iso14443`, `.iso15693`, `.iso18092` in `NFCTagReaderSession`. ISO7816 tags are still surfaced via `.iso14443` and delivered as `NFCTag.iso7816` in callbacks.
 
-**Core NFC not found on simulator.**  
-Core NFC is device‑only. Build succeeds with stubs, but actions return “not available” on the simulator.
 
----
+✍️ Signing
 
-## License
+Ed25519 → 64-byte
+P‑256 → raw (r||s) 64-byte
+Converts DER signatures safely
 
-MIT License. Copyright © 2026 Noke Inc.
+
+📦 ACL Chunk Builder
+Produces 128‑byte hex‑encoded packets ready for BLE transfer.
+Final chunk format:
+"xx" + <4 hex digits ACL length> + <remaining bytes>
+
+
+💾 Keychain ACL Store
+Store, list, update, delete ACLs locally.
+
+📦 Installation
+Drag PhoneKeyCore into your project.
+If you need iOS 12 Ed25519 support, you must include:
+Rubypod 'Sodium'pod 'Clibsodium'Show more lines
+Then provide a CryptoProvider (see the Sample App’s provider).
+
+🧱 Key Architecture
+PhoneKeyCore/
+├── PhoneKeyManager.swift         # Key generation, signing, ACL chunking
+├── PhoneKeyAcl.swift             # ACL model
+├── PhoneKeyAclRequest.swift
+├── PhoneKeyInfoRequest.swift
+├── PhoneKeyInfoResponse.swift
+├── PhoneKeySignedCommand.swift
+├── Canonicalization utils        # ISO-8601, JSON sorting
+└── Keychain helpers
+
+The Sample App builds on this.
+
+🔑 Key Generation
+PhoneKeyManager is the entry point.
+Swiftlet manager = PhoneKeyManager(    serviceName: "com.example.app.keys",    accessGroup: nil,    provider: SodiumCryptoProvider(),   // required for iOS 12 Ed25519    preferredAlgorithm: .ecdsaP256      // default)Show more lines
+Ensure a key exists
+Swiftlet info = try manager.ensureKeys()print(info.keyId)print(info.publicKeyRaw.base64EncodedString())Show more lines
+Destroy
+Swifttry manager.destroyKeys()Show more lines
+
+🪪 PhoneKeyInfo API
+Represents the active keypair:
+Swiftpublic struct PhoneKeyInfo: Codable {    public let keyId: String    public let algorithm: SignatureAlgorithm    public let publicKeyRaw: Data    public let seed: Data        // Ed25519 only    public var status: PhoneKeyStatus    public let keyTag: Data?     // P-256 only}Show more lines
+
+📬 ACL Models
+PhoneKeyCore includes full request/response structures.
+Request
+Swiftlet req = PhoneKeyAclRequest(    userId: "123",    lockMac: "AA:BB:CC:DD:EE:FF",    phoneKeyId: "456")Show more lines
+Response
+Swiftlet env = try JSONDecoder().decode(PhoneKeyAclEnvelope.self, from: data)let acl = env.aclprint(acl.permissions.unlock)Show more lines
+The PhoneKeyAclEnvelope automatically inserts the top‑level signature back into acl.signature.
+
+✍️ Signing & Canonicalization
+The Sample App uses:
+Swiftfunc signCommand(with manager: PhoneKeyManager, base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommandfunc canonicalCommandBytes(for command: PhoneKeySignedCommand) throws -> DataShow more lines
+Canonicalization enforces:
+
+ISO‑8601 UTC with fractional seconds
+Stable sorted key order
+No signature field included in canonical bytes
+
+ACLs use similar logic:
+Swiftfunc canonicalize(acl: PhoneKeyAcl) throws -> Data``Show more lines
+
+📦 ACL Chunk Builder (Firmware‑Ready)
+Swiftlet chunks = try manager.buildACLChunks(acl: aclData)``Show more lines
+Output:
+[
+  "00 <128 bytes hex>",
+  "01 <128 bytes hex>",
+  "xx 02d0 <final bytes>"
+]
+
+Where:
+
+"xx" marks last chunk
+02d0 is ACL length (acl.count, not including signature)
+
+
+💾 Local ACL Storage
+Swifttry manager.saveACL(acl)let stored = try manager.getACL(trackingId: "1")let list = try manager.listACLs()try manager.deleteACL(trackingId: "1")``Show more lines
+Self‑healing: corrupted entries drop from index.
+
+📱 PhoneKeySample App Overview
+Demonstrates real-world usage of PhoneKeyCore:
+
+Ensuring keys
+Validating existing keys
+Showing Key ID & Public Key
+Signing unlock commands
+Soft-expiring / revoking keys
+Clearing Keychain for testing
+Copy-to-clipboard actions
+Full SwiftUI UI
+
+
+🖥️ Sample App Screens
+✔ Validate Current Key
+Shows whether a key already exists.
+🔑 Generate / Load Key
+Runs ensureKeys().
+📤 Register Key With Backend (Stub)
+You would POST:
+JSON{  "userId": "...",  "phoneUdid": "...",  "publicKey": "..."}Show more lines
+📝 Build & Sign Unlock Command
+
+Deterministic timestamp
+Random nonce
+Custom payload
+Canonical JSON
+Ed25519 or P‑256 signature
+JSON output ready for backend
+
+📚 Logs
+Scrollable debugging output.
+🔥 Key Lifecycle
+
+Soft expire
+Soft revoke
+Delete (seed + P‑256)
+
+
+🔧 Crypto Provider (Sodium)
+The Sample App includes SodiumCryptoProvider, which implements:
+SwiftgenerateEd25519Seed()derivePublicKey(fromSeed:)sign(message:withSeed:)getHash(of:)Show more lines
+and uses CommonCrypto for SHA‑256, ensuring compatibility with CryptoKit.
+
+❓ FAQ
+Do I need Sodium?
+Only if you want Ed25519 on iOS 12.
+Should I prefer P‑256?
+Yes. It's secure, hardware-backed, non-exportable, and default.
+Does the lock expect raw P‑256 signatures?
+Yes — 64‑byte (r||s).
+Does canonicalization matter?
+Yes, commands & ACLs must be canonical or signatures won't verify.
