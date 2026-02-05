@@ -122,7 +122,7 @@ public struct PhoneKeyAcl: Codable {
             self.overrideOverlock = (try? c.decode(Bool.self, forKey: .overrideOverlock)) ?? false
         }
 
-        public init(unlock: Bool, overrideOverlock: Bool, configWrite: Bool, fwUpdate: Bool) {
+        public init(unlock: Bool, overrideOverlock: Bool) {
             self.unlock = unlock
             self.overrideOverlock = overrideOverlock
         }
@@ -322,7 +322,7 @@ public extension PhoneKeyAcl {
 
     /// Permissions with convenient defaults (all enabled)
     private static func defaultPermissions() -> PhoneKeyAcl.Permissions {
-        .init(unlock: true, overrideOverlock: true, configWrite: true, fwUpdate: true)
+        .init(unlock: true, overrideOverlock: true)
     }
 
     /// Create a mock ACL with **Ed25519** metadata (32‑byte public key, 64‑byte signature).

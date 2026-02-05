@@ -508,3 +508,140 @@ public extension PhoneKeyManager {
         return result
     }
 }
+
+// MARK: - ACL Local Persistence (Keychain) – Non-invasive CRUD
+
+public extension PhoneKeyManager {
+    /// Namespacing for ACL storage in KeychainHelper
+    private enum ACLStoreKeys {
+        static let index = "acl.index"                 // JSON array of trackingIds
+        static func item(_ trackingId: String) -> String { "acl.item.\(trackingId)" }
+    }
+
+    /// Dedicated encoder/decoder for ACL JSON (epoch seconds are handled by PhoneKeyAcl itself).
+    private var aclEncoder: JSONEncoder {
+        let e = JSONEncoder()
+        e.outputFormatting = [] // compact
+        return e
+    }
+    private var aclDecoder: JSONDecoder {
+        JSONDecoder()
+    }
+
+    /// Save (create or replace) an ACL by `trackingId`.
+    /// - Important: `acl.trackingId` must be non-empty and unique.
+    func saveACL(_ acl: PhoneKeyAcl) throws {
+        // 1) Serialize ACL
+        let data = try aclEncoder.encode(acl)
+
+        // 2) Persist item
+        let itemKey = ACLStoreKeys.item(acl.trackingId)
+        try keychain.setValue(data.base64EncodedString(), forKey: itemKey)
+
+        // 3) Update index
+        var index = try loadACLIndex()
+        if !index.contains(acl.trackingId) {
+            index.append(acl.trackingId)
+            try storeACLIndex(index)
+        }
+    }
+
+    /// Fetch an ACL by `trackingId`.
+    func getACL(trackingId: String) throws -> PhoneKeyAcl? {
+        let itemKey = ACLStoreKeys.item(trackingId)
+        guard let b64 = try keychain.getValue(forKey: itemKey),
+              let data = Data(base64Encoded: b64) else {
+            return nil
+        }
+        return try aclDecoder.decode(PhoneKeyAcl.self, from: data)
+    }
+
+    /// Update (upsert) an ACL. If it exists, you can patch it with `merge` (optional).
+    /// If it does not exist, `updated` is saved as-is.
+    ///
+    /// Example usage:
+    /// ```
+    /// try manager.updateACL(updatedACL) { existing in
+    ///     PhoneKeyAcl(
+    ///         trackingId: existing.trackingId,
+    ///         lockMac: existing.lockMac,
+    ///         phoneKeyId: existing.phoneKeyId,
+    ///         phonePublicKey: existing.phonePublicKey,
+    ///         issuedAt: existing.issuedAt,
+    ///         expiresAt: newExpiry,
+    ///         schedule: existing.schedule,
+    ///         permissions: existing.permissions,
+    ///         meta: existing.meta,
+    ///         signature: existing.signature
+    ///     )
+    /// }
+    /// ```
+    @discardableResult
+    func updateACL(_ updated: PhoneKeyAcl,
+                   merge: ((PhoneKeyAcl) -> PhoneKeyAcl)? = nil) throws -> PhoneKeyAcl {
+        if let existing = try getACL(trackingId: updated.trackingId), let merge = merge {
+            let merged = merge(existing)
+            try saveACL(merged)
+            return merged
+        } else {
+            try saveACL(updated)
+            return updated
+        }
+    }
+
+    /// Delete an ACL by `trackingId`. No-op if not found.
+    func deleteACL(trackingId: String) throws {
+        let itemKey = ACLStoreKeys.item(trackingId)
+        // Remove item
+        try keychain.removeValue(for: itemKey)
+
+        // Update index
+        var index = try loadACLIndex()
+        if let i = index.firstIndex(of: trackingId) {
+            index.remove(at: i)
+            try storeACLIndex(index)
+        }
+    }
+
+    /// Return all stored ACLs (best-effort: skips items that fail to decode).
+    func listACLs() throws -> [PhoneKeyAcl] {
+        let ids = try loadACLIndex()
+        var out: [PhoneKeyAcl] = []
+        out.reserveCapacity(ids.count)
+
+        for id in ids {
+            if let acl = try getACL(trackingId: id) {
+                out.append(acl)
+            } else {
+                // If an item is missing/corrupt, drop it from index.
+                // This keeps the store self-healing.
+                try removeIdFromIndex(id)
+            }
+        }
+        return out
+    }
+
+    // MARK: - Index helpers
+
+    private func loadACLIndex() throws -> [String] {
+        if let b64 = try keychain.getValue(forKey: ACLStoreKeys.index),
+           let data = Data(base64Encoded: b64),
+           let array = try? JSONSerialization.jsonObject(with: data) as? [String] {
+            return array
+        }
+        return []
+    }
+
+    private func storeACLIndex(_ ids: [String]) throws {
+        let data = try JSONSerialization.data(withJSONObject: ids, options: [])
+        try keychain.setValue(data.base64EncodedString(), forKey: ACLStoreKeys.index)
+    }
+
+    private func removeIdFromIndex(_ trackingId: String) throws {
+        var index = try loadACLIndex()
+        if let i = index.firstIndex(of: trackingId) {
+            index.remove(at: i)
+            try storeACLIndex(index)
+        }
+    }
+}
