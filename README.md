@@ -1,121 +1,138 @@
-**📱🔐 PhoneKeyCore + Sample App
-Unified Phone‑Key Generation, ACL Handling, Command Signing & Demo UI**
+# 📱🔐 **PhoneKeyCore + Sample App**
+### **Unified Phone‑Key Generation, ACL Handling, Command Signing & Demo UI**
 
 This repository contains:
 
-PhoneKeyCore — a standalone framework that handles:
+---
 
-Phone‑key generation & storage
-Ed25519 and ECDSA P‑256 signing
-ACL decoding, canonicalization, signing & chunking
-JSON & ISO‑8601 utilities
-Lock‑compatible ACL storage in Keychain
+## **PhoneKeyCore** — a standalone framework that handles:
 
+- Phone‑key generation & storage  
+- **Ed25519** and **ECDSA P‑256** signing  
+- ACL decoding, canonicalization, signing & chunking  
+- JSON & ISO‑8601 utilities  
+- Lock‑compatible ACL storage in Keychain  
 
-PhoneKeySample App — an end‑to‑end demonstration showing:
+---
 
-How to ensure/load a phone key
-How to send your public key to your backend
-How to build, canonicalize & sign unlock commands
-How to test key lifecycle events (expire, revoke, delete)
-How to integrate with PhoneKeyManager inside SwiftUI
+## **PhoneKeySample App** — an end‑to‑end demonstration showing:
+
+- How to ensure/load a phone key  
+- How to send your public key to your backend  
+- How to build, canonicalize & sign unlock commands  
+- How to test key lifecycle events (expire, revoke, delete)  
+- How to integrate with `PhoneKeyManager` inside SwiftUI  
 
 This README explains both.
 
-📒 Table of Contents
+---
 
-#-overview
-#-phonekeycore-features
-#-installation
-#-key-architecture
-#-key-generation
-#-phonekeyinfo-api
-#-acl-models
-#️-signing--canonicalization
-#-acl-chunk-builder-firmware-ready
-#-local-acl-storage
-#-phonekeysample-app-overview
-#-sample-app-screens
-#-crypto-provider-sodium
-#-faq
+# 📒 **Table of Contents**
 
+- #overview
+- #phonekeycore-features
+- #installation
+- #key-architecture
+- #key-generation
+- #phonekeyinfo-api
+- #acl-models
+- #signing--canonicalization
+- #acl-chunk-builder-firmware-ready
+- #local-acl-storage
+- #phonekeysample-app-overview
+- #sample-app-screens
+- #crypto-provider-sodium
+- #faq
 
-🧭 Overview
+---
+
+# 🧭 **Overview**
+
 PhoneKeyCore provides everything needed for mobile‑generated authentication keys in secure lock systems:
 
-Automatic private key creation
-Deterministic public key derivation
-Command signing
-ACL validation & chunking
-Backend contract models
+- Automatic private key creation  
+- Deterministic public key derivation  
+- Command signing  
+- ACL validation & chunking  
+- Backend contract models  
 
 Designed to be dropped into any iOS app.
 
-🔐 PhoneKeyCore Features
+---
 
-🔑 Key Generation — Supports:
+# 🔐 **PhoneKeyCore Features**
 
+## 🔑 **Key Generation — Supports:**
 
+| Algorithm         | Private Key Storage              | Notes                           |
+|------------------|----------------------------------|----------------------------------|
+| **ECDSA P‑256** (default) | Secure, persistent `SecKey` | Best for modern iOS (13+) |
+| **Ed25519**      | 32‑byte seed in Keychain         | Sodium fallback for iOS 12 |
 
+Both produce deterministic UUID‑style `keyId` (SHA‑256 → 16 bytes → UUID).
 
+---
 
+## 🧾 **ACL Handling**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-AlgorithmPrivate Key StorageNotesECDSA P‑256 (default)Secure, persistent SecKeyBest for modern iOS (13+)Ed2551932‑byte seed in KeychainSodium fallback for iOS 12
-Both produce deterministic UUID‑style keyId
-(SHA‑256 → 16 bytes → UUID).
-
-🧾 ACL Handling
 PhoneKeyCore includes:
 
-PhoneKeyAcl
-PhoneKeyAclEnvelope (lock‑compatible)
-PhoneKeyAclRequest
+- `PhoneKeyAcl`  
+- `PhoneKeyAclEnvelope` *(lock‑compatible)*  
+- `PhoneKeyAclRequest`  
 
 With flexible decoding for:
 
-int/string IDs
-ISO‑8601 or epoch timestamps
-Permissions array or keyed booleans
+- int/string IDs  
+- ISO‑8601 or epoch timestamps  
+- Permissions array _or_ keyed booleans  
 
+---
 
-✍️ Signing
+## ✍️ **Signing**
 
-Ed25519 → 64‑byte signature
-P‑256 → raw 64‑byte (r||s) signature
-Converts DER → raw R/S safely
+- **Ed25519** → 64‑byte signature  
+- **P‑256** → raw 64‑byte `(r||s)` signature  
+- Converts DER → raw R/S safely  
 
+---
 
-📦 ACL Chunk Builder
-Produces 128‑byte hex‑encoded packets for BLE.
+## 📦 **ACL Chunk Builder**
+
+Produces **128‑byte hex‑encoded packets** for BLE.  
 Final chunk format:
+
+```
 "xx" + <4 hex digits ACL length> + <remaining bytes>
+```
 
+---
 
-💾 Keychain ACL Store
-Store, list, update, delete ACLs locally.
+## 💾 **Keychain ACL Store**
+
+Store, list, update, delete ACLs locally.  
 Self‑healing index.
 
-📦 Installation
-Drag the PhoneKeyCore folder into your project.
-If you need iOS 12 Ed25519 support:
-Rubypod 'Sodium'pod 'Clibsodium'Show more lines
-Then provide a CryptoProvider (example included in Sample App).
+---
 
-🧱 Key Architecture
+# 📦 **Installation**
+
+Drag the **PhoneKeyCore** folder into your project.
+
+If you need iOS 12 Ed25519 support:
+
+```ruby
+pod 'Sodium'
+pod 'Clibsodium'
+```
+
+Then provide a `CryptoProvider` (example included in Sample App).
+
+---
+
+# 🧱 **Key Architecture**
+
+```
 PhoneKeyCore/
 ├── PhoneKeyManager.swift          # Key generation, signing, ACL chunking
 ├── PhoneKeyAcl.swift              # ACL model
@@ -125,103 +142,168 @@ PhoneKeyCore/
 ├── PhoneKeySignedCommand.swift
 ├── Canonicalization utils         # ISO-8601, JSON sorting
 └── Keychain helpers
+```
 
-The Sample App builds on this.
+---
 
-🔑 Key Generation
-PhoneKeyManager is the entry point.
-Swiftlet manager = PhoneKeyManager(    serviceName: "com.example.app.keys",    accessGroup: nil,    provider: SodiumCryptoProvider(),   // iOS 12 Ed25519    preferredAlgorithm: .ecdsaP256      // default)Show more lines
-Ensure a key exists
-Swiftlet info = try manager.ensureKeys()print(info.keyId)print(info.publicKeyRaw.base64EncodedString())Show more lines
-Destroy
-Swifttry manager.destroyKeys()Show more lines
+# 🔑 **Key Generation**
 
-🪪 PhoneKeyInfo API
-Represents the active keypair:
-Swiftpublic struct PhoneKeyInfo: Codable {    public let keyId: String    public let algorithm: SignatureAlgorithm    public let publicKeyRaw: Data    public let seed: Data          // Ed25519 only    public var status: PhoneKeyStatus    public let keyTag: Data?       // P-256 only}Show more lines
+```swift
+let manager = PhoneKeyManager(
+    serviceName: "com.example.app.keys",
+    accessGroup: nil,
+    provider: SodiumCryptoProvider(),   // iOS 12 Ed25519
+    preferredAlgorithm: .ecdsaP256      // default
+)
+```
 
-📬 ACL Models
-PhoneKeyCore includes full request/response structures.
-Request
-Swiftlet req = PhoneKeyAclRequest(    userId: "123",    lockMac: "AA:BB:CC:DD:EE:FF",    phoneKeyId: "456")Show more lines
-Response
-Swiftlet env = try JSONDecoder().decode(PhoneKeyAclEnvelope.self, from: data)let acl = env.aclprint(acl.permissions.unlock)Show more lines
-The envelope automatically inserts the signature into acl.signature.
+### Ensure a key exists
 
-✍️ Signing & Canonicalization
-Sample App uses:
-Swiftfunc signCommand(with manager: PhoneKeyManager,                 base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommandfunc canonicalCommandBytes(for command: PhoneKeySignedCommand) throws -> DataShow more lines
-Canonicalization enforces:
+```swift
+let info = try manager.ensureKeys()
+print(info.keyId)
+print(info.publicKeyRaw.base64EncodedString())
+```
 
-ISO‑8601 UTC w/ fractional seconds
-Stable sorted key ordering
-Signature field removed before signing
+### Destroy
 
-ACL canonicalization
-Swiftfunc canonicalize(acl: PhoneKeyAcl) throws -> DataShow more lines
+```swift
+try manager.destroyKeys()
+```
 
-📦 ACL Chunk Builder (Firmware‑Ready)
-Swiftlet chunks = try manager.buildACLChunks(acl: aclData)``Show more lines
-Example output:
-Plain Text[  "00<128 bytes hex>",  "01<128 bytes hex>",  "xx02d0<remaining>"]Show more lines
+---
 
-"xx" = last chunk
-02d0 = acl.count (not including signature)
+# 🪪 **PhoneKeyInfo API**
 
+```swift
+public struct PhoneKeyInfo: Codable {
+    public let keyId: String
+    public let algorithm: SignatureAlgorithm
+    public let publicKeyRaw: Data
+    public let seed: Data
+    public var status: PhoneKeyStatus
+    public let keyTag: Data?
+}
+```
 
-💾 Local ACL Storage
-Swifttry manager.saveACL(acl)let stored = try manager.getACL(trackingId: "1")let list = try manager.listACLs()try manager.deleteACL(trackingId: "1")Show more lines
-Self‑healing for corrupt entries.
+---
 
-📱 PhoneKeySample App Overview
-Demonstrates real-world usage:
+# 📬 **ACL Models**
 
-Ensuring keys
-Validating existing keys
-Showing Key ID & Public Key
-Signing unlock commands
-Soft-expiring / revoking keys
-Clearing Keychain for test
-Copy-to-clipboard
-SwiftUI UI render of everything
+### Request
+```swift
+let req = PhoneKeyAclRequest(
+    userId: "123",
+    lockMac: "AA:BB:CC:DD:EE:FF",
+    phoneKeyId: "456"
+)
+```
 
+### Response
+```swift
+let env = try JSONDecoder().decode(PhoneKeyAclEnvelope.self, from: data)
+let acl = env.acl
+print(acl.permissions.unlock)
+```
 
-🖥️ Sample App Screens
-✔ Validate Current Key
-Shows whether a key already exists.
-🔑 Generate / Load Key
-Runs ensureKeys().
-📤 Register Key With Backend (Stub)
-JSON{  "userId": "...",  "phoneUdid": "...",  "publicKey": "..."}Show more lines
-📝 Build & Sign Unlock Command
+---
 
-Deterministic timestamp
-Random nonce
-Custom payload
-Canonical JSON
-Ed25519 or P‑256 signature
-Base64 output for backend
+# ✍️ **Signing & Canonicalization**
 
-📚 Logs
-Scrollable output.
-🔥 Key Lifecycle
+```swift
+func signCommand(with manager: PhoneKeyManager,
+                 base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommand
 
-Soft expire
-Soft revoke
-Delete (P‑256 + Ed25519)
+func canonicalCommandBytes(for command: PhoneKeySignedCommand) throws -> Data
+```
 
+Canonicalization ensures:
+- ISO‑8601 UTC w/ fractional seconds
+- Sorted key ordering
+- Signature removed before signing
 
-🔧 Crypto Provider (Sodium)
-Sample App includes:
-SwiftgenerateEd25519Seed()derivePublicKey(fromSeed:)sign(message:withSeed:)getHash(of:)``Show more lines
-Uses CommonCrypto for SHA‑256 to match CryptoKit.
+ACL canonicalization:
+```swift
+func canonicalize(acl: PhoneKeyAcl) throws -> Data
+```
 
-❓ FAQ
-Do I need Sodium?
-Only for Ed25519 on iOS 12.
-Should I prefer P‑256?
-Yes — secure, hardware-backed, not exportable.
-Does the lock expect raw P‑256 signatures?
-Yes — 64‑byte (r||s).
-Does canonicalization matter?
-Yes — signature verification will fail otherwise.
+---
+
+# 📦 **ACL Chunk Builder (Firmware‑Ready)**
+
+```swift
+let chunks = try manager.buildACLChunks(acl: aclData)
+```
+
+Example:
+```
+[
+  "00<128 bytes hex>",
+  "01<128 bytes hex>",
+  "xx02d0<remaining>"
+]
+```
+
+---
+
+# 💾 **Local ACL Storage**
+
+```swift
+try manager.saveACL(acl)
+let stored = try manager.getACL(trackingId: "1")
+let list = try manager.listACLs()
+try manager.deleteACL(trackingId: "1")
+```
+
+---
+
+# 📱 **PhoneKeySample App Overview**
+
+- Ensuring keys
+- Validating existing keys
+- Showing Key ID & Public Key
+- Signing unlock commands
+- Soft-expiring / revoking keys
+- Clearing Keychain for test
+- Copy-to-clipboard actions
+- Full SwiftUI UI
+
+---
+
+# 🖥️ **Sample App Screens**
+
+### ✔ Validate Current Key
+### 🔑 Generate / Load Key
+### 📤 Register Key With Backend (stub)
+```json
+{
+  "userId": "...",
+  "phoneUdid": "...",
+  "publicKey": "..."
+}
+```
+### 📝 Build & Sign Unlock Command
+### 📚 Logs
+### 🔥 Key Lifecycle
+
+---
+
+# 🔧 **Crypto Provider (Sodium)**
+
+Implements:
+```swift
+generateEd25519Seed()
+derivePublicKey(fromSeed:)
+sign(message:withSeed:)
+getHash(of:)
+```
+
+---
+
+# ❓ **FAQ**
+
+- Only need Sodium for iOS 12 Ed25519
+- Prefer P‑256 for security & hardware‑backed storage
+- Lock expects raw 64‑byte (r||s) P‑256 signatures
+- Canonicalization is required for verification
+
