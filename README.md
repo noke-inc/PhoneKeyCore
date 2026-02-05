@@ -1,5 +1,6 @@
-📱🔐 PhoneKeyCore + Sample App
-Unified Phone‑Key Generation, ACL Handling, Command Signing & Demo UI
+📱🔐 **PhoneKeyCore + Sample App=
+Unified Phone‑Key Generation, ACL Handling, Command Signing & Demo UI**
+
 This repository contains:
 
 
