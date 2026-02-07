@@ -9,11 +9,32 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+extension Swift.Encodable {
+  @inlinable public func toJSONString(prettyPrinted: Swift.Bool = false) throws -> Swift.String {
+        let encoder = JSONEncoder()
+        if prettyPrinted {
+            encoder.outputFormatting.insert(.prettyPrinted)
+        }
+         
+        if #available(iOS 13.0, macOS 10.15, *) {
+            encoder.outputFormatting.insert(.sortedKeys)
+        }
+        let data = try encoder.encode(self)
+        guard let json = String(data: data, encoding: .utf8) else {
+            throw EncodingError.invalidValue(
+                self,
+                .init(codingPath: [],
+                      debugDescription: "Failed to create UTF-8 string from encoded JSON.")
+            )
+        }
+        return json
+    }
+}
 public struct PhoneKeyAclRequest : Swift.Codable {
-  public let userId: Swift.String
+  public let userId: Swift.Int
   public let lockMac: Swift.String
-  public let phoneKeyId: Swift.String
-  public init(userId: Swift.String, lockMac: Swift.String, phoneKeyId: Swift.String)
+  public let phoneKeyId: Swift.Int
+  public init(userId: Swift.Int, lockMac: Swift.String, phoneKeyId: Swift.Int)
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
 }
@@ -85,11 +106,11 @@ extension PhoneKeyCore.PhoneKeyAcl {
 }
 public struct PhoneKeyInfoResponse : Swift.Codable {
   public let status: Swift.String
-  public let keyId: Swift.String?
+  public let keyId: Swift.Int?
   public let detail: Swift.String?
   public let error: Swift.String?
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(status: Swift.String, keyId: Swift.String?, detail: Swift.String?, error: Swift.String?)
+  public init(status: Swift.String, keyId: Swift.Int?, detail: Swift.String?, error: Swift.String?)
   #endif
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
