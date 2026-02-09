@@ -112,4 +112,21 @@ final class PhoneKeyCoreTests: XCTestCase {
         let newInfo = try mgr.ensureKeys()
         XCTAssertEqual(newInfo.seed, seed) // because mock always returns the same seed
     }
+    
+    func testSaveAclEnvelope() throws {
+        let seed = Data(repeating: 0x01, count: 32)
+        let pub  = Data(repeating: 0x02, count: 32)
+        let hash = Data(repeating: 0x03, count: 32)
+        let sig  = Data(repeating: 0x04, count: 64)
+        
+        let provider = MockCryptoProvider(seed: seed, pub: pub, hash: hash, signature: sig)
+        
+        let mgr = PhoneKeyManager(serviceName: "test.acl", provider: provider)
+        let mockAcl = PhoneKeyAcl.mockP256()
+        let mockAclEnvelope = PhoneKeyAclEnvelope(result: "success", acl: mockAcl, aclSignature: sig.base64EncodedString())
+        try? mgr.saveACLEnvelope(mockAclEnvelope)
+        let envelope = try? mgr.getACLEnvelope(trackingId: "2")
+        XCTAssertNotNil(envelope)
+        XCTAssertEqual(envelope?.aclSignature, sig.base64EncodedString())
+    }
 }
