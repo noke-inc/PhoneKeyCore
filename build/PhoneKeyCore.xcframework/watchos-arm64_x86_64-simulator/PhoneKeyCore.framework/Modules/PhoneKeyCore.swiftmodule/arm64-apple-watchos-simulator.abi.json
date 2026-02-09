@@ -4402,8 +4402,8 @@
           },
           {
             "kind": "Function",
-            "name": "saveACL",
-            "printedName": "saveACL(_:)",
+            "name": "saveACLEnvelope",
+            "printedName": "saveACLEnvelope(_:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -4412,14 +4412,14 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "PhoneKeyAcl",
-                "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                "usr": "s:12PhoneKeyCore0aB3AclV"
+                "name": "PhoneKeyAclEnvelope",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC7saveACLyyAA0aB3AclVKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC7saveACLyyAA0aB3AclVKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC15saveACLEnvelopeyyAA0aB11AclEnvelopeVKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC15saveACLEnvelopeyyAA0aB11AclEnvelopeVKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -4436,37 +4436,37 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "PhoneKeyAcl",
-                "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                "usr": "s:12PhoneKeyCore0aB3AclV"
+                "name": "PhoneKeyAclEnvelope",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
               },
               {
                 "kind": "TypeNominal",
-                "name": "PhoneKeyAcl",
-                "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                "usr": "s:12PhoneKeyCore0aB3AclV"
+                "name": "PhoneKeyAclEnvelope",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
               },
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "((PhoneKeyCore.PhoneKeyAcl) -> PhoneKeyCore.PhoneKeyAcl)?",
+                "printedName": "((PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope)?",
                 "children": [
                   {
                     "kind": "TypeFunc",
                     "name": "Function",
-                    "printedName": "(PhoneKeyCore.PhoneKeyAcl) -> PhoneKeyCore.PhoneKeyAcl",
+                    "printedName": "(PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope",
                     "children": [
                       {
                         "kind": "TypeNominal",
-                        "name": "PhoneKeyAcl",
-                        "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                        "usr": "s:12PhoneKeyCore0aB3AclV"
+                        "name": "PhoneKeyAclEnvelope",
+                        "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                        "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
                       },
                       {
                         "kind": "TypeNominal",
-                        "name": "PhoneKeyAcl",
-                        "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                        "usr": "s:12PhoneKeyCore0aB3AclV"
+                        "name": "PhoneKeyAclEnvelope",
+                        "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                        "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
                       }
                     ]
                   }
@@ -4476,8 +4476,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB3AclVAG_A2GcSgtKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB3AclVAG_A2GcSgtKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB11AclEnvelopeVAG_A2GcSgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB11AclEnvelopeVAG_A2GcSgtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -4490,19 +4490,19 @@
           },
           {
             "kind": "Function",
-            "name": "getACL",
-            "printedName": "getACL(trackingId:)",
+            "name": "getACLEnvelope",
+            "printedName": "getACLEnvelope(trackingId:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "PhoneKeyCore.PhoneKeyAcl?",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope?",
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "PhoneKeyAcl",
-                    "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                    "usr": "s:12PhoneKeyCore0aB3AclV"
+                    "name": "PhoneKeyAclEnvelope",
+                    "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                    "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
                   }
                 ],
                 "usr": "s:Sq"
@@ -4515,8 +4515,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC6getACL10trackingIdAA0aB3AclVSgSS_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC6getACL10trackingIdAA0aB3AclVSgSS_tKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC14getACLEnvelope10trackingIdAA0aB11AclEnvelopeVSgSS_tKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC14getACLEnvelope10trackingIdAA0aB11AclEnvelopeVSgSS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -4557,27 +4557,27 @@
           },
           {
             "kind": "Function",
-            "name": "listACLs",
-            "printedName": "listACLs()",
+            "name": "listACLEnvelopes",
+            "printedName": "listACLEnvelopes()",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "Array",
-                "printedName": "[PhoneKeyCore.PhoneKeyAcl]",
+                "printedName": "[PhoneKeyCore.PhoneKeyAclEnvelope]",
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "PhoneKeyAcl",
-                    "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                    "usr": "s:12PhoneKeyCore0aB3AclV"
+                    "name": "PhoneKeyAclEnvelope",
+                    "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                    "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
                   }
                 ],
                 "usr": "s:Sa"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC8listACLsSayAA0aB3AclVGyKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC8listACLsSayAA0aB3AclVGyKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC16listACLEnvelopesSayAA0aB11AclEnvelopeVGyKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC16listACLEnvelopesSayAA0aB11AclEnvelopeVGyKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -4600,14 +4600,14 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "PhoneKeyAcl",
-                "printedName": "PhoneKeyCore.PhoneKeyAcl",
-                "usr": "s:12PhoneKeyCore0aB3AclV"
+                "name": "PhoneKeyAclEnvelope",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB3AclVKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB3AclVKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB11AclEnvelopeVKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB11AclEnvelopeVKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",

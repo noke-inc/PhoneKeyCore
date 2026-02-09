@@ -187,18 +187,18 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
 }
 extension PhoneKeyCore.PhoneKeyManager {
-  final public func saveACL(_ acl: PhoneKeyCore.PhoneKeyAcl) throws
+  final public func saveACLEnvelope(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws
   #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
-  final public func updateACL(_ updated: PhoneKeyCore.PhoneKeyAcl, merge: ((PhoneKeyCore.PhoneKeyAcl) -> PhoneKeyCore.PhoneKeyAcl)? = nil) throws -> PhoneKeyCore.PhoneKeyAcl
+  final public func updateACL(_ updatedEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope, merge: ((PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyCore.PhoneKeyAclEnvelope
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getACL(trackingId: Swift.String) throws -> PhoneKeyCore.PhoneKeyAcl?
+  final public func getACLEnvelope(trackingId: Swift.String) throws -> PhoneKeyCore.PhoneKeyAclEnvelope?
   #endif
   final public func deleteACL(trackingId: Swift.String) throws
-  final public func listACLs() throws -> [PhoneKeyCore.PhoneKeyAcl]
+  final public func listACLEnvelopes() throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
   @discardableResult
-  final public func saveACLOrAssignTempId(_ acl: PhoneKeyCore.PhoneKeyAcl) throws -> Swift.String
+  final public func saveACLOrAssignTempId(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws -> Swift.String
   final public func migrateACLTrackingId(fromTempId: Swift.String, toServerId: Swift.String) throws
   final public func isTempTrackingId(_ id: Swift.String) -> Swift.Bool
 }
