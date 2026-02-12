@@ -62,7 +62,11 @@ public final class PhoneKeyManager {
                 accessGroup: String? = nil,
                 provider: CryptoProvider?,
                 preferredAlgorithm: SignatureAlgorithm = .ecdsaP256) { // NEW default
-        let queryable = GenericPasswordQueryable(service: serviceName, accessGroup: accessGroup)
+        let queryable = GenericPasswordQueryable(
+            service: KeychainHelper.nokeKeychainService,    // stable base
+            accessGroup: nil,                                // keep nil for app-scoped items
+            accessibility: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        )
         self.keychain = KeychainHelper(keychainQueryable: queryable)
         self.serviceName = serviceName
         self.provider = provider
@@ -496,11 +500,15 @@ public extension PhoneKeyManager {
             if chunkIndex < chunkCount - 1 {
                 // Normal chunk: "00", "01", ...
                 let header = String(format: "%02x", chunkIndex)
+                print("Current header: \(header)")
+                print("Current header length: \(header.count)")
                 result.append(header + hexPayload)
             } else {
                 // FINAL chunk: "xx" + 4 hex digits of ACL length
                 let lengthField = String(format: "%04x", totalLen)
                 let header = "xx" + lengthField
+                print("Current header: \(header)")
+                print("Current header length: \(header.count)")
                 result.append(header + hexPayload)
             }
         }
@@ -635,6 +643,28 @@ public extension PhoneKeyManager {
         }
         return out
     }
+    
+    // MARK: - New: Save Phone Key Info
+    
+    /// Persist the current PhoneKeyInfo (if any) under a reserved key.
+    /// This allows the app to recover key info (e.g., after a relaunch) and a reinstall depending on the accessibility flag.
+    func savePhoneKeyInfo(info: PhoneKeyInfoResponse) throws {
+        let data = try JSONEncoder().encode(info)
+        try keychain.setValue(data.base64EncodedString(), forKey: "phoneKeyInfo")
+    }
+    
+    // MARK: - New: Load Phone Key Info
+    
+    /// Load the persisted PhoneKeyInfo (if any) from the reserved key.
+    /// Returns nil if not found or if decoding fails (e.g., due to corruption or format change).
+    
+    func getPhoneKeyInfo() throws -> PhoneKeyInfoResponse? {
+        guard let b64 = try? keychain.getValue(forKey: "phoneKeyInfo"),
+              let data = Data(base64Encoded: b64) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(PhoneKeyInfoResponse.self, from: data)
+    }
 
     // MARK: - New: Save with Temporary ID (for server-less drafts)
 
@@ -660,7 +690,7 @@ public extension PhoneKeyManager {
             expiresAt: acl.expiresAt,
             schedule: acl.schedule,                  // may be nil
             permissions: acl.permissions,
-            signature: acl.signature
+            //signature: acl.signature
         )
         try saveACLEnvelope(aclEnvelope)
         return tempId
@@ -696,7 +726,7 @@ public extension PhoneKeyManager {
             expiresAt: acl.expiresAt,
             schedule: acl.schedule,
             permissions: acl.permissions,
-            signature: acl.signature
+            //signature: acl.signature
         )
         aclEnvelope.acl = migrated
 

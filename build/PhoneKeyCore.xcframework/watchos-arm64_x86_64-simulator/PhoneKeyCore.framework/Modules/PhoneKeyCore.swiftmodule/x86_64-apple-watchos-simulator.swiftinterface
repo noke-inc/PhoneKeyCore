@@ -83,11 +83,10 @@ public struct PhoneKeyAcl : Swift.Codable {
   public let expiresAt: Foundation.Date
   public let schedule: Swift.String?
   public let permissions: PhoneKeyCore.PhoneKeyAcl.Permissions
-  public var signature: PhoneKeyCore.PhoneKeyAcl.Signature?
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(trackingId: Swift.String?, lockMac: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: Swift.String?, permissions: PhoneKeyCore.PhoneKeyAcl.Permissions, signature: PhoneKeyCore.PhoneKeyAcl.Signature?)
+  public init(trackingId: Swift.String?, lockMac: Swift.String, phonePublicKey: Swift.String, issuedAt: Foundation.Date, expiresAt: Foundation.Date, schedule: Swift.String?, permissions: PhoneKeyCore.PhoneKeyAcl.Permissions)
   #endif
 }
 public enum JSONISO8601 {
@@ -103,6 +102,14 @@ extension PhoneKeyCore.PhoneKeyAcl {
   #endif
   public static func mockEd25519JSON(now: Foundation.Date = Date()) throws -> Foundation.Data
   public static func mockP256JSON(now: Foundation.Date = Date(), p256PublicKeyLength: Swift.Int = 65) throws -> Foundation.Data
+  public static func mockAclRawBytes(length: Swift.Int, start: Swift.UInt8 = 0x00) -> Foundation.Data
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func makeAclJsonString(lockMac: Swift.String = "AA:BB:CC:DD:EE:FF", phoneKeyId: Swift.String? = "p256-key-0001", trackingId: Swift.String? = "2", issuedAt: Foundation.Date = Date(), expiresAt: Foundation.Date = Date().addingTimeInterval(48 * 3600), schedule: Swift.String? = "697A332A-697AA300,697B75F0-697B84AA") -> Swift.String
+  #endif
+  public static func makeAclPayloadWithSignature(keyManager: PhoneKeyCore.PhoneKeyManager) throws -> (aclJson: Foundation.Data, payload: Foundation.Data, aclLengthForHeader: Swift.Int, signature: Foundation.Data)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func buildAclFrames128(acl: Foundation.Data, chunkSize: Swift.Int = 128, lastTag: Swift.UInt8 = 0xFF, lengthForFinalHeader: Swift.Int? = nil) -> [Foundation.Data]
+  #endif
 }
 public struct PhoneKeyInfoResponse : Swift.Codable {
   public let status: Swift.String
@@ -197,6 +204,10 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
   final public func deleteACL(trackingId: Swift.String) throws
   final public func listACLEnvelopes() throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
+  final public func savePhoneKeyInfo(info: PhoneKeyCore.PhoneKeyInfoResponse) throws
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func getPhoneKeyInfo() throws -> PhoneKeyCore.PhoneKeyInfoResponse?
+  #endif
   @discardableResult
   final public func saveACLOrAssignTempId(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws -> Swift.String
   final public func migrateACLTrackingId(fromTempId: Swift.String, toServerId: Swift.String) throws
@@ -252,6 +263,19 @@ public struct SEPhoneKeyError : Swift.Error {
 public protocol KeychainQueryable {
   var query: [Swift.String : Any] { get }
 }
+public enum InstallNamespace {
+  public static func currentInstallId() -> Swift.String
+}
+public struct GenericPasswordQueryable {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(service: Swift.String, accessGroup: Swift.String? = nil, accessibility: CoreFoundation.CFString = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly, installId: Swift.String = InstallNamespace.currentInstallId())
+  #endif
+}
+extension PhoneKeyCore.GenericPasswordQueryable : PhoneKeyCore.KeychainQueryable {
+  public var query: [Swift.String : Any] {
+    get
+  }
+}
 public struct KeychainHelper {
   public static let legacyNokeKeychainService: Swift.String
   public static let nokeKeychainService: Swift.String
@@ -260,18 +284,8 @@ public struct KeychainHelper {
   #if compiler(>=5.3) && $NonescapableTypes
   public func getValue(forKey: Swift.String) throws -> Swift.String?
   #endif
-  public func removeValue(for userAccount: Swift.String) throws
+  public func removeValue(for key: Swift.String) throws
   public func removeAllValues() throws
-}
-public struct GenericPasswordQueryable {
-  #if compiler(>=5.3) && $NonescapableTypes
-  public init(service: Swift.String, accessGroup: Swift.String? = nil)
-  #endif
-}
-extension PhoneKeyCore.GenericPasswordQueryable : PhoneKeyCore.KeychainQueryable {
-  public var query: [Swift.String : Any] {
-    get
-  }
 }
 public enum KeychainHelperError : Swift.Error {
   case stringToDataConversionError

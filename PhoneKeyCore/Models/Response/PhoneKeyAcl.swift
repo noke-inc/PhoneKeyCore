@@ -65,7 +65,7 @@ public struct PhoneKeyAclEnvelope: Codable {
         self.acl = acl
         self.aclSignature = aclSignature
         // Attach into acl as a convenience
-        self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
+        //self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
     }
 
     public init(from decoder: Decoder) throws {
@@ -74,7 +74,7 @@ public struct PhoneKeyAclEnvelope: Codable {
         self.acl = try container.decode(PhoneKeyAcl.self, forKey: .acl)
         self.aclSignature = try container.decode(String.self, forKey: .aclSignature)
         // Attach into acl
-        self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
+        //self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -82,7 +82,7 @@ public struct PhoneKeyAclEnvelope: Codable {
         try container.encode(result, forKey: .result)
         try container.encode(acl, forKey: .acl)
         // Prefer explicit aclSignature; otherwise derive from acl.signature.value if present
-        let sigValue = aclSignature.isEmpty ? (acl.signature?.value ?? "") : aclSignature
+        let sigValue = aclSignature.isEmpty ? (aclSignature) : aclSignature
         try container.encode(sigValue, forKey: .aclSignature)
     }
 }
@@ -163,7 +163,7 @@ public struct PhoneKeyAcl: Codable {
     /// NOW OPTIONAL
     public let schedule: String?
     public let permissions: Permissions
-    public var signature: Signature?         // Attached via envelope
+//    public var signature: Signature?         // Attached via envelope
 
     enum CodingKeys: String, CodingKey {
         case trackingId
@@ -173,7 +173,7 @@ public struct PhoneKeyAcl: Codable {
         case expiresAt
         case schedule
         case permissions
-        case signature
+//        case signature
     }
 
     // MARK: Decoding
@@ -200,7 +200,7 @@ public struct PhoneKeyAcl: Codable {
         // schedule is optional
         self.schedule = try? c.decode(String.self, forKey: .schedule)
         self.permissions = try c.decode(Permissions.self, forKey: .permissions)
-        self.signature = try c.decodeIfPresent(Signature.self, forKey: .signature) // Usually nil; set by envelope
+        //self.signature = try c.decodeIfPresent(Signature.self, forKey: .signature) // Usually nil; set by envelope
     }
 
     // MARK: Encoding
@@ -228,7 +228,7 @@ public struct PhoneKeyAcl: Codable {
         if let schedule { try c.encode(schedule, forKey: .schedule) }
 
         try c.encode(permissions, forKey: .permissions)
-        try c.encodeIfPresent(signature, forKey: .signature) // Not used by server in sample; envelope handles top-level
+        //try c.encodeIfPresent(signature, forKey: .signature) // Not used by server in sample; envelope handles top-level
     }
 
     // MARK: Inits
@@ -241,7 +241,7 @@ public struct PhoneKeyAcl: Codable {
         expiresAt: Date,
         schedule: String?,
         permissions: PhoneKeyAcl.Permissions,
-        signature: PhoneKeyAcl.Signature?
+        //signature: PhoneKeyAcl.Signature?
     ) {
         self.trackingId = trackingId
         self.lockMac = lockMac
@@ -250,7 +250,7 @@ public struct PhoneKeyAcl: Codable {
         self.expiresAt = expiresAt
         self.schedule = schedule
         self.permissions = permissions
-        self.signature = signature
+        //self.signature = signature
     }
 
     // MARK: - Helpers
@@ -368,7 +368,7 @@ public extension PhoneKeyAcl {
             expiresAt: expiresAt,
             schedule: schedule,
             permissions: defaultPermissions(),
-            signature: signature
+            //signature: signature
         )
     }
 
@@ -417,7 +417,7 @@ public extension PhoneKeyAcl {
             expiresAt: expiresAt,
             schedule: schedule,
             permissions: defaultPermissions(),
-            signature: signature
+            //signature: signature
         )
     }
 
@@ -434,6 +434,127 @@ public extension PhoneKeyAcl {
     static func mockP256JSON(now: Date = Date(), p256PublicKeyLength: Int = 65) throws -> Data {
         let acl = mockP256(now: now, p256PublicKeyLength: p256PublicKeyLength)
         return try JSONEncoder().encode(acl) // ACL encodes epoch seconds; omits optionals when nil
+    }
+    
+    /// Produce mock ACL raw bytes of any length (replace with real base64-decoded ACL later).
+    static func mockAclRawBytes(length: Int, start: UInt8 = 0x00) -> Data {
+        sequentialBytes(length, start: start)
+    }
+    
+    /// Build ACL JSON string (exactly as you do today)
+    static func makeAclJsonString(
+        lockMac: String = "AA:BB:CC:DD:EE:FF",
+        phoneKeyId: String? = "p256-key-0001",
+        trackingId: String? = "2",
+        issuedAt: Date = Date(),
+        expiresAt: Date = Date().addingTimeInterval(48 * 3600),
+        schedule: String? = "697A332A-697AA300,697B75F0-697B84AA"
+    ) -> String {
+        return "{ \"trackingId\": \(trackingId ?? "null"), " +
+        "\"lockMac\": \"\(lockMac)\", " +
+        "\"phonePubKey\": \"\(phoneKeyId ?? "null")\", " +
+        "\"issuedAt\": \(Int(issuedAt.timeIntervalSince1970)), " +
+        "\"expiresAt\": \(Int(expiresAt.timeIntervalSince1970)), " +
+        "\"schedule\": \(schedule != nil ? "\"\(schedule!)\"" : "null"), " +
+        "\"permissions\": [\"unlock\",\"overrideOverlock\"] }"
+    }
+
+    /// Create the BLE payload: Base64(ACL JSON) + Base64(signature)
+    /// Returns (aclJsonBytes, payloadBytes)
+    static func makeAclPayloadWithSignature(
+        keyManager: PhoneKeyManager
+    ) throws -> (aclJson: Data, payload: Data, aclLengthForHeader: Int, signature: Data) {
+        let jsonString = makeAclJsonString()
+        let jsonData = Data(jsonString.utf8)
+
+        // Sign the JSON bytes
+        // NOTE: Your PhoneKeyManager must return signature bytes in the format the lock expects (DER or raw r||s). You’re already base64-encoding it, so both work as long as the verifier mirrors it.
+        let signatureBytes = try keyManager.sign(jsonData)
+
+        let aclB64 = jsonData.base64EncodedString()          // ASCII
+        let sigB64 = signatureBytes.base64EncodedString()    // ASCII
+
+        // Per protocol: append signature at the end, back-to-back (NO delimiter)
+        let concatenated = aclB64 + sigB64
+
+        // Payload to send over BLE is the UTF-8 bytes of that ASCII string
+        let payload = Data(concatenated.utf8)
+
+        // IMPORTANT: the final-chunk 4 hex digits are the ACL length BYTES (not base64 length)
+        let aclLengthForHeader = jsonData.count
+
+        return (aclJson: jsonData, payload: payload, aclLengthForHeader: aclLengthForHeader, signature: signatureBytes)
+    }
+
+    /// Build fixed 128-byte ACL frames:
+    /// - Non-final frames: [seqHeader] + payload + padding
+    ///   where seqHeader increments: 0x00, 0x01, 0x02, ...
+    ///   (skipping `lastTag` if the sequence would collide)
+    /// - Final frame: [lastTag(XX)] + ASCII hex length (4 chars) + payload + padding
+    ///
+    /// Notes:
+    /// - The FINAL chunk **starts with XX** (the `lastTag` byte), immediately followed
+    ///   by **4 ASCII hex digits** of the *ACL length you intend to signal*.
+    /// - Every frame is padded with 0x00 to exactly `chunkSize` bytes (default 128).
+    /// - `acl` should be your payload bytes: Base64(ACL_JSON) + Base64(signature) with no delimiter.
+    static func buildAclFrames128(
+        acl: Data,
+        chunkSize: Int = 128,
+        lastTag: UInt8 = 0xFF,            // <-- Your protocol's XX. Choose a value that won't be hit by the sequence.
+        lengthForFinalHeader: Int? = nil  // <-- 4 ASCII hex digits in final header (e.g., ACL JSON byte count)
+    ) -> [Data] {
+
+        func asciiHexLength(_ len: Int) -> Data {
+            Data(String(format: "%04X", len).utf8) // 4 ASCII hex chars, uppercase
+        }
+
+        precondition(chunkSize >= 16, "chunkSize too small for headers + payload")
+
+        // Final header = 1 byte lastTag + 4 ASCII hex digits
+        let signaledLength = lengthForFinalHeader ?? acl.count
+        precondition(signaledLength <= 0xFFFF, "lengthForFinalHeader must fit in 4 hex digits")
+
+        let finalHeader = Data([lastTag]) + asciiHexLength(signaledLength)
+        let stdPayloadCap  = chunkSize - 1                // 1-byte header
+        let finalPayloadCap = chunkSize - finalHeader.count // 5 bytes header
+
+        var frames: [Data] = []
+        var offset = 0
+        var seq: UInt8 = 0x00
+
+        // Emit non-final frames until what's left fits into one final frame
+        while (acl.count - offset) > finalPayloadCap {
+            // Skip lastTag in the sequence (reserve it strictly for the final frame)
+            if seq == lastTag {
+                seq &+= 1 // move to next value; wrap is fine for very large sequences
+            }
+
+            let take = min(stdPayloadCap, acl.count - offset)
+            var frame = Data(capacity: chunkSize)
+            frame.append(seq)                       // sequential binary header
+            frame.append(acl[offset ..< offset + take])
+
+            if frame.count < chunkSize {
+                frame.append(Data(count: chunkSize - frame.count))
+            }
+
+            frames.append(frame)
+            offset += take
+            seq &+= 1
+        }
+
+        // Emit FINAL frame: [lastTag] + 4 ASCII hex digits + remaining payload + padding
+        var lastFrame = Data(capacity: chunkSize)
+        lastFrame.append(finalHeader)
+        if offset < acl.count {
+            lastFrame.append(acl[offset ..< acl.count])
+        }
+        if lastFrame.count < chunkSize {
+            lastFrame.append(Data(count: chunkSize - lastFrame.count))
+        }
+        frames.append(lastFrame)
+
+        return frames
     }
 }
 
