@@ -318,6 +318,11 @@ public enum PhoneKeyCoreBridge {
   }
   #endif
 }
+@_hasMissingDesignatedInitializers public class SigningUseCases {
+  public static func signCommand(with manager: PhoneKeyCore.PhoneKeyManager, base: PhoneKeyCore.PhoneKeySignedCommand) throws -> PhoneKeyCore.PhoneKeySignedCommand
+  public static func canonicalCommandBytes(for command: PhoneKeyCore.PhoneKeySignedCommand) throws -> Foundation.Data
+  @objc deinit
+}
 extension PhoneKeyCore.SignatureAlgorithm : Swift.Equatable {}
 extension PhoneKeyCore.SignatureAlgorithm : Swift.Hashable {}
 extension PhoneKeyCore.SignatureAlgorithm : Swift.RawRepresentable {}

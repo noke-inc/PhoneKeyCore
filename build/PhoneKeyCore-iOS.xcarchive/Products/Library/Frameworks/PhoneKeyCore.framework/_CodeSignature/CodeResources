@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		JseuPnvyw81t2DBOpld2jtrpNHg=
+		hSuL156QDI4t8lMxt5TjxlRkueA=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		40XHqaVCFi61hlAAb6XfGbqYGIc=
+		A1ZjvuMq6BdCo7cWsXSFzgBL7Nw=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		40XHqaVCFi61hlAAb6XfGbqYGIc=
+		A1ZjvuMq6BdCo7cWsXSFzgBL7Nw=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		7gKUreE+S3crs7WIRy3ezW+RTrQ=
+		ZRfotj11OVjcwTJ28Ohj6Io/4Jg=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -46,14 +46,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wqnTIfzQaR84LZAFuMw8gjMkyrW+TzqnNRLacAzhSm8=
+			dtjUlwXrdHS8UekYxb7jXxIwCMV2OhxwohcBT7aDQ+4=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			sIlzJijaie8WaXJjpnTbGWi2UT/cnUCBQSrnb2e4l/I=
+			nWdvgRvEz6S2qp8hiYoJy/5x2pc78cFhG6Zh+LOfwaU=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftdoc</key>
@@ -67,14 +67,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			sIlzJijaie8WaXJjpnTbGWi2UT/cnUCBQSrnb2e4l/I=
+			nWdvgRvEz6S2qp8hiYoJy/5x2pc78cFhG6Zh+LOfwaU=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			S/Jm9M82vK6yW+usvHExgT1w5IqshvXYiWhIXk1xP1Y=
+			ZygCzmhIiusQKsPHllM4qN4nzmWRQLgO9l6z+/Z/lS0=
 			</data>
 		</dict>
 	</dict>

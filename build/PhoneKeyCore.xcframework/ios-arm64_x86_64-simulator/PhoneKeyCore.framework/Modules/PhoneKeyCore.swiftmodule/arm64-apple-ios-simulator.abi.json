@@ -8326,6 +8326,113 @@
         ]
       },
       {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "PhoneKeyCore",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SigningUseCases",
+        "printedName": "SigningUseCases",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "signCommand",
+            "printedName": "signCommand(with:base:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeySignedCommand",
+                "printedName": "PhoneKeyCore.PhoneKeySignedCommand",
+                "usr": "s:12PhoneKeyCore0aB13SignedCommandV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeyManager",
+                "printedName": "PhoneKeyCore.PhoneKeyManager",
+                "usr": "s:12PhoneKeyCore0aB7ManagerC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeySignedCommand",
+                "printedName": "PhoneKeyCore.PhoneKeySignedCommand",
+                "usr": "s:12PhoneKeyCore0aB13SignedCommandV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore15SigningUseCasesC11signCommand4with4baseAA0ab6SignedH0VAA0aB7ManagerC_AHtKFZ",
+            "mangledName": "$s12PhoneKeyCore15SigningUseCasesC11signCommand4with4baseAA0ab6SignedH0VAA0aB7ManagerC_AHtKFZ",
+            "moduleName": "PhoneKeyCore",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "canonicalCommandBytes",
+            "printedName": "canonicalCommandBytes(for:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeySignedCommand",
+                "printedName": "PhoneKeyCore.PhoneKeySignedCommand",
+                "usr": "s:12PhoneKeyCore0aB13SignedCommandV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore15SigningUseCasesC21canonicalCommandBytes3for10Foundation4DataVAA0ab6SignedH0V_tKFZ",
+            "mangledName": "$s12PhoneKeyCore15SigningUseCasesC21canonicalCommandBytes3for10Foundation4DataVAA0ab6SignedH0V_tKFZ",
+            "moduleName": "PhoneKeyCore",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:12PhoneKeyCore15SigningUseCasesC",
+        "mangledName": "$s12PhoneKeyCore15SigningUseCasesC",
+        "moduleName": "PhoneKeyCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
         "kind": "TypeDecl",
         "name": "Encodable",
         "printedName": "Encodable",
@@ -8789,6 +8896,13 @@
       "offset": 3052,
       "length": 27,
       "value": "\"SmartEntryKeychainService\""
+    },
+    {
+      "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeySample\/Use Cases\/SigningUseCases.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2289,
+      "length": 1,
+      "value": "0"
     }
   ]
 }

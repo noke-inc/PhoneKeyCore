@@ -86,11 +86,29 @@
 			);
 			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
 		};
+		B4BF7B8B2F3E6A6700EAAEB1 /* Exceptions for "PhoneKeySample" folder in "PhoneKeySample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Use Cases/SigningUseCases.swift",
+			);
+			target = B4C4A2A82F0F15240054EF8A /* PhoneKeySample */;
+		};
+		B4BF7B8D2F3E6A6A00EAAEB1 /* Exceptions for "PhoneKeySample" folder in "PhoneKeyCore" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Use Cases/SigningUseCases.swift",
+			);
+			target = B4C4A4592F20294A0054EF8A /* PhoneKeyCore */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B4C4A2AB2F0F15240054EF8A /* PhoneKeySample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B4BF7B8B2F3E6A6700EAAEB1 /* Exceptions for "PhoneKeySample" folder in "PhoneKeySample" target */,
+				B4BF7B8D2F3E6A6A00EAAEB1 /* Exceptions for "PhoneKeySample" folder in "PhoneKeyCore" target */,
+			);
 			path = PhoneKeySample;
 			sourceTree = "<group>";
 		};

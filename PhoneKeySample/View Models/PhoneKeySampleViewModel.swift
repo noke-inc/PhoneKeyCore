@@ -68,7 +68,7 @@ final class PhoneKeySampleViewModel {
 
         do {
             // 2) Canonicalize + sign using your helper
-            let signed = try signCommand(with: keyMgr, base: base)
+            let signed = try SigningUseCases.signCommand(with: keyMgr, base: base)
 
             // 3) Encode JSON for preview/copy
             let json = try JSONEncoder().encode(signed)
