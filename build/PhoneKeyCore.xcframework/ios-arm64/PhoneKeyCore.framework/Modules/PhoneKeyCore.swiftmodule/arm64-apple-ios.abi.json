@@ -961,9 +961,94 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "aclBinary",
+            "printedName": "aclBinary",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvp",
+            "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvp",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvg",
+                "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvg",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvs",
+                "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvs",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvM",
+                "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV9aclBinarySSvM",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(result:acl:aclSignature:)",
+            "printedName": "init(result:acl:aclSignature:aclBinary:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -988,11 +1073,17 @@
                 "name": "String",
                 "printedName": "Swift.String",
                 "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV6result3acl0G9SignatureACSS_AA0abD0VSStcfc",
-            "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV6result3acl0G9SignatureACSS_AA0abD0VSStcfc",
+            "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV6result3acl0G9Signature0G6BinaryACSS_AA0abD0VS2Stcfc",
+            "mangledName": "$s12PhoneKeyCore0aB11AclEnvelopeV6result3acl0G9Signature0G6BinaryACSS_AA0abD0VS2Stcfc",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "AccessControl"
@@ -1541,6 +1632,175 @@
             ]
           },
           {
+            "kind": "TypeDecl",
+            "name": "Schedule",
+            "printedName": "Schedule",
+            "children": [
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(start:end:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Schedule",
+                    "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                    "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Date",
+                    "printedName": "Foundation.Date",
+                    "usr": "s:10Foundation4DateV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Date",
+                    "printedName": "Foundation.Date",
+                    "usr": "s:10Foundation4DateV"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV5start3endAE10Foundation4DateV_AJtcfc",
+                "mangledName": "$s12PhoneKeyCore0aB3AclV8ScheduleV5start3endAE10Foundation4DateV_AJtcfc",
+                "moduleName": "PhoneKeyCore",
+                "declAttributes": [
+                  "AccessControl"
+                ],
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(from:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Schedule",
+                    "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                    "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Decoder",
+                    "printedName": "any Swift.Decoder",
+                    "usr": "s:s7DecoderP"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV4fromAEs7Decoder_p_tKcfc",
+                "mangledName": "$s12PhoneKeyCore0aB3AclV8ScheduleV4fromAEs7Decoder_p_tKcfc",
+                "moduleName": "PhoneKeyCore",
+                "declAttributes": [
+                  "AccessControl"
+                ],
+                "throwing": true,
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Function",
+                "name": "encode",
+                "printedName": "encode(to:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Encoder",
+                    "printedName": "any Swift.Encoder",
+                    "usr": "s:s7EncoderP"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV6encode2toys7Encoder_p_tKF",
+                "mangledName": "$s12PhoneKeyCore0aB3AclV8ScheduleV6encode2toys7Encoder_p_tKF",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "throwing": true,
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Schedule",
+                    "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                    "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Schedule",
+                    "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                    "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV2eeoiySbAE_AEtFZ",
+                "mangledName": "$s12PhoneKeyCore0aB3AclV8ScheduleV2eeoiySbAE_AEtFZ",
+                "moduleName": "PhoneKeyCore",
+                "static": true,
+                "implicit": true,
+                "funcSelfKind": "NonMutating"
+              }
+            ],
+            "declKind": "Struct",
+            "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV",
+            "mangledName": "$s12PhoneKeyCore0aB3AclV8ScheduleV",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Decodable",
+                "printedName": "Decodable",
+                "usr": "s:Se",
+                "mangledName": "$sSe"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Encodable",
+                "printedName": "Encodable",
+                "usr": "s:SE",
+                "mangledName": "$sSE"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              }
+            ]
+          },
+          {
             "kind": "Var",
             "name": "trackingId",
             "printedName": "trackingId",
@@ -1787,21 +2047,29 @@
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "Swift.String?",
+                "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]?",
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
+                    "name": "Array",
+                    "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Schedule",
+                        "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                        "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                      }
+                    ],
+                    "usr": "s:Sa"
                   }
                 ],
                 "usr": "s:Sq"
               }
             ],
             "declKind": "Var",
-            "usr": "s:12PhoneKeyCore0aB3AclV8scheduleSSSgvp",
-            "mangledName": "$s12PhoneKeyCore0aB3AclV8scheduleSSSgvp",
+            "usr": "s:12PhoneKeyCore0aB3AclV8scheduleSayAC8ScheduleVGSgvp",
+            "mangledName": "$s12PhoneKeyCore0aB3AclV8scheduleSayAC8ScheduleVGSgvp",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "HasStorage",
@@ -1819,21 +2087,29 @@
                   {
                     "kind": "TypeNominal",
                     "name": "Optional",
-                    "printedName": "Swift.String?",
+                    "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]?",
                     "children": [
                       {
                         "kind": "TypeNominal",
-                        "name": "String",
-                        "printedName": "Swift.String",
-                        "usr": "s:SS"
+                        "name": "Array",
+                        "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Schedule",
+                            "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                            "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                          }
+                        ],
+                        "usr": "s:Sa"
                       }
                     ],
                     "usr": "s:Sq"
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:12PhoneKeyCore0aB3AclV8scheduleSSSgvg",
-                "mangledName": "$s12PhoneKeyCore0aB3AclV8scheduleSSSgvg",
+                "usr": "s:12PhoneKeyCore0aB3AclV8scheduleSayAC8ScheduleVGSgvg",
+                "mangledName": "$s12PhoneKeyCore0aB3AclV8scheduleSayAC8ScheduleVGSgvg",
                 "moduleName": "PhoneKeyCore",
                 "implicit": true,
                 "accessorKind": "get"
@@ -1993,13 +2269,21 @@
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "Swift.String?",
+                "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]?",
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
+                    "name": "Array",
+                    "printedName": "[PhoneKeyCore.PhoneKeyAcl.Schedule]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Schedule",
+                        "printedName": "PhoneKeyCore.PhoneKeyAcl.Schedule",
+                        "usr": "s:12PhoneKeyCore0aB3AclV8ScheduleV"
+                      }
+                    ],
+                    "usr": "s:Sa"
                   }
                 ],
                 "usr": "s:Sq"
@@ -2012,8 +2296,8 @@
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:12PhoneKeyCore0aB3AclV10trackingId7lockMac011phonePublicB08issuedAt07expiresL08schedule11permissionsACSSSg_S2S10Foundation4DateVAnkC11PermissionsVtcfc",
-            "mangledName": "$s12PhoneKeyCore0aB3AclV10trackingId7lockMac011phonePublicB08issuedAt07expiresL08schedule11permissionsACSSSg_S2S10Foundation4DateVAnkC11PermissionsVtcfc",
+            "usr": "s:12PhoneKeyCore0aB3AclV10trackingId7lockMac011phonePublicB08issuedAt07expiresL08schedule11permissionsACSSSg_S2S10Foundation4DateVANSayAC8ScheduleVGSgAC11PermissionsVtcfc",
+            "mangledName": "$s12PhoneKeyCore0aB3AclV10trackingId7lockMac011phonePublicB08issuedAt07expiresL08schedule11permissionsACSSSg_S2S10Foundation4DateVANSayAC8ScheduleVGSgAC11PermissionsVtcfc",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "AccessControl",
@@ -4907,247 +5191,6 @@
         "printedName": "PhoneKeySignedCommand",
         "children": [
           {
-            "kind": "TypeDecl",
-            "name": "Signature",
-            "printedName": "Signature",
-            "children": [
-              {
-                "kind": "Constructor",
-                "name": "init",
-                "printedName": "init(from:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Signature",
-                    "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                    "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Decoder",
-                    "printedName": "any Swift.Decoder",
-                    "usr": "s:s7DecoderP"
-                  }
-                ],
-                "declKind": "Constructor",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV4fromAEs7Decoder_p_tKcfc",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9SignatureV4fromAEs7Decoder_p_tKcfc",
-                "moduleName": "PhoneKeyCore",
-                "declAttributes": [
-                  "AccessControl",
-                  "RawDocComment"
-                ],
-                "throwing": true,
-                "init_kind": "Designated"
-              },
-              {
-                "kind": "Constructor",
-                "name": "init",
-                "printedName": "init(algorithm:value:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Signature",
-                    "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                    "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Constructor",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV9algorithm5valueAESS_SStcfc",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9SignatureV9algorithm5valueAESS_SStcfc",
-                "moduleName": "PhoneKeyCore",
-                "declAttributes": [
-                  "AccessControl"
-                ],
-                "init_kind": "Designated"
-              },
-              {
-                "kind": "Function",
-                "name": "encode",
-                "printedName": "encode(to:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Encoder",
-                    "printedName": "any Swift.Encoder",
-                    "usr": "s:s7EncoderP"
-                  }
-                ],
-                "declKind": "Func",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV6encode2toys7Encoder_p_tKF",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9SignatureV6encode2toys7Encoder_p_tKF",
-                "moduleName": "PhoneKeyCore",
-                "implicit": true,
-                "throwing": true,
-                "funcSelfKind": "NonMutating"
-              }
-            ],
-            "declKind": "Struct",
-            "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV",
-            "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9SignatureV",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "conformances": [
-              {
-                "kind": "Conformance",
-                "name": "Copyable",
-                "printedName": "Copyable",
-                "usr": "s:s8CopyableP",
-                "mangledName": "$ss8CopyableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Escapable",
-                "printedName": "Escapable",
-                "usr": "s:s9EscapableP",
-                "mangledName": "$ss9EscapableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Decodable",
-                "printedName": "Decodable",
-                "usr": "s:Se",
-                "mangledName": "$sSe"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Encodable",
-                "printedName": "Encodable",
-                "usr": "s:SE",
-                "mangledName": "$sSE"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "signature",
-            "printedName": "signature",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Signature",
-                    "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                    "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvp",
-            "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvp",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Signature",
-                        "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                        "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvg",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvg",
-                "moduleName": "PhoneKeyCore",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Signature",
-                        "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                        "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvs",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvs",
-                "moduleName": "PhoneKeyCore",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvM",
-                "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9signatureAC9SignatureVSgvM",
-                "moduleName": "PhoneKeyCore",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init(from:)",
@@ -5178,7 +5221,7 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(commandId:type:createdAt:nonce:payload:signature:)",
+            "printedName": "init(commandId:signature:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5194,52 +5237,14 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:SD"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Signature",
-                "printedName": "PhoneKeyCore.PhoneKeySignedCommand.Signature",
-                "usr": "s:12PhoneKeyCore0aB13SignedCommandV9SignatureV"
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:12PhoneKeyCore0aB13SignedCommandV9commandId4type9createdAt5nonce7payload9signatureACSS_S3SSDyS2SGAC9SignatureVtcfc",
-            "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9commandId4type9createdAt5nonce7payload9signatureACSS_S3SSDyS2SGAC9SignatureVtcfc",
+            "usr": "s:12PhoneKeyCore0aB13SignedCommandV9commandId9signatureACSS_10Foundation4DataVtcfc",
+            "mangledName": "$s12PhoneKeyCore0aB13SignedCommandV9commandId9signatureACSS_10Foundation4DataVtcfc",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "AccessControl"
@@ -8557,154 +8562,154 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 5210,
+      "offset": 5240,
       "length": 12,
       "value": "\"ECDSA_P256\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 5988,
+      "offset": 8459,
       "length": 13,
       "value": "\"phonePubKey\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 11607,
+      "offset": 13985,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 12389,
+      "offset": 14767,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 12440,
+      "offset": 14818,
       "length": 18,
       "value": "\"ed25519-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 12490,
+      "offset": 14868,
       "length": 3,
       "value": "\"1\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "BooleanLiteral",
-      "offset": 12528,
+      "offset": 14906,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14005,
+      "offset": 16197,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14056,
+      "offset": 16248,
       "length": 15,
       "value": "\"p256-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14103,
+      "offset": 16295,
       "length": 3,
       "value": "\"2\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 14143,
+      "offset": 16335,
       "length": 2,
       "value": "65"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "BooleanLiteral",
-      "offset": 14180,
+      "offset": 16372,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 15910,
+      "offset": 17913,
       "length": 2,
       "value": "65"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 16276,
+      "offset": 18279,
       "length": 4,
       "value": "0x00"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 16466,
+      "offset": 18469,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 16517,
+      "offset": 18520,
       "length": 15,
       "value": "\"p256-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 16564,
+      "offset": 18567,
       "length": 3,
       "value": "\"2\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 16654,
+      "offset": 18657,
       "length": 2,
       "value": "48"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 16659,
+      "offset": 18662,
       "length": 4,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 16694,
+      "offset": 18697,
       "length": 37,
       "value": "\"697A332A-697AA300,697B75F0-697B84AA\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 19293,
+      "offset": 21296,
       "length": 3,
       "value": "128"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 19323,
+      "offset": 21326,
       "length": 4,
       "value": "0xFF"
     },
@@ -8900,7 +8905,7 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeySample\/Use Cases\/SigningUseCases.swift",
       "kind": "IntegerLiteral",
-      "offset": 2289,
+      "offset": 2227,
       "length": 1,
       "value": "0"
     }

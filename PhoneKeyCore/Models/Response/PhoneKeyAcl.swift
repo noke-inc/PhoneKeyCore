@@ -53,19 +53,20 @@ public struct PhoneKeyAclEnvelope: Codable {
     public let result: String
     public var acl: PhoneKeyAcl
     public var aclSignature: String
+    public var aclBinary: String
 
     enum CodingKeys: String, CodingKey {
         case result
         case acl
         case aclSignature
+        case aclBinary
     }
 
-    public init(result: String, acl: PhoneKeyAcl, aclSignature: String) {
+    public init(result: String, acl: PhoneKeyAcl, aclSignature: String, aclBinary: String) {
         self.result = result
         self.acl = acl
         self.aclSignature = aclSignature
-        // Attach into acl as a convenience
-        //self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
+        self.aclBinary = aclBinary
     }
 
     public init(from decoder: Decoder) throws {
@@ -73,8 +74,7 @@ public struct PhoneKeyAclEnvelope: Codable {
         self.result = try container.decode(String.self, forKey: .result)
         self.acl = try container.decode(PhoneKeyAcl.self, forKey: .acl)
         self.aclSignature = try container.decode(String.self, forKey: .aclSignature)
-        // Attach into acl
-        //self.acl.signature = PhoneKeyAcl.Signature(value: aclSignature)
+        self.aclBinary = try container.decode(String.self, forKey: .aclBinary)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -84,6 +84,7 @@ public struct PhoneKeyAclEnvelope: Codable {
         // Prefer explicit aclSignature; otherwise derive from acl.signature.value if present
         let sigValue = aclSignature.isEmpty ? (aclSignature) : aclSignature
         try container.encode(sigValue, forKey: .aclSignature)
+        try container.encode(aclBinary, forKey: .aclBinary)
     }
 }
 
@@ -151,6 +152,71 @@ public struct PhoneKeyAcl: Codable {
             self.value = value
         }
     }
+    
+    public struct Schedule: Codable, Equatable {
+        let start: Date
+        let end: Date
+
+        private enum CodingKeys: String, CodingKey {
+            case start
+            case end
+        }
+
+        public init(start: Date, end: Date) {
+            self.start = start
+            self.end = end
+        }
+
+        public init(from decoder: Decoder) throws {
+            // We’ll decode values flexibly (Int/Double/String) then normalize via a local helper
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+
+            // Try canonical keys first
+            if let s = try? Self.decodeFlexibleDateValue(container: c, key: .start),
+               let e = try? Self.decodeFlexibleDateValue(container: c, key: .end) {
+                self.init(start: s, end: e)
+                return
+            }
+
+            // Try alternate keys (start/end)
+            if let s = try? Self.decodeFlexibleDateValue(container: c, key: .start),
+               let e = try? Self.decodeFlexibleDateValue(container: c, key: .end) {
+                self.init(start: s, end: e)
+                return
+            }
+
+            throw DecodingError.dataCorrupted(.init(
+                codingPath: c.codingPath,
+                debugDescription: "Could not decode Schedule (start/end)."
+            ))
+        }
+
+        // This mirrors your decodeFlexibleDate but scoped locally for embedded objects.
+        // If you prefer, you can make this call your parent type’s method.
+        private static func decodeFlexibleDateValue(
+            container c: KeyedDecodingContainer<CodingKeys>,
+            key: CodingKeys
+        ) throws -> Date {
+            if let secs = try? c.decode(Int.self, forKey: key) {
+                return Date(timeIntervalSince1970: TimeInterval(secs))
+            }
+            if let secsD = try? c.decode(Double.self, forKey: key) {
+                return Date(timeIntervalSince1970: secsD)
+            }
+            if let str = try? c.decode(String.self, forKey: key) {
+                if let secs = Int(str) {
+                    return Date(timeIntervalSince1970: TimeInterval(secs))
+                }
+                if let d = ISO8601.parse(str) {
+                    return d
+                }
+            }
+            throw DecodingError.dataCorrupted(.init(
+                codingPath: c.codingPath + [key],
+                debugDescription: "Expected epoch seconds (Int/Double/String) or ISO8601 string for \(key)."
+            ))
+        }
+    }
 
     // MARK: Properties
 
@@ -161,9 +227,8 @@ public struct PhoneKeyAcl: Codable {
     public let issuedAt: Date                // Epoch seconds in payload
     public let expiresAt: Date               // Epoch seconds in payload
     /// NOW OPTIONAL
-    public let schedule: String?
+    public let schedule: [Schedule]?
     public let permissions: Permissions
-//    public var signature: Signature?         // Attached via envelope
 
     enum CodingKeys: String, CodingKey {
         case trackingId
@@ -173,7 +238,6 @@ public struct PhoneKeyAcl: Codable {
         case expiresAt
         case schedule
         case permissions
-//        case signature
     }
 
     // MARK: Decoding
@@ -198,7 +262,7 @@ public struct PhoneKeyAcl: Codable {
         self.expiresAt = try Self.decodeFlexibleDate(container: c, key: .expiresAt)
 
         // schedule is optional
-        self.schedule = try? c.decode(String.self, forKey: .schedule)
+        self.schedule = try? c.decode(Array<Schedule>.self, forKey: .schedule)
         self.permissions = try c.decode(Permissions.self, forKey: .permissions)
         //self.signature = try c.decodeIfPresent(Signature.self, forKey: .signature) // Usually nil; set by envelope
     }
@@ -239,9 +303,8 @@ public struct PhoneKeyAcl: Codable {
         phonePublicKey: String,
         issuedAt: Date,
         expiresAt: Date,
-        schedule: String?,
+        schedule: [Schedule]?,
         permissions: PhoneKeyAcl.Permissions,
-        //signature: PhoneKeyAcl.Signature?
     ) {
         self.trackingId = trackingId
         self.lockMac = lockMac
@@ -250,7 +313,6 @@ public struct PhoneKeyAcl: Codable {
         self.expiresAt = expiresAt
         self.schedule = schedule
         self.permissions = permissions
-        //self.signature = signature
     }
 
     // MARK: - Helpers
@@ -350,15 +412,12 @@ public extension PhoneKeyAcl {
 
         let issuedAt = now
         let expiresAt = now.addingTimeInterval(72 * 3600) // +72h
-        let schedule: String? = "697A332A-697AA300,697B75F0-697B84AA"
+        let schedule: [Schedule]? = [
+            Schedule(start: Date(), end: Date().addingTimeInterval(24 * 3600)),
+        ]
 
         // 32-byte Ed25519 public key → Base64
         let pub32 = sequentialBytes(32, start: 0x11).base64EncodedString()
-
-        let signature: PhoneKeyAcl.Signature? = includeSignature
-            ? .init(algorithm: "Ed25519",
-                    value: sequentialBytes(64, start: 0xA0).base64EncodedString())
-            : nil
 
         return PhoneKeyAcl(
             trackingId: trackingId,
@@ -368,7 +427,6 @@ public extension PhoneKeyAcl {
             expiresAt: expiresAt,
             schedule: schedule,
             permissions: defaultPermissions(),
-            //signature: signature
         )
     }
 
@@ -392,7 +450,9 @@ public extension PhoneKeyAcl {
 
         let issuedAt = now
         let expiresAt = now.addingTimeInterval(48 * 3600) // +48h
-        let schedule: String? = "697A332A-697AA300,697B75F0-697B84AA"
+        let schedule: [Schedule]? = [
+            Schedule(start: Date(), end: Date().addingTimeInterval(24 * 3600)),
+        ]
         
         // Build a plausible public key buffer.
         // If uncompressed (65), first byte is 0x04; rest are XY coordinates.
@@ -404,11 +464,6 @@ public extension PhoneKeyAcl {
             pub = sequentialBytes(p256PublicKeyLength, start: 0x31)
         }
 
-        let signature: PhoneKeyAcl.Signature? = includeSignature
-            ? .init(algorithm: "ECDSA_P256",
-                    value: sequentialBytes(64, start: 0xB0).base64EncodedString())
-            : nil
-
         return PhoneKeyAcl(
             trackingId: trackingId,
             lockMac: lockMac,
@@ -417,7 +472,6 @@ public extension PhoneKeyAcl {
             expiresAt: expiresAt,
             schedule: schedule,
             permissions: defaultPermissions(),
-            //signature: signature
         )
     }
 

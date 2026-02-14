@@ -49,21 +49,11 @@ final class PhoneKeySampleViewModel {
 
         // Inputs
         let cmdId = UUID().uuidString
-        let nonce = Data((0..<16).map { _ in UInt8.random(in: 0...255) }).base64EncodedString()
-        let now = Date()
-        let payload = [
-            "channel": "ble",
-            "overlock_override": overlockOverride ? "true" : "false"
-        ]
 
         // 1) Build base PhoneKeySignedCommand (createdAt as ISO-8601 string)
         let base = PhoneKeySignedCommand(
             commandId: cmdId,
-            type: "unlock",
-            createdAt: now.toISO8601String(),         // use your Date extension
-            nonce: nonce,
-            payload: payload,
-            signature: .init(algorithm: "", value: "") // placeholder; signCommand will fill it
+            signature: Data()
         )
 
         do {

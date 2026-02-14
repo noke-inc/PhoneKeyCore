@@ -12,8 +12,7 @@ public class SigningUseCases {
     public static func signCommand(with manager: PhoneKeyManager, base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommand {
         let bytes = try canonicalCommandBytes(for: base)
         let signature = try manager.sign(bytes)
-        var signedCommand = base
-        signedCommand.signature = .init(algorithm: SignatureAlgorithm.ed25519.rawValue, value: signature.base64EncodedString())
+        let signedCommand = PhoneKeySignedCommand(commandId: base.commandId, signature: signature)
         return signedCommand
     }
     
