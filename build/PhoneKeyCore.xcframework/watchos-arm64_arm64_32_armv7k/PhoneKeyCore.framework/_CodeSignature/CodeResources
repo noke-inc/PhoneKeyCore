@@ -14,7 +14,7 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos.abi.json</key>
 		<data>
-		yBGYhu6iFjjJURFHuBc9I6HItbM=
+		5lxlBpNkfA7xBL111YhKoKg/4W8=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos.private.swiftinterface</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64_32-apple-watchos.abi.json</key>
 		<data>
-		yBGYhu6iFjjJURFHuBc9I6HItbM=
+		5lxlBpNkfA7xBL111YhKoKg/4W8=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64_32-apple-watchos.private.swiftinterface</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/armv7k-apple-watchos.abi.json</key>
 		<data>
-		yBGYhu6iFjjJURFHuBc9I6HItbM=
+		5lxlBpNkfA7xBL111YhKoKg/4W8=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/armv7k-apple-watchos.private.swiftinterface</key>
 		<data>
@@ -90,11 +90,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yBGYhu6iFjjJURFHuBc9I6HItbM=
+			5lxlBpNkfA7xBL111YhKoKg/4W8=
 			</data>
 			<key>hash2</key>
 			<data>
-			RD+i03Hkre31IohVhaGZW8MVGg1mpvMuEsRMkj3GUd4=
+			nBUvYoGlSYt6/O9ActUd6UzY+lFowiWWpFAhFfar5lM=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos.private.swiftinterface</key>
@@ -145,11 +145,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yBGYhu6iFjjJURFHuBc9I6HItbM=
+			5lxlBpNkfA7xBL111YhKoKg/4W8=
 			</data>
 			<key>hash2</key>
 			<data>
-			RD+i03Hkre31IohVhaGZW8MVGg1mpvMuEsRMkj3GUd4=
+			nBUvYoGlSYt6/O9ActUd6UzY+lFowiWWpFAhFfar5lM=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64_32-apple-watchos.private.swiftinterface</key>
@@ -200,11 +200,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			yBGYhu6iFjjJURFHuBc9I6HItbM=
+			5lxlBpNkfA7xBL111YhKoKg/4W8=
 			</data>
 			<key>hash2</key>
 			<data>
-			RD+i03Hkre31IohVhaGZW8MVGg1mpvMuEsRMkj3GUd4=
+			nBUvYoGlSYt6/O9ActUd6UzY+lFowiWWpFAhFfar5lM=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/armv7k-apple-watchos.private.swiftinterface</key>

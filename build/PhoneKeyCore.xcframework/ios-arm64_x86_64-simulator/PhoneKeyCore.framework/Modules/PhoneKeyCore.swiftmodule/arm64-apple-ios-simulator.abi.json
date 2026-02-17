@@ -8702,14 +8702,14 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21296,
+      "offset": 21376,
       "length": 3,
       "value": "128"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21326,
+      "offset": 21406,
       "length": 4,
       "value": "0xFF"
     },
@@ -8772,7 +8772,7 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 20805,
+      "offset": 20808,
       "length": 11,
       "value": "\"acl.index\""
     },

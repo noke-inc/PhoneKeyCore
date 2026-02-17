@@ -220,8 +220,7 @@ public final class PhoneKeyManager {
             }
             // Create DER-encoded ECDSA signature, then convert to raw 64 bytes (r||s)
             let derSig = try signP256WithSecKey(privateKey: privateKey, message: data)
-            let raw64 = try ecdsaSignatureDERToRawRS(der: derSig, componentSize: 32)
-            return raw64
+            return derSig
         }
     }
 
