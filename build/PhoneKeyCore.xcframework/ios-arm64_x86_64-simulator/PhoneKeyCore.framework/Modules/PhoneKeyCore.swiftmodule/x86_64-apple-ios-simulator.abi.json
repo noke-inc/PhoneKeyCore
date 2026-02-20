@@ -4996,12 +4996,18 @@
           {
             "kind": "Function",
             "name": "savePhoneKeyInfo",
-            "printedName": "savePhoneKeyInfo(info:)",
+            "printedName": "savePhoneKeyInfo(userId:info:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "Void",
                 "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               },
               {
                 "kind": "TypeNominal",
@@ -5011,8 +5017,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC04saveaB4Info4infoyAA0abF8ResponseV_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC04saveaB4Info4infoyAA0abF8ResponseV_tKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC04saveaB4Info6userId4infoySS_AA0abF8ResponseVtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC04saveaB4Info6userId4infoySS_AA0abF8ResponseVtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -5025,7 +5031,7 @@
           {
             "kind": "Function",
             "name": "getPhoneKeyInfo",
-            "printedName": "getPhoneKeyInfo()",
+            "printedName": "getPhoneKeyInfo(userId:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5040,11 +5046,17 @@
                   }
                 ],
                 "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC03getaB4InfoAA0abF8ResponseVSgyKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC03getaB4InfoAA0abF8ResponseVSgyKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC03getaB4Info6userIdAA0abF8ResponseVSgSS_tKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC03getaB4Info6userIdAA0abF8ResponseVSgSS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -8702,14 +8714,14 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21376,
+      "offset": 21296,
       "length": 3,
       "value": "128"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21406,
+      "offset": 21326,
       "length": 4,
       "value": "0xFF"
     },
@@ -8772,7 +8784,7 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 20808,
+      "offset": 20721,
       "length": 11,
       "value": "\"acl.index\""
     },

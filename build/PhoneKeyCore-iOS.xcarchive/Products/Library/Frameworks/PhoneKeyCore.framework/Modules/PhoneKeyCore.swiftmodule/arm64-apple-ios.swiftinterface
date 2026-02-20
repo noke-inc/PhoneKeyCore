@@ -211,9 +211,9 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
   final public func deleteACL(trackingId: Swift.String) throws
   final public func listACLEnvelopes() throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
-  final public func savePhoneKeyInfo(info: PhoneKeyCore.PhoneKeyInfoResponse) throws
+  final public func savePhoneKeyInfo(userId: Swift.String, info: PhoneKeyCore.PhoneKeyInfoResponse) throws
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getPhoneKeyInfo() throws -> PhoneKeyCore.PhoneKeyInfoResponse?
+  final public func getPhoneKeyInfo(userId: Swift.String) throws -> PhoneKeyCore.PhoneKeyInfoResponse?
   #endif
   @discardableResult
   final public func saveACLOrAssignTempId(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws -> Swift.String

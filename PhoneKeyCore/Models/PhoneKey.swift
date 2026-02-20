@@ -647,9 +647,9 @@ public extension PhoneKeyManager {
     
     /// Persist the current PhoneKeyInfo (if any) under a reserved key.
     /// This allows the app to recover key info (e.g., after a relaunch) and a reinstall depending on the accessibility flag.
-    func savePhoneKeyInfo(info: PhoneKeyInfoResponse) throws {
+    func savePhoneKeyInfo(userId: String, info: PhoneKeyInfoResponse) throws {
         let data = try JSONEncoder().encode(info)
-        try keychain.setValue(data.base64EncodedString(), forKey: "phoneKeyInfo")
+        try keychain.setValue(data.base64EncodedString(), forKey: "\(userId)-phoneKeyInfo")
     }
     
     // MARK: - New: Load Phone Key Info
@@ -657,8 +657,8 @@ public extension PhoneKeyManager {
     /// Load the persisted PhoneKeyInfo (if any) from the reserved key.
     /// Returns nil if not found or if decoding fails (e.g., due to corruption or format change).
     
-    func getPhoneKeyInfo() throws -> PhoneKeyInfoResponse? {
-        guard let b64 = try? keychain.getValue(forKey: "phoneKeyInfo"),
+    func getPhoneKeyInfo(userId: String) throws -> PhoneKeyInfoResponse? {
+        guard let b64 = try? keychain.getValue(forKey: "\(userId)-phoneKeyInfo"),
               let data = Data(base64Encoded: b64) else {
             return nil
         }
