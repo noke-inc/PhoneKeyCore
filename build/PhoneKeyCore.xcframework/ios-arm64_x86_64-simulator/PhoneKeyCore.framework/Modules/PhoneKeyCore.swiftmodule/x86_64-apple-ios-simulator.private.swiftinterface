@@ -178,9 +178,16 @@ final public class PhoneKeyManager {
   final public func ensureKeys() throws -> PhoneKeyCore.PhoneKeyInfo
   @discardableResult
   final public func ensureKeys(algorithm: PhoneKeyCore.SignatureAlgorithm) throws -> PhoneKeyCore.PhoneKeyInfo
+  #if compiler(>=5.3) && $NonescapableTypes
+  @discardableResult
+  final public func ensureP256Keys(userId: Swift.String, deviceID: Foundation.Data?) throws -> PhoneKeyCore.PhoneKeyInfo
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func sign(_ data: Foundation.Data, userId: Swift.String, deviceID: Foundation.Data?) throws -> Foundation.Data
+  #endif
   final public func destroyKeys() throws
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func sign(_ data: Foundation.Data, algorithm: PhoneKeyCore.SignatureAlgorithm? = nil) throws -> Foundation.Data
+  final public func sign(_ data: Foundation.Data, userId: Swift.String, deviceID: Foundation.Data? = nil, algorithm: PhoneKeyCore.SignatureAlgorithm? = nil) throws -> Foundation.Data
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   final public func loadExistingKey(_ seed: Foundation.Data) throws -> PhoneKeyCore.PhoneKeyInfo?
@@ -320,7 +327,9 @@ public enum PhoneKeyCoreBridge {
   #endif
 }
 @_hasMissingDesignatedInitializers public class SigningUseCases {
-  public static func signCommand(with manager: PhoneKeyCore.PhoneKeyManager, base: PhoneKeyCore.PhoneKeySignedCommand) throws -> PhoneKeyCore.PhoneKeySignedCommand
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func signCommand(userId: Swift.String, deviceID: Foundation.Data? = nil, with manager: PhoneKeyCore.PhoneKeyManager, base: PhoneKeyCore.PhoneKeySignedCommand) throws -> PhoneKeyCore.PhoneKeySignedCommand
+  #endif
   public static func canonicalCommandBytes(for command: PhoneKeyCore.PhoneKeySignedCommand) throws -> Foundation.Data
   @objc deinit
 }

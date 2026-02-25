@@ -9,9 +9,9 @@
 import Foundation
 
 public class SigningUseCases {
-    public static func signCommand(with manager: PhoneKeyManager, base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommand {
+    public static func signCommand(userId: String, deviceID: Data? = nil, with manager: PhoneKeyManager, base: PhoneKeySignedCommand) throws -> PhoneKeySignedCommand {
         let bytes = try canonicalCommandBytes(for: base)
-        let signature = try manager.sign(bytes)
+        let signature = try manager.sign(bytes, userId: userId, deviceID: deviceID)
         let signedCommand = PhoneKeySignedCommand(commandId: base.commandId, signature: signature)
         return signedCommand
     }

@@ -523,7 +523,7 @@ public extension PhoneKeyAcl {
 
         // Sign the JSON bytes
         // NOTE: Your PhoneKeyManager must return signature bytes in the format the lock expects (DER or raw r||s). You’re already base64-encoding it, so both work as long as the verifier mirrors it.
-        let signatureBytes = try keyManager.sign(jsonData)
+        let signatureBytes = try keyManager.sign(jsonData, userId: "")
 
         let aclB64 = jsonData.base64EncodedString()          // ASCII
         let sigB64 = signatureBytes.base64EncodedString()    // ASCII

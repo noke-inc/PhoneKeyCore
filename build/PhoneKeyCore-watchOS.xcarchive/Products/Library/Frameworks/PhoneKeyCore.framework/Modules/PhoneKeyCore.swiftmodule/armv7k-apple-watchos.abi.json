@@ -3310,10 +3310,7 @@
         "name": "CryptoKit",
         "printedName": "CryptoKit",
         "declKind": "Import",
-        "moduleName": "PhoneKeyCore",
-        "declAttributes": [
-          "RawDocComment"
-        ]
+        "moduleName": "PhoneKeyCore"
       },
       {
         "kind": "TypeDecl",
@@ -3324,7 +3321,8 @@
         "mangledName": "$s12PhoneKeyCore12KeychainKeysO",
         "moduleName": "PhoneKeyCore",
         "declAttributes": [
-          "AccessControl"
+          "AccessControl",
+          "RawDocComment"
         ],
         "conformances": [
           {
@@ -4278,8 +4276,7 @@
             "declAttributes": [
               "HasInitialValue",
               "HasStorage",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "isLet": true,
             "hasStorage": true,
@@ -4531,6 +4528,101 @@
           },
           {
             "kind": "Function",
+            "name": "ensureP256Keys",
+            "printedName": "ensureP256Keys(userId:deviceID:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeyInfo",
+                "printedName": "PhoneKeyCore.PhoneKeyInfo",
+                "usr": "s:12PhoneKeyCore0aB4InfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC14ensureP256Keys6userId8deviceIDAA0aB4InfoVSS_10Foundation4DataVSgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC14ensureP256Keys6userId8deviceIDAA0aB4InfoVSS_10Foundation4DataVSgtKF",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "DiscardableResult",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "sign",
+            "printedName": "sign(_:userId:deviceID:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC4sign_6userId8deviceID10Foundation4DataVAI_SSAISgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC4sign_6userId8deviceID10Foundation4DataVAI_SSAISgtKF",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "destroyKeys",
             "printedName": "destroyKeys()",
             "children": [
@@ -4555,7 +4647,7 @@
           {
             "kind": "Function",
             "name": "sign",
-            "printedName": "sign(_:algorithm:)",
+            "printedName": "sign(_:userId:deviceID:algorithm:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -4568,6 +4660,27 @@
                 "name": "Data",
                 "printedName": "Foundation.Data",
                 "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeNominal",
@@ -4586,8 +4699,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC4sign_9algorithm10Foundation4DataVAH_AA18SignatureAlgorithmOSgtKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC4sign_9algorithm10Foundation4DataVAH_AA18SignatureAlgorithmOSgtKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC4sign_6userId8deviceID9algorithm10Foundation4DataVAJ_SSAJSgAA18SignatureAlgorithmOSgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC4sign_6userId8deviceID9algorithm10Foundation4DataVAJ_SSAJSgAA18SignatureAlgorithmOSgtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -4666,8 +4779,7 @@
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -4703,8 +4815,7 @@
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -4828,8 +4939,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC15saveACLEnvelopeyyAA0aB11AclEnvelopeVKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -4887,8 +4997,7 @@
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
-              "DiscardableResult",
-              "RawDocComment"
+              "DiscardableResult"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -4925,8 +5034,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC14getACLEnvelope10trackingIdAA0aB11AclEnvelopeVSgSS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -4954,8 +5062,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL10trackingIdySS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -4986,8 +5093,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC16listACLEnvelopesSayAA0aB11AclEnvelopeVGyKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -5059,8 +5165,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC03getaB4Info6userIdAA0abF8ResponseVSgSS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -5125,8 +5230,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC20migrateACLTrackingId08fromTempG008toServerG0ySS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "throwing": true,
@@ -5155,8 +5259,7 @@
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC16isTempTrackingIdySbSSF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
-              "Final",
-              "RawDocComment"
+              "Final"
             ],
             "isFromExtension": true,
             "funcSelfKind": "NonMutating"
@@ -8360,13 +8463,34 @@
           {
             "kind": "Function",
             "name": "signCommand",
-            "printedName": "signCommand(with:base:)",
+            "printedName": "signCommand(userId:deviceID:with:base:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "PhoneKeySignedCommand",
                 "printedName": "PhoneKeyCore.PhoneKeySignedCommand",
                 "usr": "s:12PhoneKeyCore0aB13SignedCommandV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
               },
               {
                 "kind": "TypeNominal",
@@ -8382,8 +8506,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore15SigningUseCasesC11signCommand4with4baseAA0ab6SignedH0VAA0aB7ManagerC_AHtKFZ",
-            "mangledName": "$s12PhoneKeyCore15SigningUseCasesC11signCommand4with4baseAA0ab6SignedH0VAA0aB7ManagerC_AHtKFZ",
+            "usr": "s:12PhoneKeyCore15SigningUseCasesC11signCommand6userId8deviceID4with4baseAA0ab6SignedH0VSS_10Foundation4DataVSgAA0aB7ManagerCAJtKFZ",
+            "mangledName": "$s12PhoneKeyCore15SigningUseCasesC11signCommand6userId8deviceID4with4baseAA0ab6SignedH0VSS_10Foundation4DataVSgAA0aB7ManagerCAJtKFZ",
             "moduleName": "PhoneKeyCore",
             "static": true,
             "declAttributes": [
@@ -8714,14 +8838,14 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21296,
+      "offset": 21308,
       "length": 3,
       "value": "128"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 21326,
+      "offset": 21338,
       "length": 4,
       "value": "0xFF"
     },
@@ -8735,56 +8859,70 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 315,
+      "offset": 307,
       "length": 14,
       "value": "\"ed25519.seed\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 426,
+      "offset": 427,
       "length": 25,
       "value": "\"p256.signing.privatekey\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 581,
+      "offset": 582,
       "length": 9,
       "value": "\"Ed25519\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 612,
+      "offset": 613,
       "length": 12,
       "value": "\"ECDSA_P256\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 699,
+      "offset": 693,
       "length": 8,
       "value": "\"active\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 727,
+      "offset": 721,
       "length": 9,
       "value": "\"revoked\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 756,
+      "offset": 750,
       "length": 9,
       "value": "\"expired\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
       "kind": "StringLiteral",
-      "offset": 20721,
+      "offset": 1973,
+      "length": 19,
+      "value": "\"DeviceUUIDForSalt\""
+    },
+    {
+      "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
+      "kind": "StringLiteral",
+      "offset": 2025,
+      "length": 35,
+      "value": "\"com.noke.PhoneKeyCore.device.uuid\""
+    },
+    {
+      "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/PhoneKey.swift",
+      "kind": "StringLiteral",
+      "offset": 21462,
       "length": 11,
       "value": "\"acl.index\""
     },
@@ -8917,7 +9055,7 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeySample\/Use Cases\/SigningUseCases.swift",
       "kind": "IntegerLiteral",
-      "offset": 2227,
+      "offset": 2302,
       "length": 1,
       "value": "0"
     }

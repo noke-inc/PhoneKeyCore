@@ -25,6 +25,7 @@ final class PhoneKeySampleViewModel {
     
     init(keyMgr: PhoneKeyManager) {
         self.keyMgr = keyMgr
+        clearKeychain()
     }
 
     // MARK: - Ensure / Load Phone Key
@@ -58,7 +59,7 @@ final class PhoneKeySampleViewModel {
 
         do {
             // 2) Canonicalize + sign using your helper
-            let signed = try SigningUseCases.signCommand(with: keyMgr, base: base)
+            let signed = try SigningUseCases.signCommand(userId: "", with: keyMgr, base: base)
 
             // 3) Encode JSON for preview/copy
             let json = try JSONEncoder().encode(signed)
@@ -131,6 +132,7 @@ final class PhoneKeySampleViewModel {
     func clearKeychain() {
         do {
             try keyMgr.deleteSeed()
+            try keyMgr.deleteP256Key()
             status = "No Key"
             keyId = ""
             publicKeyBase64 = ""
