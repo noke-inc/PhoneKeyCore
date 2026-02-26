@@ -4920,12 +4920,24 @@
           {
             "kind": "Function",
             "name": "saveACLEnvelope",
-            "printedName": "saveACLEnvelope(_:)",
+            "printedName": "saveACLEnvelope(userId:mac:_:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "Void",
                 "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               },
               {
                 "kind": "TypeNominal",
@@ -4935,8 +4947,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC15saveACLEnvelopeyyAA0aB11AclEnvelopeVKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC15saveACLEnvelopeyyAA0aB11AclEnvelopeVKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC15saveACLEnvelope6userId3mac_ySS_SSAA0aB11AclEnvelopeVtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC15saveACLEnvelope6userId3mac_ySS_SSAA0aB11AclEnvelopeVtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final"
@@ -4948,13 +4960,25 @@
           {
             "kind": "Function",
             "name": "updateACL",
-            "printedName": "updateACL(_:merge:)",
+            "printedName": "updateACL(userId:mac:_:merge:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "PhoneKeyAclEnvelope",
                 "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
                 "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               },
               {
                 "kind": "TypeNominal",
@@ -4992,8 +5016,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB11AclEnvelopeVAG_A2GcSgtKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9updateACL_5mergeAA0aB11AclEnvelopeVAG_A2GcSgtKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC9updateACL6userId3mac_5mergeAA0aB11AclEnvelopeVSS_SSA3IcSgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9updateACL6userId3mac_5mergeAA0aB11AclEnvelopeVSS_SSA3IcSgtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -5006,7 +5030,7 @@
           {
             "kind": "Function",
             "name": "getACLEnvelope",
-            "printedName": "getACLEnvelope(trackingId:)",
+            "printedName": "getACLEnvelope(userId:mac:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5027,11 +5051,17 @@
                 "name": "String",
                 "printedName": "Swift.String",
                 "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC14getACLEnvelope10trackingIdAA0aB11AclEnvelopeVSgSS_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC14getACLEnvelope10trackingIdAA0aB11AclEnvelopeVSgSS_tKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC14getACLEnvelope6userId3macAA0aB11AclEnvelopeVSgSS_SStKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC14getACLEnvelope6userId3macAA0aB11AclEnvelopeVSgSS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final"
@@ -5043,7 +5073,7 @@
           {
             "kind": "Function",
             "name": "deleteACL",
-            "printedName": "deleteACL(trackingId:)",
+            "printedName": "deleteACL(userId:mac:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5055,11 +5085,17 @@
                 "name": "String",
                 "printedName": "Swift.String",
                 "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC9deleteACL10trackingIdySS_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL10trackingIdySS_tKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC9deleteACL6userId3macySS_SStKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL6userId3macySS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final"
@@ -5071,7 +5107,7 @@
           {
             "kind": "Function",
             "name": "listACLEnvelopes",
-            "printedName": "listACLEnvelopes()",
+            "printedName": "listACLEnvelopes(userId:mac:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -5086,11 +5122,23 @@
                   }
                 ],
                 "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC16listACLEnvelopesSayAA0aB11AclEnvelopeVGyKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC16listACLEnvelopesSayAA0aB11AclEnvelopeVGyKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC16listACLEnvelopes6userId3macSayAA0aB11AclEnvelopeVGSS_SStKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC16listACLEnvelopes6userId3macSayAA0aB11AclEnvelopeVGSS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final"
@@ -5169,99 +5217,6 @@
             ],
             "isFromExtension": true,
             "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "saveACLOrAssignTempId",
-            "printedName": "saveACLOrAssignTempId(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "PhoneKeyAclEnvelope",
-                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
-                "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB11AclEnvelopeVKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC21saveACLOrAssignTempIdySSAA0aB11AclEnvelopeVKF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final",
-              "DiscardableResult",
-              "RawDocComment"
-            ],
-            "isFromExtension": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "migrateACLTrackingId",
-            "printedName": "migrateACLTrackingId(fromTempId:toServerId:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC20migrateACLTrackingId08fromTempG008toServerG0ySS_SStKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC20migrateACLTrackingId08fromTempG008toServerG0ySS_SStKF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final"
-            ],
-            "isFromExtension": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "isTempTrackingId",
-            "printedName": "isTempTrackingId(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC16isTempTrackingIdySbSSF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC16isTempTrackingIdySbSSF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final"
-            ],
-            "isFromExtension": true,
             "funcSelfKind": "NonMutating"
           }
         ],

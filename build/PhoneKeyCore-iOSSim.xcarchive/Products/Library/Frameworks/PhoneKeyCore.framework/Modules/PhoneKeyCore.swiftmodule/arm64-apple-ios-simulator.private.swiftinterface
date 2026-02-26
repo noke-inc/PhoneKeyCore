@@ -208,24 +208,20 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
 }
 extension PhoneKeyCore.PhoneKeyManager {
-  final public func saveACLEnvelope(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws
+  final public func saveACLEnvelope(userId: Swift.String, mac: Swift.String, _ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws
   #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
-  final public func updateACL(_ updatedEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope, merge: ((PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyCore.PhoneKeyAclEnvelope
+  final public func updateACL(userId: Swift.String, mac: Swift.String, _ updatedEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope, merge: ((PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyCore.PhoneKeyAclEnvelope
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getACLEnvelope(trackingId: Swift.String) throws -> PhoneKeyCore.PhoneKeyAclEnvelope?
+  final public func getACLEnvelope(userId: Swift.String, mac: Swift.String) throws -> PhoneKeyCore.PhoneKeyAclEnvelope?
   #endif
-  final public func deleteACL(trackingId: Swift.String) throws
-  final public func listACLEnvelopes() throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
+  final public func deleteACL(userId: Swift.String, mac: Swift.String) throws
+  final public func listACLEnvelopes(userId: Swift.String, mac: Swift.String) throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
   final public func savePhoneKeyInfo(userId: Swift.String, info: PhoneKeyCore.PhoneKeyInfoResponse) throws
   #if compiler(>=5.3) && $NonescapableTypes
   final public func getPhoneKeyInfo(userId: Swift.String) throws -> PhoneKeyCore.PhoneKeyInfoResponse?
   #endif
-  @discardableResult
-  final public func saveACLOrAssignTempId(_ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws -> Swift.String
-  final public func migrateACLTrackingId(fromTempId: Swift.String, toServerId: Swift.String) throws
-  final public func isTempTrackingId(_ id: Swift.String) -> Swift.Bool
 }
 public struct PhoneKeySignedCommand : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws

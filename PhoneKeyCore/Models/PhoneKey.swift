@@ -559,7 +559,7 @@ public extension PhoneKeyManager {
     }
 
     private enum ACLError: LocalizedError {
-        case missingTrackingId
+        case missingEnvelopeId
         case identicalIds
         case notFound
         case migrateNeedsSourceId
@@ -567,8 +567,8 @@ public extension PhoneKeyManager {
 
         var errorDescription: String? {
             switch self {
-            case .missingTrackingId:
-                return "ACL must have a non-empty 'trackingId' for this operation."
+            case .missingEnvelopeId:
+                return "ACL must have a non-empty 'envelopeId' for this operation."
             case .identicalIds:
                 return "Source and destination trackingId are identical; nothing to migrate."
             case .notFound:
@@ -588,38 +588,37 @@ public extension PhoneKeyManager {
     }
     private var aclDecoder: JSONDecoder { JSONDecoder() }
 
-    func saveACLEnvelope(_ aclEnvelope: PhoneKeyAclEnvelope) throws {
-        let trackingId = normalize(aclEnvelope.acl.trackingId)
-        guard !trackingId.isEmpty else { throw ACLError.missingTrackingId }
+    func saveACLEnvelope(userId: String, mac: String, _ aclEnvelope: PhoneKeyAclEnvelope) throws {
+        let envelopeId = normalize("\(userId)-\(mac)")
+        guard !envelopeId.isEmpty else { throw ACLError.missingEnvelopeId }
         let data = try aclEncoder.encode(aclEnvelope)
-        let itemKey = ACLStoreKeys.item(trackingId)
+        let itemKey = ACLStoreKeys.item(envelopeId)
         try keychain.setValue(data.base64EncodedString(), forKey: itemKey)
 
         var index = try loadACLIndex()
-        if !index.contains(trackingId) {
-            index.append(trackingId)
+        if !index.contains(envelopeId) {
+            index.append(envelopeId)
             try storeACLIndex(index)
         }
     }
 
     @discardableResult
-    func updateACL(_ updatedEnvelope: PhoneKeyAclEnvelope,
+    func updateACL(userId: String, mac: String, _ updatedEnvelope: PhoneKeyAclEnvelope,
                    merge: ((PhoneKeyAclEnvelope) -> PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyAclEnvelope {
-        let trackingId = normalize(updatedEnvelope.acl.trackingId)
-        guard !trackingId.isEmpty else { throw ACLError.missingTrackingId }
-        if let existing = try getACLEnvelope(trackingId: trackingId), let merge = merge {
+        guard !userId.isEmpty, !mac.isEmpty else { throw ACLError.missingEnvelopeId }
+        if let existing = try getACLEnvelope(userId: userId, mac: mac), let merge = merge {
             let merged = merge(existing)
-            try saveACLEnvelope(merged)
+            try saveACLEnvelope(userId: userId, mac: mac, merged)
             return merged
         } else {
-            try saveACLEnvelope(updatedEnvelope)
+            try saveACLEnvelope(userId: userId, mac: mac, updatedEnvelope)
             return updatedEnvelope
         }
     }
 
-    func getACLEnvelope(trackingId: String) throws -> PhoneKeyAclEnvelope? {
-        let id = normalize(trackingId)
-        let itemKey = ACLStoreKeys.item(id)
+    func getACLEnvelope(userId: String, mac: String) throws -> PhoneKeyAclEnvelope? {
+        let envelopeId = normalize("\(userId)-\(mac)")
+        let itemKey = ACLStoreKeys.item(envelopeId)
         guard let b64 = try keychain.getValue(forKey: itemKey),
               let data = Data(base64Encoded: b64) else {
             return nil
@@ -627,28 +626,28 @@ public extension PhoneKeyManager {
         return try aclDecoder.decode(PhoneKeyAclEnvelope.self, from: data)
     }
 
-    func deleteACL(trackingId: String) throws {
-        let id = normalize(trackingId)
-        let itemKey = ACLStoreKeys.item(id)
+    func deleteACL(userId: String, mac: String) throws {
+        let envelopeId = normalize("\(userId)-\(mac)")
+        let itemKey = ACLStoreKeys.item(envelopeId)
         try keychain.removeValue(for: itemKey)
 
         var index = try loadACLIndex()
-        if let i = index.firstIndex(of: id) {
+        if let i = index.firstIndex(of: envelopeId) {
             index.remove(at: i)
             try storeACLIndex(index)
         }
     }
 
-    func listACLEnvelopes() throws -> [PhoneKeyAclEnvelope] {
+    func listACLEnvelopes(userId: String, mac: String) throws -> [PhoneKeyAclEnvelope] {
         let ids = try loadACLIndex()
         var out: [PhoneKeyAclEnvelope] = []
         out.reserveCapacity(ids.count)
 
         for id in ids {
-            if let aclEnvelope = try getACLEnvelope(trackingId: id) {
+            if let aclEnvelope = try getACLEnvelope(userId: userId, mac: mac) {
                 out.append(aclEnvelope)
             } else {
-                try removeIdFromIndex(id)
+                try removeIdFromIndex(userId: userId, mac: mac)
             }
         }
         return out
@@ -669,57 +668,6 @@ public extension PhoneKeyManager {
         return try? JSONDecoder().decode(PhoneKeyInfoResponse.self, from: data)
     }
 
-    // MARK: - Temp ID flow
-
-    @discardableResult
-    func saveACLOrAssignTempId(_ aclEnvelope: PhoneKeyAclEnvelope) throws -> String {
-        let serverId = normalize(aclEnvelope.acl.trackingId)
-        if !serverId.isEmpty {
-            try saveACLEnvelope(aclEnvelope)
-            return serverId
-        }
-        
-        let acl = aclEnvelope.acl
-        let tempId = makeTempTrackingId()
-        let draft = PhoneKeyAcl(
-            trackingId: tempId,
-            lockMac: acl.lockMac,
-            phonePublicKey: acl.phonePublicKey,
-            issuedAt: acl.issuedAt,
-            expiresAt: acl.expiresAt,
-            schedule: acl.schedule,
-            permissions: acl.permissions
-        )
-        try saveACLEnvelope(aclEnvelope)
-        return tempId
-    }
-
-    func migrateACLTrackingId(fromTempId: String, toServerId: String) throws {
-        let fromId = normalize(fromTempId)
-        let toId = normalize(toServerId)
-
-        guard !fromId.isEmpty else { throw ACLError.migrateNeedsSourceId }
-        guard !toId.isEmpty else { throw ACLError.invalidId }
-        guard fromId != toId else { throw ACLError.identicalIds }
-
-        guard var aclEnvelope = try getACLEnvelope(trackingId: fromId) else { throw ACLError.notFound }
-        
-        let acl = aclEnvelope.acl
-        let migrated = PhoneKeyAcl(
-            trackingId: toId,
-            lockMac: acl.lockMac,
-            phonePublicKey: acl.phonePublicKey,
-            issuedAt: acl.issuedAt,
-            expiresAt: acl.expiresAt,
-            schedule: acl.schedule,
-            permissions: acl.permissions
-        )
-        aclEnvelope.acl = migrated
-
-        try saveACLEnvelope(aclEnvelope)
-        try deleteACL(trackingId: fromId)
-    }
-
     // MARK: - Index helpers
 
     private func loadACLIndex() throws -> [String] {
@@ -738,9 +686,10 @@ public extension PhoneKeyManager {
         try keychain.setValue(data.base64EncodedString(), forKey: ACLStoreKeys.index)
     }
 
-    private func removeIdFromIndex(_ trackingId: String) throws {
+    private func removeIdFromIndex(userId: String, mac: String) throws {
+        let envelopeId = normalize("\(userId)-\(mac)")
         var index = try loadACLIndex()
-        if let i = index.firstIndex(of: trackingId) {
+        if let i = index.firstIndex(of: envelopeId) {
             index.remove(at: i)
             try storeACLIndex(index)
         }
@@ -750,13 +699,5 @@ public extension PhoneKeyManager {
 
     private func normalize(_ id: String?) -> String {
         (id ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func makeTempTrackingId() -> String {
-        "temp:\(UUID().uuidString)"
-    }
-
-    func isTempTrackingId(_ id: String) -> Bool {
-        normalize(id).hasPrefix("temp:")
     }
 }
