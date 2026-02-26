@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.abi.json</key>
 		<data>
-		SUWGXJ2BplUbe5UCtefD7sts1/8=
+		Ds8nZuJbxJKmmIB/Oyg3H1J7fY0=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.private.swiftinterface</key>
 		<data>
-		uHXUTfE0iQAk0ONd10nA0iil7R4=
+		4B3PHgCuLiZRsjkKoB6dPMFvrvs=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftdoc</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftinterface</key>
 		<data>
-		uHXUTfE0iQAk0ONd10nA0iil7R4=
+		4B3PHgCuLiZRsjkKoB6dPMFvrvs=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftmodule</key>
 		<data>
-		DvflZ/K2S1bOSnSX08/lgi3f1yQ=
+		LDzQIkSLaOS/l1EbON2UnoHq3OQ=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.abi.json</key>
 		<data>
-		SUWGXJ2BplUbe5UCtefD7sts1/8=
+		Ds8nZuJbxJKmmIB/Oyg3H1J7fY0=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.private.swiftinterface</key>
 		<data>
-		is0SeUBtvLa1FmFFQ6NgHApCZY4=
+		A6pDSgrJJPAorxMx3I9b1r/ZEdg=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftinterface</key>
 		<data>
-		is0SeUBtvLa1FmFFQ6NgHApCZY4=
+		A6pDSgrJJPAorxMx3I9b1r/ZEdg=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftmodule</key>
 		<data>
-		88NSuxz4kxNiuZfdEcNrBDOCOKU=
+		zXXC1za8vNJAJ5bGa547hhdLZpQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -66,14 +66,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			YBQ1FXbVNhfy2qhcGoZcq1GEWpHnupEIetddlR4ck9A=
+			BVcdD38olKe0NF4V70YREXkAXTnSfMXXQ2X05Ci5joY=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zBjdDraCBXATEKDCPwzy8SdWqOI3Ikq5EEpE82QEIYE=
+			COD59tm79J8coB5/R9jhoPiCC9ODf5kmDfOxaZtlbG4=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftdoc</key>
@@ -87,28 +87,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			zBjdDraCBXATEKDCPwzy8SdWqOI3Ikq5EEpE82QEIYE=
+			COD59tm79J8coB5/R9jhoPiCC9ODf5kmDfOxaZtlbG4=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8Rt2jqirKxibeODsK5IsPuaqU5bXgaSFQl1GeQIIBWo=
+			ML5JVq6Cm5633+rGgoqQPVQ3/GM+SXM4MT+5egrLgm0=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YBQ1FXbVNhfy2qhcGoZcq1GEWpHnupEIetddlR4ck9A=
+			BVcdD38olKe0NF4V70YREXkAXTnSfMXXQ2X05Ci5joY=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aIlnsC0CzCtFScN4AhX69TweJ1yTey//OuxN2lDdUPQ=
+			4K0wFZtNZfRffFQclM6LZpwDuXHZ6Ol7vo83+LwRQ1I=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftdoc</key>
@@ -122,14 +122,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aIlnsC0CzCtFScN4AhX69TweJ1yTey//OuxN2lDdUPQ=
+			4K0wFZtNZfRffFQclM6LZpwDuXHZ6Ol7vo83+LwRQ1I=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Hx1nvg8I0UxrnwnthZN2UovWwXaOzKM+EmLxNeHw5ew=
+			YRrMtp7GN8hft0Fa4X/BvLXfF6tZ6XBZC5LDqM3eRD8=
 			</data>
 		</dict>
 	</dict>

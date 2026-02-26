@@ -217,11 +217,13 @@ extension PhoneKeyCore.PhoneKeyManager {
   final public func getACLEnvelope(userId: Swift.String, mac: Swift.String) throws -> PhoneKeyCore.PhoneKeyAclEnvelope?
   #endif
   final public func deleteACL(userId: Swift.String, mac: Swift.String) throws
+  final public func deleteAllACLs() throws
   final public func listACLEnvelopes(userId: Swift.String, mac: Swift.String) throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
   final public func savePhoneKeyInfo(userId: Swift.String, info: PhoneKeyCore.PhoneKeyInfoResponse) throws
   #if compiler(>=5.3) && $NonescapableTypes
   final public func getPhoneKeyInfo(userId: Swift.String) throws -> PhoneKeyCore.PhoneKeyInfoResponse?
   #endif
+  final public func deletePhoneKeyInfo(userId: Swift.String) throws
 }
 public struct PhoneKeySignedCommand : Swift.Codable {
   public init(from decoder: any Swift.Decoder) throws

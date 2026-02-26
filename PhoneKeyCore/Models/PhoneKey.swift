@@ -637,6 +637,15 @@ public extension PhoneKeyManager {
             try storeACLIndex(index)
         }
     }
+    
+    func deleteAllACLs() throws {
+        let ids = try loadACLIndex()
+        for id in ids {
+            let itemKey = ACLStoreKeys.item(id)
+            try keychain.removeValue(for: itemKey)
+        }
+        try storeACLIndex([])
+    }
 
     func listACLEnvelopes(userId: String, mac: String) throws -> [PhoneKeyAclEnvelope] {
         let ids = try loadACLIndex()
@@ -666,6 +675,10 @@ public extension PhoneKeyManager {
             return nil
         }
         return try? JSONDecoder().decode(PhoneKeyInfoResponse.self, from: data)
+    }
+    
+    func deletePhoneKeyInfo(userId: String) throws {
+        try keychain.removeValue(for: "\(userId)-phoneKeyInfo")
     }
 
     // MARK: - Index helpers

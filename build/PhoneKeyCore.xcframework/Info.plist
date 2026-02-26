@@ -25,17 +25,15 @@
 			<key>BinaryPath</key>
 			<string>PhoneKeyCore.framework/PhoneKeyCore</string>
 			<key>LibraryIdentifier</key>
-			<string>watchos-arm64_arm64_32_armv7k</string>
+			<string>ios-arm64</string>
 			<key>LibraryPath</key>
 			<string>PhoneKeyCore.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
-				<string>arm64_32</string>
-				<string>armv7k</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>watchos</string>
+			<string>ios</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
@@ -58,15 +56,17 @@
 			<key>BinaryPath</key>
 			<string>PhoneKeyCore.framework/PhoneKeyCore</string>
 			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
+			<string>watchos-arm64_arm64_32_armv7k</string>
 			<key>LibraryPath</key>
 			<string>PhoneKeyCore.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
+				<string>arm64_32</string>
+				<string>armv7k</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>ios</string>
+			<string>watchos</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>

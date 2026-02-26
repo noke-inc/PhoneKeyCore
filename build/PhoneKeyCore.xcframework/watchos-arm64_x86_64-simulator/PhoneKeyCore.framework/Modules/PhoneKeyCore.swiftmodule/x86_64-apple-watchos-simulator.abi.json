@@ -5106,6 +5106,28 @@
           },
           {
             "kind": "Function",
+            "name": "deleteAllACLs",
+            "printedName": "deleteAllACLs()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC13deleteAllACLsyyKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC13deleteAllACLsyyKF",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "Final"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "listACLEnvelopes",
             "printedName": "listACLEnvelopes(userId:mac:)",
             "children": [
@@ -5211,6 +5233,34 @@
             "declKind": "Func",
             "usr": "s:12PhoneKeyCore0aB7ManagerC03getaB4Info6userIdAA0abF8ResponseVSgSS_tKF",
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC03getaB4Info6userIdAA0abF8ResponseVSgSS_tKF",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "Final"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "deletePhoneKeyInfo",
+            "printedName": "deletePhoneKeyInfo(userId:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC06deleteaB4Info6userIdySS_tKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC06deleteaB4Info6userIdySS_tKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final"
