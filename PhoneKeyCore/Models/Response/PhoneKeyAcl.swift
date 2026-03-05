@@ -19,7 +19,7 @@ public enum ISO8601 {
         f.timeZone = TimeZone(secondsFromGMT: 0) // Use UTC for absolute instants
         return f
     }()
-    
+
     /// Fallback: no fractional seconds.
     public static let basic: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -27,13 +27,13 @@ public enum ISO8601 {
         f.timeZone = TimeZone(secondsFromGMT: 0)
         return f
     }()
-    
+
     /// Parse function used by decoders (tries fractional → basic).
     public static func parse(_ s: String) -> Date? {
         if let d = withFractional.date(from: s) { return d }
         return basic.date(from: s)
     }
-    
+
     /// Encoder counterpart that always emits RFC 3339/ISO‑8601 with fractional seconds.
     public static func string(from date: Date) -> String {
         withFractional.string(from: date)
@@ -152,10 +152,10 @@ public struct PhoneKeyAcl: Codable {
             self.value = value
         }
     }
-    
+
     public struct Schedule: Codable, Equatable {
-        let start: Date
-        let end: Date
+        public let start: Date
+        public let end: Date
 
         private enum CodingKeys: String, CodingKey {
             case start
@@ -168,31 +168,21 @@ public struct PhoneKeyAcl: Codable {
         }
 
         public init(from decoder: Decoder) throws {
-            // We’ll decode values flexibly (Int/Double/String) then normalize via a local helper
+            // Decode values flexibly (Int/Double/String) then normalize to Date
             let c = try decoder.container(keyedBy: CodingKeys.self)
-
-            // Try canonical keys first
-            if let s = try? Self.decodeFlexibleDateValue(container: c, key: .start),
-               let e = try? Self.decodeFlexibleDateValue(container: c, key: .end) {
-                self.init(start: s, end: e)
-                return
-            }
-
-            // Try alternate keys (start/end)
-            if let s = try? Self.decodeFlexibleDateValue(container: c, key: .start),
-               let e = try? Self.decodeFlexibleDateValue(container: c, key: .end) {
-                self.init(start: s, end: e)
-                return
-            }
-
-            throw DecodingError.dataCorrupted(.init(
-                codingPath: c.codingPath,
-                debugDescription: "Could not decode Schedule (start/end)."
-            ))
+            let s = try Self.decodeFlexibleDateValue(container: c, key: .start)
+            let e = try Self.decodeFlexibleDateValue(container: c, key: .end)
+            self.init(start: s, end: e)
         }
 
-        // This mirrors your decodeFlexibleDate but scoped locally for embedded objects.
-        // If you prefer, you can make this call your parent type’s method.
+        /// Encode as ISO 8601 UTC strings to mirror the server JSON you shared.
+        public func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(ISO8601.string(from: start), forKey: .start)
+            try c.encode(ISO8601.string(from: end), forKey: .end)
+        }
+
+        // Flexible decoder: epoch seconds (Int/Double/String) or ISO8601
         private static func decodeFlexibleDateValue(
             container c: KeyedDecodingContainer<CodingKeys>,
             key: CodingKeys
@@ -204,7 +194,7 @@ public struct PhoneKeyAcl: Codable {
                 return Date(timeIntervalSince1970: secsD)
             }
             if let str = try? c.decode(String.self, forKey: key) {
-                if let secs = Int(str) {
+                if let secs = Int64(str) {
                     return Date(timeIntervalSince1970: TimeInterval(secs))
                 }
                 if let d = ISO8601.parse(str) {
@@ -224,8 +214,8 @@ public struct PhoneKeyAcl: Codable {
     public let trackingId: String?
     public let lockMac: String
     public let phonePublicKey: String        // JSON key: "phonePubKey"
-    public let issuedAt: Date                // Epoch seconds in payload
-    public let expiresAt: Date               // Epoch seconds in payload
+    public let issuedAt: Date                // ISO8601 string in payload
+    public let expiresAt: Date               // ISO8601 string in payload
     /// NOW OPTIONAL
     public let schedule: [Schedule]?
     public let permissions: Permissions
@@ -257,14 +247,13 @@ public struct PhoneKeyAcl: Codable {
         self.lockMac = try c.decode(String.self, forKey: .lockMac)
         self.phonePublicKey = try c.decode(String.self, forKey: .phonePublicKey)
 
-        // Dates (epoch seconds). Also accept Double or String (numeric/ISO8601) for resilience.
+        // Dates: accept Int/Double seconds or ISO8601 strings
         self.issuedAt = try Self.decodeFlexibleDate(container: c, key: .issuedAt)
         self.expiresAt = try Self.decodeFlexibleDate(container: c, key: .expiresAt)
 
         // schedule is optional
-        self.schedule = try? c.decode(Array<Schedule>.self, forKey: .schedule)
+        self.schedule = try? c.decode([Schedule].self, forKey: .schedule)
         self.permissions = try c.decode(Permissions.self, forKey: .permissions)
-        //self.signature = try c.decodeIfPresent(Signature.self, forKey: .signature) // Usually nil; set by envelope
     }
 
     // MARK: Encoding
@@ -284,15 +273,14 @@ public struct PhoneKeyAcl: Codable {
         try c.encode(lockMac, forKey: .lockMac)
         try c.encode(phonePublicKey, forKey: .phonePublicKey)
 
-        // Encode dates as epoch seconds (Int), to match payload
-        try c.encode(Int(issuedAt.timeIntervalSince1970), forKey: .issuedAt)
-        try c.encode(Int(expiresAt.timeIntervalSince1970), forKey: .expiresAt)
+        // Encode dates as ISO8601 UTC strings to match the server JSON
+        try c.encode(ISO8601.string(from: issuedAt), forKey: .issuedAt)
+        try c.encode(ISO8601.string(from: expiresAt), forKey: .expiresAt)
 
         // schedule: omit when nil
         if let schedule { try c.encode(schedule, forKey: .schedule) }
 
         try c.encode(permissions, forKey: .permissions)
-        //try c.encodeIfPresent(signature, forKey: .signature) // Not used by server in sample; envelope handles top-level
     }
 
     // MARK: Inits
@@ -304,7 +292,7 @@ public struct PhoneKeyAcl: Codable {
         issuedAt: Date,
         expiresAt: Date,
         schedule: [Schedule]?,
-        permissions: PhoneKeyAcl.Permissions,
+        permissions: PhoneKeyAcl.Permissions
     ) {
         self.trackingId = trackingId
         self.lockMac = lockMac
@@ -325,7 +313,7 @@ public struct PhoneKeyAcl: Codable {
             return Date(timeIntervalSince1970: secsD)
         }
         if let str = try? c.decode(String.self, forKey: key) {
-            if let secs = Int(str) {
+            if let secs = Int64(str) {
                 return Date(timeIntervalSince1970: TimeInterval(secs))
             }
             if let d = ISO8601.parse(str) {
@@ -380,6 +368,27 @@ public enum JSONISO8601 {
     }
 }
 
+// MARK: - BLE helpers (Date → 64‑bit Unix seconds → Data)
+
+public enum EpochBytes {
+    /// Seconds since 1970‑01‑01 UTC (Int64)
+    public static func secondsSinceEpoch(_ date: Date) -> Int64 {
+        Int64(date.timeIntervalSince1970.rounded(.down))
+    }
+
+    /// Big‑endian Data for network/binary protocols
+    public static func dataBigEndian(_ seconds: Int64) -> Data {
+        var be = seconds.bigEndian
+        return withUnsafeBytes(of: &be) { Data($0) }
+    }
+
+    /// Little‑endian Data (some BLE specs)
+    public static func dataLittleEndian(_ seconds: Int64) -> Data {
+        var le = seconds.littleEndian
+        return withUnsafeBytes(of: &le) { Data($0) }
+    }
+}
+
 // MARK: - PhoneKeyAcl mocks & conveniences
 
 public extension PhoneKeyAcl {
@@ -395,13 +404,6 @@ public extension PhoneKeyAcl {
     }
 
     /// Create a mock ACL with **Ed25519** metadata (32‑byte public key, 64‑byte signature).
-    /// - Parameters:
-    ///   - now: Base time for issuedAt/expiresAt.
-    ///   - lockMac: Bluetooth MAC-like string (cosmetic).
-    ///   - phoneKeyId: Arbitrary key id.
-    ///   - trackingId: Optional ACL id.
-    ///   - includeSignature: Include a dummy signature (Base64 of 64 bytes).
-    /// - Returns: PhoneKeyAcl
     static func mockEd25519(
         now: Date = Date(),
         lockMac: String = "AA:BB:CC:DD:EE:FF",
@@ -426,19 +428,11 @@ public extension PhoneKeyAcl {
             issuedAt: issuedAt,
             expiresAt: expiresAt,
             schedule: schedule,
-            permissions: defaultPermissions(),
+            permissions: defaultPermissions()
         )
     }
 
     /// Create a mock ACL with **ECDSA P‑256** metadata.
-    ///
-    /// > NOTE: For P‑256, public keys are typically **65 bytes** (uncompressed X9.63) or **33 bytes** (compressed).
-    /// > Your `phonePublicKey` comment mentions **32 bytes** (Ed25519). Adjust `p256PublicKeyLength`
-    /// > to match what your server/firmware expects.
-    ///
-    /// - Parameters:
-    ///   - p256PublicKeyLength: 65 (uncompressed) or 33 (compressed) by default.
-    ///   - includeSignature: Include a dummy raw `(r||s)` 64‑byte signature in Base64.
     static func mockP256(
         now: Date = Date(),
         lockMac: String = "AA:BB:CC:DD:EE:FF",
@@ -453,9 +447,8 @@ public extension PhoneKeyAcl {
         let schedule: [Schedule]? = [
             Schedule(start: Date(), end: Date().addingTimeInterval(24 * 3600)),
         ]
-        
+
         // Build a plausible public key buffer.
-        // If uncompressed (65), first byte is 0x04; rest are XY coordinates.
         var pub = Data()
         if p256PublicKeyLength == 65 {
             pub.append(0x04)
@@ -471,31 +464,33 @@ public extension PhoneKeyAcl {
             issuedAt: issuedAt,
             expiresAt: expiresAt,
             schedule: schedule,
-            permissions: defaultPermissions(),
+            permissions: defaultPermissions()
         )
     }
 
-    // MARK: - JSON convenience for mocks
+    // MARK: - JSON convenience for mocks (mirror server: ISO strings)
 
-    /// JSON-encoded bytes for a mock Ed25519 ACL (pretty-printed, ISO8601 fractional for general purpose).
-    /// Note: When encoding `PhoneKeyAcl` itself, dates are encoded as **epoch seconds** per server shape.
+    /// JSON-encoded bytes for a mock Ed25519 ACL (ISO8601 UTC strings).
     static func mockEd25519JSON(now: Date = Date()) throws -> Data {
         let acl = mockEd25519(now: now)
-        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds; omits optionals when nil
+        let enc = JSONISO8601.encoder() // emits ISO8601 strings
+        return try enc.encode(acl)
     }
 
-    /// JSON-encoded bytes for a mock P-256 ACL.
+    /// JSON-encoded bytes for a mock P-256 ACL (ISO8601 UTC strings).
     static func mockP256JSON(now: Date = Date(), p256PublicKeyLength: Int = 65) throws -> Data {
         let acl = mockP256(now: now, p256PublicKeyLength: p256PublicKeyLength)
-        return try JSONEncoder().encode(acl) // ACL encodes epoch seconds; omits optionals when nil
+        let enc = JSONISO8601.encoder() // emits ISO8601 strings
+        return try enc.encode(acl)
     }
-    
+
     /// Produce mock ACL raw bytes of any length (replace with real base64-decoded ACL later).
     static func mockAclRawBytes(length: Int, start: UInt8 = 0x00) -> Data {
         sequentialBytes(length, start: start)
     }
-    
-    /// Build ACL JSON string (exactly as you do today)
+
+    /// Build ACL JSON string (legacy util). Prefer using Codable above for real data.
+    /// (Kept for reference/testing; emits epoch seconds—only use if a specific endpoint requires it.)
     static func makeAclJsonString(
         lockMac: String = "AA:BB:CC:DD:EE:FF",
         phoneKeyId: String? = "p256-key-0001",
@@ -507,8 +502,8 @@ public extension PhoneKeyAcl {
         return "{ \"trackingId\": \(trackingId ?? "null"), " +
         "\"lockMac\": \"\(lockMac)\", " +
         "\"phonePubKey\": \"\(phoneKeyId ?? "null")\", " +
-        "\"issuedAt\": \(Int(issuedAt.timeIntervalSince1970)), " +
-        "\"expiresAt\": \(Int(expiresAt.timeIntervalSince1970)), " +
+        "\"issuedAt\": \"\(ISO8601.string(from: issuedAt))\", " +
+        "\"expiresAt\": \"\(ISO8601.string(from: expiresAt))\", " +
         "\"schedule\": \(schedule != nil ? "\"\(schedule!)\"" : "null"), " +
         "\"permissions\": [\"unlock\",\"overrideOverlock\"] }"
     }
@@ -522,7 +517,6 @@ public extension PhoneKeyAcl {
         let jsonData = Data(jsonString.utf8)
 
         // Sign the JSON bytes
-        // NOTE: Your PhoneKeyManager must return signature bytes in the format the lock expects (DER or raw r||s). You’re already base64-encoding it, so both work as long as the verifier mirrors it.
         let signatureBytes = try keyManager.sign(jsonData, userId: "")
 
         let aclB64 = jsonData.base64EncodedString()          // ASCII
@@ -540,22 +534,12 @@ public extension PhoneKeyAcl {
         return (aclJson: jsonData, payload: payload, aclLengthForHeader: aclLengthForHeader, signature: signatureBytes)
     }
 
-    /// Build fixed 128-byte ACL frames:
-    /// - Non-final frames: [seqHeader] + payload + padding
-    ///   where seqHeader increments: 0x00, 0x01, 0x02, ...
-    ///   (skipping `lastTag` if the sequence would collide)
-    /// - Final frame: [lastTag(XX)] + ASCII hex length (4 chars) + payload + padding
-    ///
-    /// Notes:
-    /// - The FINAL chunk **starts with XX** (the `lastTag` byte), immediately followed
-    ///   by **4 ASCII hex digits** of the *ACL length you intend to signal*.
-    /// - Every frame is padded with 0x00 to exactly `chunkSize` bytes (default 128).
-    /// - `acl` should be your payload bytes: Base64(ACL_JSON) + Base64(signature) with no delimiter.
+    /// Build fixed 128-byte ACL frames (for BLE chunking).
     static func buildAclFrames128(
         acl: Data,
         chunkSize: Int = 128,
-        lastTag: UInt8 = 0xFF,            // <-- Your protocol's XX. Choose a value that won't be hit by the sequence.
-        lengthForFinalHeader: Int? = nil  // <-- 4 ASCII hex digits in final header (e.g., ACL JSON byte count)
+        lastTag: UInt8 = 0xFF,
+        lengthForFinalHeader: Int? = nil
     ) -> [Data] {
 
         func asciiHexLength(_ len: Int) -> Data {
@@ -569,7 +553,7 @@ public extension PhoneKeyAcl {
         precondition(signaledLength <= 0xFFFF, "lengthForFinalHeader must fit in 4 hex digits")
 
         let finalHeader = Data([lastTag]) + asciiHexLength(signaledLength)
-        let stdPayloadCap  = chunkSize - 1                // 1-byte header
+        let stdPayloadCap  = chunkSize - 1                 // 1-byte header
         let finalPayloadCap = chunkSize - finalHeader.count // 5 bytes header
 
         var frames: [Data] = []
@@ -578,14 +562,10 @@ public extension PhoneKeyAcl {
 
         // Emit non-final frames until what's left fits into one final frame
         while (acl.count - offset) > finalPayloadCap {
-            // Skip lastTag in the sequence (reserve it strictly for the final frame)
-            if seq == lastTag {
-                seq &+= 1 // move to next value; wrap is fine for very large sequences
-            }
-
+            if seq == lastTag { seq &+= 1 }
             let take = min(stdPayloadCap, acl.count - offset)
             var frame = Data(capacity: chunkSize)
-            frame.append(seq)                       // sequential binary header
+            frame.append(seq)
             frame.append(acl[offset ..< offset + take])
 
             if frame.count < chunkSize {
@@ -619,25 +599,24 @@ let sample = """
     "result": "success",
     "acl": {
         "trackingId": 1,
-        "lockMac": "F7:AB:DB:66:23:22",
-        "issuedAt": 1769616170,
-        "expiresAt": 1769702570,
-        "schedule": "697A332A-697AA300,697B75F0-697B84AA",
-        "phonePubKey": "BPmppi2q68FL7t74Yx8S7nH+71Cc4m96yeZh8HQZ03A+MBV96ITA3636Iu9TukRiXu38U/9Kf4qLP+tO2dbCdUE=",
-        "permissions": ["unlock","overrideOverlock"]
+        "lockMac": "D5:E0:8D:0C:99:AF",
+        "issuedAt": "2026-03-05T20:44:33Z",
+        "expiresAt": "2026-03-06T04:59:59Z",
+        "schedule": [
+            { "start": "2026-03-05T05:00:00Z", "end": "2026-03-06T04:59:00Z" }
+        ],
+        "phonePubKey": "…",
+        "permissions": ["unlock"]
     },
-    "aclSignature": "MEQCIGgj0KsR6HVbUBf8uBbtduWxfTAz5rY9t2yyzthJKgdpAiByiTgw4C5gzsNTzcvhy4XDhO+fzc7IobIyW9DF4t1wEw=="
+    "aclSignature": "…"
 }
 """.data(using: .utf8)!
 
 do {
     let env = try JSONDecoder().decode(PhoneKeyAclEnvelope.self, from: sample)
-    print("Decoded trackingId:", env.acl.trackingId ?? "<nil>") // "1"
-    print("Schedule:", env.acl.schedule ?? "<nil>")
-    print("Permissions.unlock:", env.acl.permissions.unlock) // true
-    print("Signature algo:", env.acl.signature?.algorithm ?? "nil")
-    // Re-encode back to the same shape (trackingId & schedule omitted if nil):
-    let out = try JSONEncoder().encode(env)
+    print("Decoded issuedAt:", env.acl.issuedAt) // Date matching Zulu UTC
+    // Re-encode (will emit ISO8601 strings for dates):
+    let out = try JSONISO8601.encoder().encode(env.acl)
     print(String(data: out, encoding: .utf8)!)
 } catch {
     print("Decode/encode error:", error)

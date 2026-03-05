@@ -78,10 +78,12 @@ public struct PhoneKeyAcl : Swift.Codable {
     public init(from decoder: any Swift.Decoder) throws
   }
   public struct Schedule : Swift.Codable, Swift.Equatable {
+    public let start: Foundation.Date
+    public let end: Foundation.Date
     public init(start: Foundation.Date, end: Foundation.Date)
     public init(from decoder: any Swift.Decoder) throws
-    public static func == (a: PhoneKeyCore.PhoneKeyAcl.Schedule, b: PhoneKeyCore.PhoneKeyAcl.Schedule) -> Swift.Bool
     public func encode(to encoder: any Swift.Encoder) throws
+    public static func == (a: PhoneKeyCore.PhoneKeyAcl.Schedule, b: PhoneKeyCore.PhoneKeyAcl.Schedule) -> Swift.Bool
   }
   public let trackingId: Swift.String?
   public let lockMac: Swift.String
@@ -99,6 +101,11 @@ public struct PhoneKeyAcl : Swift.Codable {
 public enum JSONISO8601 {
   public static func encoder() -> Foundation.JSONEncoder
   public static func decoder() -> Foundation.JSONDecoder
+}
+public enum EpochBytes {
+  public static func secondsSinceEpoch(_ date: Foundation.Date) -> Swift.Int64
+  public static func dataBigEndian(_ seconds: Swift.Int64) -> Foundation.Data
+  public static func dataLittleEndian(_ seconds: Swift.Int64) -> Foundation.Data
 }
 extension PhoneKeyCore.PhoneKeyAcl {
   #if compiler(>=5.3) && $NonescapableTypes
