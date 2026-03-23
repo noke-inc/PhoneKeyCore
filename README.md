@@ -117,16 +117,65 @@ Self‑healing index.
 
 # 📦 **Installation**
 
-Drag the **PhoneKeyCore** folder into your project.
+## CocoaPods
 
-If you need iOS 12 Ed25519 support:
+PhoneKeyCore is available through [CocoaPods](https://cocoapods.org). To install it, add the following line to your Podfile:
+
+```ruby
+pod 'PhoneKeyCore', :git => 'https://github.com/noke-inc/PhoneKeyCore.git', :tag => '1.0.0'
+```
+
+Or, if published to CocoaPods trunk or a private spec repo:
+
+```ruby
+pod 'PhoneKeyCore', '~> 1.0'
+```
+
+Then run:
+
+```bash
+pod install
+```
+
+### Using with NokeMobileLibrary
+
+To integrate PhoneKeyCore into your NokeMobileLibrary or other projects:
+
+1. Add to your Podfile:
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'YourTarget' do
+  use_frameworks!
+  
+  pod 'PhoneKeyCore', :git => 'https://github.com/noke-inc/PhoneKeyCore.git', :tag => '1.0.0'
+end
+```
+
+2. Import in your Swift files:
+```swift
+import PhoneKeyCore
+```
+
+3. Use the `PhoneKeyCoreProviding` protocol for integration:
+```swift
+let manager = PhoneKeyManager(serviceName: "com.yourapp.phonekey", provider: yourCryptoProvider)
+PhoneKeyCoreBridge.shared = manager
+```
+
+## Manual Installation
+
+Alternatively, drag the **PhoneKeyCore** folder into your Xcode project.
+
+## Optional: Sodium for iOS 12 Ed25519 Support
+
+If you need iOS 12 Ed25519 support, add Sodium:
 
 ```ruby
 pod 'Sodium'
-pod 'Clibsodium'
 ```
 
-Then provide a `CryptoProvider` (example included in Sample App).
+Then provide a `CryptoProvider` implementation (example included in Sample App).
 
 ---
 
