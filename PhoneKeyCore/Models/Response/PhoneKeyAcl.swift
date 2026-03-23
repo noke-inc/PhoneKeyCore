@@ -40,6 +40,16 @@ public enum ISO8601 {
     }
 }
 
+// MARK: - Envelopes Root
+
+public struct PhoneKeyAclEnvelopesRoot: Codable {
+    public var acls: [PhoneKeyAclEnvelope]
+    
+    public init(acls: [PhoneKeyAclEnvelope]) {
+        self.acls = acls
+    }
+}
+
 // MARK: - Envelope
 
 /// Top‑level wrapper the server returns.

@@ -53,6 +53,12 @@ public enum ISO8601 {
   #endif
   public static func string(from date: Foundation.Date) -> Swift.String
 }
+public struct PhoneKeyAclEnvelopesRoot : Swift.Codable {
+  public var acls: [PhoneKeyCore.PhoneKeyAclEnvelope]
+  public init(acls: [PhoneKeyCore.PhoneKeyAclEnvelope])
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
 public struct PhoneKeyAclEnvelope : Swift.Codable {
   public let result: Swift.String
   public var acl: PhoneKeyCore.PhoneKeyAcl

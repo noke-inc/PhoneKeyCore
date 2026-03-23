@@ -743,6 +743,246 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "PhoneKeyAclEnvelopesRoot",
+        "printedName": "PhoneKeyAclEnvelopesRoot",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "acls",
+            "printedName": "acls",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[PhoneKeyCore.PhoneKeyAclEnvelope]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhoneKeyAclEnvelope",
+                    "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                    "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvp",
+            "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvp",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[PhoneKeyCore.PhoneKeyAclEnvelope]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhoneKeyAclEnvelope",
+                        "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                        "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvg",
+                "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvg",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[PhoneKeyCore.PhoneKeyAclEnvelope]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "PhoneKeyAclEnvelope",
+                        "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                        "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvs",
+                "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvs",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvM",
+                "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4aclsSayAA0abD8EnvelopeVGvM",
+                "moduleName": "PhoneKeyCore",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(acls:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeyAclEnvelopesRoot",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelopesRoot",
+                "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[PhoneKeyCore.PhoneKeyAclEnvelope]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "PhoneKeyAclEnvelope",
+                    "printedName": "PhoneKeyCore.PhoneKeyAclEnvelope",
+                    "usr": "s:12PhoneKeyCore0aB11AclEnvelopeV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4aclsACSayAA0abD8EnvelopeVG_tcfc",
+            "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4aclsACSayAA0abD8EnvelopeVG_tcfc",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "PhoneKeyAclEnvelopesRoot",
+                "printedName": "PhoneKeyCore.PhoneKeyAclEnvelopesRoot",
+                "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "PhoneKeyCore",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV6encode2toys7Encoder_p_tKF",
+            "moduleName": "PhoneKeyCore",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:12PhoneKeyCore0aB16AclEnvelopesRootV",
+        "mangledName": "$s12PhoneKeyCore0aB16AclEnvelopesRootV",
+        "moduleName": "PhoneKeyCore",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
         "name": "PhoneKeyAclEnvelope",
         "printedName": "PhoneKeyAclEnvelope",
         "children": [
@@ -8912,154 +9152,154 @@
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 5228,
+      "offset": 5434,
       "length": 12,
       "value": "\"ECDSA_P256\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 8122,
+      "offset": 8328,
       "length": 13,
       "value": "\"phonePubKey\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 14066,
+      "offset": 14272,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14524,
+      "offset": 14730,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14575,
+      "offset": 14781,
       "length": 18,
       "value": "\"ed25519-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 14625,
+      "offset": 14831,
       "length": 3,
       "value": "\"1\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "BooleanLiteral",
-      "offset": 14663,
+      "offset": 14869,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 15468,
+      "offset": 15674,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 15519,
+      "offset": 15725,
       "length": 15,
       "value": "\"p256-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 15566,
+      "offset": 15772,
       "length": 3,
       "value": "\"2\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 15606,
+      "offset": 15812,
       "length": 2,
       "value": "65"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "BooleanLiteral",
-      "offset": 15643,
+      "offset": 15849,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 17006,
+      "offset": 17212,
       "length": 2,
       "value": "65"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 17368,
+      "offset": 17574,
       "length": 4,
       "value": "0x00"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 17690,
+      "offset": 17896,
       "length": 19,
       "value": "\"AA:BB:CC:DD:EE:FF\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 17741,
+      "offset": 17947,
       "length": 15,
       "value": "\"p256-key-0001\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 17788,
+      "offset": 17994,
       "length": 3,
       "value": "\"2\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 17878,
+      "offset": 18084,
       "length": 2,
       "value": "48"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 17883,
+      "offset": 18089,
       "length": 4,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "StringLiteral",
-      "offset": 17918,
+      "offset": 18124,
       "length": 37,
       "value": "\"697A332A-697AA300,697B75F0-697B84AA\""
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 19700,
+      "offset": 19906,
       "length": 3,
       "value": "128"
     },
     {
       "filePath": "\/Users\/joffreymann\/Documents\/projects\/PhoneKeySample\/PhoneKeyCore\/Models\/Response\/PhoneKeyAcl.swift",
       "kind": "IntegerLiteral",
-      "offset": 19730,
+      "offset": 19936,
       "length": 4,
       "value": "0xFF"
     },
