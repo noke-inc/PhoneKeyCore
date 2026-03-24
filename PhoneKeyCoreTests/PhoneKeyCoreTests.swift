@@ -132,11 +132,10 @@ final class PhoneKeyCoreTests: XCTestCase {
             expiresAt: now.addingTimeInterval(86400),
             storedAt: now
         )
-        try mgr.saveBulkACLs(userId: "testUser", [mockBulkACL])
-        let acls = try mgr.getBulkACLs(userId: "testUser")
-        XCTAssertNotNil(acls)
-        XCTAssertEqual(acls?.count, 1)
-        XCTAssertEqual(acls?.first?.aclSignature, sig.base64EncodedString())
-        XCTAssertEqual(acls?.first?.lockMac, "AA:BB:CC:DD:EE:FF")
+        try mgr.saveBulkACL(userId: "testUser", mac: "AA:BB:CC:DD:EE:FF", mockBulkACL)
+        let acl = try mgr.getBulkACL(userId: "testUser", mac: "AA:BB:CC:DD:EE:FF")
+        XCTAssertNotNil(acl)
+        XCTAssertEqual(acl?.aclSignature, sig.base64EncodedString())
+        XCTAssertEqual(acl?.lockMac, "AA:BB:CC:DD:EE:FF")
     }
 }

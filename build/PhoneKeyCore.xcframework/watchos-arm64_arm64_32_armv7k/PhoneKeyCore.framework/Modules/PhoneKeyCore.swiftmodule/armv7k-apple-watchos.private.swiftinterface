@@ -9,6 +9,13 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+@_hasMissingDesignatedInitializers public class SigningUseCases {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func signCommand(userId: Swift.String, deviceID: Foundation.Data? = nil, with manager: PhoneKeyCore.PhoneKeyManager, base: PhoneKeyCore.PhoneKeySignedCommand) throws -> PhoneKeyCore.PhoneKeySignedCommand
+  #endif
+  public static func canonicalCommandBytes(for command: PhoneKeyCore.PhoneKeySignedCommand) throws -> Foundation.Data
+  @objc deinit
+}
 extension Swift.Encodable {
   @inlinable public func toJSONString(prettyPrinted: Swift.Bool = false) throws -> Swift.String {
         let encoder = JSONEncoder()
@@ -35,6 +42,12 @@ public struct PhoneKeyAclRequest : Swift.Codable {
   public let lockMac: Swift.String
   public let phoneKeyId: Swift.Int
   public init(userId: Swift.Int, lockMac: Swift.String, phoneKeyId: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct PhoneKeyBulkAclRequest : Swift.Codable {
+  public let phoneKeyId: Swift.Int
+  public init(phoneKeyId: Swift.Int)
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
 }
@@ -234,17 +247,22 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
 }
 extension PhoneKeyCore.PhoneKeyManager {
-  final public func saveACLEnvelope(userId: Swift.String, mac: Swift.String, _ aclEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope) throws
+  final public func saveBulkACLs(userId: Swift.String, _ bulkACLs: [PhoneKeyCore.BulkPhoneKeyAcl]) throws
   #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
-  final public func updateACL(userId: Swift.String, mac: Swift.String, _ updatedEnvelope: PhoneKeyCore.PhoneKeyAclEnvelope, merge: ((PhoneKeyCore.PhoneKeyAclEnvelope) -> PhoneKeyCore.PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyCore.PhoneKeyAclEnvelope
+  final public func updateBulkACLs(userId: Swift.String, _ updatedACLs: [PhoneKeyCore.BulkPhoneKeyAcl], merge: (([PhoneKeyCore.BulkPhoneKeyAcl]) -> [PhoneKeyCore.BulkPhoneKeyAcl])? = nil) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getACLEnvelope(userId: Swift.String, mac: Swift.String) throws -> PhoneKeyCore.PhoneKeyAclEnvelope?
+  final public func getBulkACLs(userId: Swift.String) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]?
   #endif
-  final public func deleteACL(userId: Swift.String, mac: Swift.String) throws
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func getBulkACL(userId: Swift.String, lockMac: Swift.String) throws -> PhoneKeyCore.BulkPhoneKeyAcl?
+  #endif
+  final public func deleteACL(userId: Swift.String) throws
+  final public func deleteACL(userId: Swift.String, lockMac: Swift.String) throws
   final public func deleteAllACLs() throws
-  final public func listACLEnvelopes(userId: Swift.String, mac: Swift.String) throws -> [PhoneKeyCore.PhoneKeyAclEnvelope]
+  final public func listBulkACLs(userId: Swift.String) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]
+  final public func listAllBulkACLs() throws -> [Swift.String : [PhoneKeyCore.BulkPhoneKeyAcl]]
   final public func savePhoneKeyInfo(userId: Swift.String, info: PhoneKeyCore.PhoneKeyInfoResponse) throws
   #if compiler(>=5.3) && $NonescapableTypes
   final public func getPhoneKeyInfo(userId: Swift.String) throws -> PhoneKeyCore.PhoneKeyInfoResponse?
@@ -349,13 +367,6 @@ public enum PhoneKeyCoreBridge {
     set
   }
   #endif
-}
-@_hasMissingDesignatedInitializers public class SigningUseCases {
-  #if compiler(>=5.3) && $NonescapableTypes
-  public static func signCommand(userId: Swift.String, deviceID: Foundation.Data? = nil, with manager: PhoneKeyCore.PhoneKeyManager, base: PhoneKeyCore.PhoneKeySignedCommand) throws -> PhoneKeyCore.PhoneKeySignedCommand
-  #endif
-  public static func canonicalCommandBytes(for command: PhoneKeyCore.PhoneKeySignedCommand) throws -> Foundation.Data
-  @objc deinit
 }
 extension PhoneKeyCore.SignatureAlgorithm : Swift.Equatable {}
 extension PhoneKeyCore.SignatureAlgorithm : Swift.Hashable {}
