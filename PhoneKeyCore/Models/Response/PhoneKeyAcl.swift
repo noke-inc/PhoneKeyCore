@@ -42,11 +42,96 @@ public enum ISO8601 {
 
 // MARK: - Envelopes Root
 
-public struct PhoneKeyAclEnvelopesRoot: Codable {
-    public var acls: [PhoneKeyAclEnvelope]
+public struct BulkPhoneKeyAclRoot: Codable {
+    public var result: String
+    public var acls: [BulkPhoneKeyAcl]
     
-    public init(acls: [PhoneKeyAclEnvelope]) {
+    public init(result: String, acls: [BulkPhoneKeyAcl]) {
+        self.result = result
         self.acls = acls
+    }
+}
+
+public struct BulkPhoneKeyAcl: Codable {
+    public var result: String
+    public var lockMac: String
+    public var aclBinary: String
+    public var aclSignature: String
+    public let issuedAt: Date                // ISO8601 string in payload
+    public let expiresAt: Date               // ISO8601 string in payload
+    public let storedAt: Date                // ISO8601 string in payload
+    
+    enum CodingKeys: String, CodingKey {
+        case result
+        case lockMac
+        case aclBinary
+        case aclSignature
+        case issuedAt
+        case expiresAt
+        case storedAt
+    }
+    
+    public init(result: String, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Date) {
+        self.result = result
+        self.lockMac = lockMac
+        self.aclBinary = aclBinary
+        self.aclSignature = aclSignature
+        self.issuedAt = issuedAt
+        self.expiresAt = expiresAt
+        self.storedAt = storedAt
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.result = try c.decode(String.self, forKey: .result)
+        self.lockMac = try c.decode(String.self, forKey: .lockMac)
+        
+        self.aclBinary = try c.decode(String.self, forKey: .aclBinary)
+        self.aclSignature = try c.decode(String.self, forKey: .aclSignature)
+
+        self.issuedAt = try Self.decodeFlexibleDateValue(container: c, key: .issuedAt)
+        self.expiresAt = try Self.decodeFlexibleDateValue(container: c, key: .expiresAt)
+        self.storedAt = try Self.decodeFlexibleDateValue(container: c, key: .storedAt)
+    }
+
+    // MARK: Encoding
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        
+        try c.encode(result, forKey: .result)
+        try c.encode(lockMac, forKey: .lockMac)
+
+        // Encode dates as ISO8601 UTC strings to match the server JSON
+        try c.encode(ISO8601.string(from: issuedAt), forKey: .issuedAt)
+        try c.encode(ISO8601.string(from: expiresAt), forKey: .expiresAt)
+        try c.encode(ISO8601.string(from: storedAt), forKey: .storedAt)
+    }
+    
+    // Flexible decoder: epoch seconds (Int/Double/String) or ISO8601
+    private static func decodeFlexibleDateValue(
+        container c: KeyedDecodingContainer<CodingKeys>,
+        key: CodingKeys
+    ) throws -> Date {
+        if let secs = try? c.decode(Int.self, forKey: key) {
+            return Date(timeIntervalSince1970: TimeInterval(secs))
+        }
+        if let secsD = try? c.decode(Double.self, forKey: key) {
+            return Date(timeIntervalSince1970: secsD)
+        }
+        if let str = try? c.decode(String.self, forKey: key) {
+            if let secs = Int64(str) {
+                return Date(timeIntervalSince1970: TimeInterval(secs))
+            }
+            if let d = ISO8601.parse(str) {
+                return d
+            }
+        }
+        throw DecodingError.dataCorrupted(.init(
+            codingPath: c.codingPath + [key],
+            debugDescription: "Expected epoch seconds (Int/Double/String) or ISO8601 string for \(key)."
+        ))
     }
 }
 
