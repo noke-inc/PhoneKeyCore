@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PhoneKeyKit.h</key>
 		<data>
-		vuIOWbOrkaEzmWYSbWBnnw92+cE=
+		vq225sleJE18neho+ZHB7yGrDW8=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		rv6jz86YyMPPGpdqyMDPr72YPi4=
+		lmW24HjZxj0dxoaXOWt1VeP5/E4=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		veq4lIr9ojaqPwTZ7zUp0F9hhus=
+		dFY9TECJEY/jqpuDs8uPr5TtIeA=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		veq4lIr9ojaqPwTZ7zUp0F9hhus=
+		dFY9TECJEY/jqpuDs8uPr5TtIeA=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		2CRaeHFLKsbGVFsbLSFcBywQD5o=
+		a5bKKTEpIicRzXY2um0HIOrRxcc=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -39,21 +39,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T+yIWj5aAYaddJSrDR/ybSHslRxROMdOdBfVa3xTjVw=
+			beDGTodfqIdNzRiYxhdF4keqkYmt1ymgMEB9MII3KIU=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nhOa4nDDPyo2k0tDZw0ke40RHFV9VMZi7fVle9KkRuA=
+			WsDFE0C80Z6aVPNwzmAK2ynQRcHUFuPTxekLg87/Oto=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FjRDPNS/IuPqh+5eftTEC9eEn2+PR8SwWTrRnu10Qsw=
+			OFh0awF4hRpQc0fZTm9wBGXzYkFTCMHPLww8v4aIXgs=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftdoc</key>
@@ -67,14 +67,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			FjRDPNS/IuPqh+5eftTEC9eEn2+PR8SwWTrRnu10Qsw=
+			OFh0awF4hRpQc0fZTm9wBGXzYkFTCMHPLww8v4aIXgs=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8N12BjsJef0sQyLy5oLxrAni8fQAbGShR9rGVExqLls=
+			EOmYlV7FIlJSA6O4UfiWK07Dse0ZPsyWkX0IqY5VmiE=
 			</data>
 		</dict>
 	</dict>

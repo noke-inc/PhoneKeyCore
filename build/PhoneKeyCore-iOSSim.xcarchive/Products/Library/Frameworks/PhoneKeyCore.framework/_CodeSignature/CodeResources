@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PhoneKeyKit.h</key>
 		<data>
-		vuIOWbOrkaEzmWYSbWBnnw92+cE=
+		vq225sleJE18neho+ZHB7yGrDW8=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		rv6jz86YyMPPGpdqyMDPr72YPi4=
+		lmW24HjZxj0dxoaXOWt1VeP5/E4=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		+mq3gcEP4Q45VzvXiIBalm9+R90=
+		QUhnkaNRuPX+z52Ev9z4CD4PaOM=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		+mq3gcEP4Q45VzvXiIBalm9+R90=
+		QUhnkaNRuPX+z52Ev9z4CD4PaOM=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		cUJx7/NngNOeHm0FBEQWnawhZro=
+		AQy6SDx1+jVv59seK76JAon5Osw=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		rv6jz86YyMPPGpdqyMDPr72YPi4=
+		lmW24HjZxj0dxoaXOWt1VeP5/E4=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		nkQXN3JR/zyJTMIYAjoQw/JKEJI=
+		aYb4MMnmaXj/wKvl+/Rjgz1dlwc=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		nkQXN3JR/zyJTMIYAjoQw/JKEJI=
+		aYb4MMnmaXj/wKvl+/Rjgz1dlwc=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		K9EZEzkZd3a9VmMQOBtj0+wYeds=
+		Rzp805eBXfGv5xob74kZZMMh0GA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -59,21 +59,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T+yIWj5aAYaddJSrDR/ybSHslRxROMdOdBfVa3xTjVw=
+			beDGTodfqIdNzRiYxhdF4keqkYmt1ymgMEB9MII3KIU=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nhOa4nDDPyo2k0tDZw0ke40RHFV9VMZi7fVle9KkRuA=
+			WsDFE0C80Z6aVPNwzmAK2ynQRcHUFuPTxekLg87/Oto=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			38yZ6F0bvA0gW/WBHN8QDqPYylBpAcTCtD/zGgqrDBs=
+			dyqAgs8th9/J/ZC2X17jzmI0tHK723EO7+wpWnwX2sM=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -87,28 +87,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			38yZ6F0bvA0gW/WBHN8QDqPYylBpAcTCtD/zGgqrDBs=
+			dyqAgs8th9/J/ZC2X17jzmI0tHK723EO7+wpWnwX2sM=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vcwBh6fBs1mam7qCnvWSB2JWnhIJe9o64wLMj+uV1FY=
+			upqVz7At2B+H/+Mt4AiULMnxckolz94jl1FesCHKAEE=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nhOa4nDDPyo2k0tDZw0ke40RHFV9VMZi7fVle9KkRuA=
+			WsDFE0C80Z6aVPNwzmAK2ynQRcHUFuPTxekLg87/Oto=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			01gFzpGMuLEpTIyDDWXGbt+CKU8WKreE8FSbHLgwZKs=
+			YaRDoyCuXDrQSwfCNqGEvMsw3zEDZ7H2daP27GYjK/U=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -122,14 +122,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			01gFzpGMuLEpTIyDDWXGbt+CKU8WKreE8FSbHLgwZKs=
+			YaRDoyCuXDrQSwfCNqGEvMsw3zEDZ7H2daP27GYjK/U=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KXIV1tQadFlojM2HGh/tthmQxSJhYZ1XyeNGJe64QRY=
+			ncu2UbGuss/K2q1b3pl3wEqZ5PlU/5AQ0JkMjiYk7no=
 			</data>
 		</dict>
 	</dict>

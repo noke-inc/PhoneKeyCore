@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PhoneKeyKit.h</key>
 		<data>
-		vuIOWbOrkaEzmWYSbWBnnw92+cE=
+		vq225sleJE18neho+ZHB7yGrDW8=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.abi.json</key>
 		<data>
-		rv6jz86YyMPPGpdqyMDPr72YPi4=
+		lmW24HjZxj0dxoaXOWt1VeP5/E4=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.private.swiftinterface</key>
 		<data>
-		F8bQ+USfaFJF7B2drqur6Kjwo68=
+		/kMPrC0xEgkIkzsOVhd4lYRZ+k8=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftdoc</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftinterface</key>
 		<data>
-		F8bQ+USfaFJF7B2drqur6Kjwo68=
+		/kMPrC0xEgkIkzsOVhd4lYRZ+k8=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftmodule</key>
 		<data>
-		MS/sQUuhknJihJ0kQgDPmhoRYPY=
+		LBYsrqaoTUcp7dl9d2Wa5cvSxiA=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.abi.json</key>
 		<data>
-		rv6jz86YyMPPGpdqyMDPr72YPi4=
+		lmW24HjZxj0dxoaXOWt1VeP5/E4=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.private.swiftinterface</key>
 		<data>
-		/qFFcgYGoPR8Sqw2WtzFB9Zn0Uw=
+		/59v4EFuLaEJMCeUujGv/Xceyyc=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftdoc</key>
 		<data>
@@ -46,11 +46,11 @@
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftinterface</key>
 		<data>
-		/qFFcgYGoPR8Sqw2WtzFB9Zn0Uw=
+		/59v4EFuLaEJMCeUujGv/Xceyyc=
 		</data>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftmodule</key>
 		<data>
-		SbFtehao2P06f20Dz55bkhSIzKY=
+		jThDCvt9XEuQSpwvwAUsoO0xS9A=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -59,21 +59,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			T+yIWj5aAYaddJSrDR/ybSHslRxROMdOdBfVa3xTjVw=
+			beDGTodfqIdNzRiYxhdF4keqkYmt1ymgMEB9MII3KIU=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nhOa4nDDPyo2k0tDZw0ke40RHFV9VMZi7fVle9KkRuA=
+			WsDFE0C80Z6aVPNwzmAK2ynQRcHUFuPTxekLg87/Oto=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nCjXTiFaE2FyNsSIGyJP715+ykv5cgOMnxElV79BR4I=
+			9bi+ZFkdkx1AwGf2KduxV3CuKM967yDMMSTJ+aiHJ+A=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftdoc</key>
@@ -87,28 +87,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nCjXTiFaE2FyNsSIGyJP715+ykv5cgOMnxElV79BR4I=
+			9bi+ZFkdkx1AwGf2KduxV3CuKM967yDMMSTJ+aiHJ+A=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/arm64-apple-watchos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TKbBzAE5XUavjZ1Vv+qyzUgq4E+IlZ5nTFIYFLHZk0U=
+			mXEG/OeJFENovjFtw6wsBrTHRxNXwOEJPoAi6Dg2eVw=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nhOa4nDDPyo2k0tDZw0ke40RHFV9VMZi7fVle9KkRuA=
+			WsDFE0C80Z6aVPNwzmAK2ynQRcHUFuPTxekLg87/Oto=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GM/L0fczxt4k7KDOV9ECmG3+9Z2yvKTAPCAlxiX8GGM=
+			5Invt5ZtlSHe9/Zze/gjwb41OQodlt2goz/iM5rHMaQ=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftdoc</key>
@@ -122,14 +122,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GM/L0fczxt4k7KDOV9ECmG3+9Z2yvKTAPCAlxiX8GGM=
+			5Invt5ZtlSHe9/Zze/gjwb41OQodlt2goz/iM5rHMaQ=
 			</data>
 		</dict>
 		<key>Modules/PhoneKeyCore.swiftmodule/x86_64-apple-watchos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			swm2qNybjHhJfzRaFrAws1T/jTcsa/mrMVt8BqBygtY=
+			YP13p4mpcF7i75ZVGUJzT4zMPwpoXYDWz+EMPm+OhDw=
 			</data>
 		</dict>
 	</dict>

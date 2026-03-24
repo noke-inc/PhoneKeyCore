@@ -8,7 +8,6 @@
 #ifndef PhoneKeyKit_h
 #define PhoneKeyKit_h
 
-
 // PhoneKeyKit.h
 #import <Foundation/Foundation.h>
 
@@ -19,13 +18,11 @@
 #define FOUNDATION_EXPORT extern
 #endif
 #endif
-#endif
 
 //! Project version number
 FOUNDATION_EXPORT double PhoneKeyKitVersionNumber;
 
 //! Project version string
 FOUNDATION_EXPORT const unsigned char PhoneKeyKitVersionString[];
-
 
 #endif /* PhoneKeyKit_h */
