@@ -247,22 +247,18 @@ extension PhoneKeyCore.PhoneKeyManager {
   #endif
 }
 extension PhoneKeyCore.PhoneKeyManager {
-  final public func saveBulkACLs(userId: Swift.String, _ bulkACLs: [PhoneKeyCore.BulkPhoneKeyAcl]) throws
+  final public func saveBulkACL(userId: Swift.String, mac: Swift.String, _ bulkACL: PhoneKeyCore.BulkPhoneKeyAcl) throws
   #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
-  final public func updateBulkACLs(userId: Swift.String, _ updatedACLs: [PhoneKeyCore.BulkPhoneKeyAcl], merge: (([PhoneKeyCore.BulkPhoneKeyAcl]) -> [PhoneKeyCore.BulkPhoneKeyAcl])? = nil) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]
+  final public func updateBulkACL(userId: Swift.String, mac: Swift.String, _ updatedACL: PhoneKeyCore.BulkPhoneKeyAcl, merge: ((PhoneKeyCore.BulkPhoneKeyAcl) -> PhoneKeyCore.BulkPhoneKeyAcl)? = nil) throws -> PhoneKeyCore.BulkPhoneKeyAcl
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  final public func getBulkACLs(userId: Swift.String) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]?
+  final public func getBulkACL(userId: Swift.String, mac: Swift.String) throws -> PhoneKeyCore.BulkPhoneKeyAcl?
   #endif
-  #if compiler(>=5.3) && $NonescapableTypes
-  final public func getBulkACL(userId: Swift.String, lockMac: Swift.String) throws -> PhoneKeyCore.BulkPhoneKeyAcl?
-  #endif
-  final public func deleteACL(userId: Swift.String) throws
-  final public func deleteACL(userId: Swift.String, lockMac: Swift.String) throws
+  final public func deleteACL(userId: Swift.String, mac: Swift.String) throws
   final public func deleteAllACLs() throws
+  final public func listBulkACLs() throws -> [PhoneKeyCore.BulkPhoneKeyAcl]
   final public func listBulkACLs(userId: Swift.String) throws -> [PhoneKeyCore.BulkPhoneKeyAcl]
-  final public func listAllBulkACLs() throws -> [Swift.String : [PhoneKeyCore.BulkPhoneKeyAcl]]
   final public func savePhoneKeyInfo(userId: Swift.String, info: PhoneKeyCore.PhoneKeyInfoResponse) throws
   #if compiler(>=5.3) && $NonescapableTypes
   final public func getPhoneKeyInfo(userId: Swift.String) throws -> PhoneKeyCore.PhoneKeyInfoResponse?

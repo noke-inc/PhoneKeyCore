@@ -123,6 +123,7 @@ final class PhoneKeyCoreTests: XCTestCase {
         
         let mgr = PhoneKeyManager(serviceName: "test.acl", provider: provider)
         let now = Date()
+        let nowMillis = Int64(now.timeIntervalSince1970 * 1000)
         let mockBulkACL = BulkPhoneKeyAcl(
             result: "success",
             lockMac: "AA:BB:CC:DD:EE:FF",
@@ -130,12 +131,13 @@ final class PhoneKeyCoreTests: XCTestCase {
             aclSignature: sig.base64EncodedString(),
             issuedAt: now,
             expiresAt: now.addingTimeInterval(86400),
-            storedAt: now
+            storedAt: nowMillis
         )
         try mgr.saveBulkACL(userId: "testUser", mac: "AA:BB:CC:DD:EE:FF", mockBulkACL)
         let acl = try mgr.getBulkACL(userId: "testUser", mac: "AA:BB:CC:DD:EE:FF")
         XCTAssertNotNil(acl)
         XCTAssertEqual(acl?.aclSignature, sig.base64EncodedString())
         XCTAssertEqual(acl?.lockMac, "AA:BB:CC:DD:EE:FF")
+        XCTAssertEqual(acl?.storedAt, nowMillis)
     }
 }

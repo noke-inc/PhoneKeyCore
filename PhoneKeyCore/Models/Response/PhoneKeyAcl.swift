@@ -59,7 +59,7 @@ public struct BulkPhoneKeyAcl: Codable {
     public var aclSignature: String
     public let issuedAt: Date                // ISO8601 string in payload
     public let expiresAt: Date               // ISO8601 string in payload
-    public let storedAt: Date                // ISO8601 string in payload
+    public let storedAt: Int64               // Milliseconds since epoch (like Android's System.currentTimeMillis())
     
     enum CodingKeys: String, CodingKey {
         case result
@@ -71,7 +71,7 @@ public struct BulkPhoneKeyAcl: Codable {
         case storedAt
     }
     
-    public init(result: String, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Date) {
+    public init(result: String, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) {
         self.result = result
         self.lockMac = lockMac
         self.aclBinary = aclBinary
@@ -92,7 +92,7 @@ public struct BulkPhoneKeyAcl: Codable {
 
         self.issuedAt = try Self.decodeFlexibleDateValue(container: c, key: .issuedAt)
         self.expiresAt = try Self.decodeFlexibleDateValue(container: c, key: .expiresAt)
-        self.storedAt = try Self.decodeFlexibleDateValue(container: c, key: .storedAt)
+        self.storedAt = try Self.decodeFlexibleInt64Value(container: c, key: .storedAt)
     }
 
     // MARK: Encoding
@@ -102,11 +102,14 @@ public struct BulkPhoneKeyAcl: Codable {
         
         try c.encode(result, forKey: .result)
         try c.encode(lockMac, forKey: .lockMac)
+        try c.encode(aclBinary, forKey: .aclBinary)
+        try c.encode(aclSignature, forKey: .aclSignature)
 
         // Encode dates as ISO8601 UTC strings to match the server JSON
         try c.encode(ISO8601.string(from: issuedAt), forKey: .issuedAt)
         try c.encode(ISO8601.string(from: expiresAt), forKey: .expiresAt)
-        try c.encode(ISO8601.string(from: storedAt), forKey: .storedAt)
+        // Encode storedAt as Int64 milliseconds
+        try c.encode(storedAt, forKey: .storedAt)
     }
     
     // Flexible decoder: epoch seconds (Int/Double/String) or ISO8601
@@ -131,6 +134,44 @@ public struct BulkPhoneKeyAcl: Codable {
         throw DecodingError.dataCorrupted(.init(
             codingPath: c.codingPath + [key],
             debugDescription: "Expected epoch seconds (Int/Double/String) or ISO8601 string for \(key)."
+        ))
+    }
+    
+    // Flexible decoder for Int64 milliseconds: handles Int64, Double, String, or Date
+    private static func decodeFlexibleInt64Value(
+        container c: KeyedDecodingContainer<CodingKeys>,
+        key: CodingKeys
+    ) throws -> Int64 {
+        // Try Int64 (milliseconds)
+        if let ms = try? c.decode(Int64.self, forKey: key) {
+            return ms
+        }
+        // Try Int (milliseconds)
+        if let ms = try? c.decode(Int.self, forKey: key) {
+            return Int64(ms)
+        }
+        // Try Double (milliseconds or seconds, disambiguate by magnitude)
+        if let value = try? c.decode(Double.self, forKey: key) {
+            // If value is < 10_000_000_000, assume seconds; otherwise milliseconds
+            return value < 10_000_000_000 ? Int64(value * 1000) : Int64(value)
+        }
+        // Try String
+        if let str = try? c.decode(String.self, forKey: key) {
+            if let ms = Int64(str) {
+                return ms
+            }
+            // Try parsing as ISO8601 date
+            if let d = ISO8601.parse(str) {
+                return Int64(d.timeIntervalSince1970 * 1000)
+            }
+        }
+        // Try Date (encoded as ISO8601 or other)
+        if let date = try? c.decode(Date.self, forKey: key) {
+            return Int64(date.timeIntervalSince1970 * 1000)
+        }
+        throw DecodingError.dataCorrupted(.init(
+            codingPath: c.codingPath + [key],
+            debugDescription: "Expected Int64 milliseconds (Int64/Int/Double/String) or Date for \(key)."
         ))
     }
 }

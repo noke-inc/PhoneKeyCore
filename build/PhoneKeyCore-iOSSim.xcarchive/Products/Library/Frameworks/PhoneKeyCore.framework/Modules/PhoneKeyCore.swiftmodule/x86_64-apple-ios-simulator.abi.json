@@ -6407,8 +6407,8 @@
           },
           {
             "kind": "Function",
-            "name": "saveBulkACLs",
-            "printedName": "saveBulkACLs(userId:_:)",
+            "name": "saveBulkACL",
+            "printedName": "saveBulkACL(userId:mac:_:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -6423,22 +6423,20 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "Array",
-                "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "BulkPhoneKeyAcl",
-                    "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                    "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                  }
-                ],
-                "usr": "s:Sa"
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "BulkPhoneKeyAcl",
+                "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                "usr": "s:12PhoneKeyCore04BulkaB3AclV"
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC12saveBulkACLs6userId_ySS_SayAA0faB3AclVGtKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC12saveBulkACLs6userId_ySS_SayAA0faB3AclVGtKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC11saveBulkACL6userId3mac_ySS_SSAA0faB3AclVtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC11saveBulkACL6userId3mac_ySS_SSAA0faB3AclVtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -6450,22 +6448,14 @@
           },
           {
             "kind": "Function",
-            "name": "updateBulkACLs",
-            "printedName": "updateBulkACLs(userId:_:merge:)",
+            "name": "updateBulkACL",
+            "printedName": "updateBulkACL(userId:mac:_:merge:)",
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "Array",
-                "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "BulkPhoneKeyAcl",
-                    "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                    "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                  }
-                ],
-                "usr": "s:Sa"
+                "name": "BulkPhoneKeyAcl",
+                "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                "usr": "s:12PhoneKeyCore04BulkaB3AclV"
               },
               {
                 "kind": "TypeNominal",
@@ -6475,55 +6465,37 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "Array",
-                "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "BulkPhoneKeyAcl",
-                    "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                    "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                  }
-                ],
-                "usr": "s:Sa"
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "BulkPhoneKeyAcl",
+                "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                "usr": "s:12PhoneKeyCore04BulkaB3AclV"
               },
               {
                 "kind": "TypeNominal",
                 "name": "Optional",
-                "printedName": "(([PhoneKeyCore.BulkPhoneKeyAcl]) -> [PhoneKeyCore.BulkPhoneKeyAcl])?",
+                "printedName": "((PhoneKeyCore.BulkPhoneKeyAcl) -> PhoneKeyCore.BulkPhoneKeyAcl)?",
                 "children": [
                   {
                     "kind": "TypeFunc",
                     "name": "Function",
-                    "printedName": "([PhoneKeyCore.BulkPhoneKeyAcl]) -> [PhoneKeyCore.BulkPhoneKeyAcl]",
+                    "printedName": "(PhoneKeyCore.BulkPhoneKeyAcl) -> PhoneKeyCore.BulkPhoneKeyAcl",
                     "children": [
                       {
                         "kind": "TypeNominal",
-                        "name": "Array",
-                        "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "BulkPhoneKeyAcl",
-                            "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                            "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                          }
-                        ],
-                        "usr": "s:Sa"
+                        "name": "BulkPhoneKeyAcl",
+                        "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                        "usr": "s:12PhoneKeyCore04BulkaB3AclV"
                       },
                       {
                         "kind": "TypeNominal",
-                        "name": "Array",
-                        "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "BulkPhoneKeyAcl",
-                            "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                            "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                          }
-                        ],
-                        "usr": "s:Sa"
+                        "name": "BulkPhoneKeyAcl",
+                        "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                        "usr": "s:12PhoneKeyCore04BulkaB3AclV"
                       }
                     ]
                   }
@@ -6533,8 +6505,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC14updateBulkACLs6userId_5mergeSayAA0faB3AclVGSS_A3IcSgtKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC14updateBulkACLs6userId_5mergeSayAA0faB3AclVGSS_A3IcSgtKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC13updateBulkACL6userId3mac_5mergeAA0faB3AclVSS_SSA3IcSgtKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC13updateBulkACL6userId3mac_5mergeAA0faB3AclVSS_SSA3IcSgtKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -6547,54 +6519,8 @@
           },
           {
             "kind": "Function",
-            "name": "getBulkACLs",
-            "printedName": "getBulkACLs(userId:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "BulkPhoneKeyAcl",
-                        "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                        "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC11getBulkACLs6userIdSayAA0faB3AclVGSgSS_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC11getBulkACLs6userIdSayAA0faB3AclVGSgSS_tKF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final",
-              "RawDocComment"
-            ],
-            "isFromExtension": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
             "name": "getBulkACL",
-            "printedName": "getBulkACL(userId:lockMac:)",
+            "printedName": "getBulkACL(userId:mac:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -6624,8 +6550,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC10getBulkACL6userId7lockMacAA0faB3AclVSgSS_SStKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC10getBulkACL6userId7lockMacAA0faB3AclVSgSS_SStKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC10getBulkACL6userId3macAA0faB3AclVSgSS_SStKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC10getBulkACL6userId3macAA0faB3AclVSgSS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -6638,36 +6564,7 @@
           {
             "kind": "Function",
             "name": "deleteACL",
-            "printedName": "deleteACL(userId:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC9deleteACL6userIdySS_tKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL6userIdySS_tKF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final",
-              "RawDocComment"
-            ],
-            "isFromExtension": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "deleteACL",
-            "printedName": "deleteACL(userId:lockMac:)",
+            "printedName": "deleteACL(userId:mac:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -6688,8 +6585,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC9deleteACL6userId7lockMacySS_SStKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL6userId7lockMacySS_SStKF",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC9deleteACL6userId3macySS_SStKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC9deleteACL6userId3macySS_SStKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -6713,6 +6610,38 @@
             "declKind": "Func",
             "usr": "s:12PhoneKeyCore0aB7ManagerC13deleteAllACLsyyKF",
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC13deleteAllACLsyyKF",
+            "moduleName": "PhoneKeyCore",
+            "declAttributes": [
+              "Final",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "listBulkACLs",
+            "printedName": "listBulkACLs()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "BulkPhoneKeyAcl",
+                    "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
+                    "usr": "s:12PhoneKeyCore04BulkaB3AclV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:12PhoneKeyCore0aB7ManagerC12listBulkACLsSayAA0faB3AclVGyKF",
+            "mangledName": "$s12PhoneKeyCore0aB7ManagerC12listBulkACLsSayAA0faB3AclVGyKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
@@ -6751,52 +6680,6 @@
             "declKind": "Func",
             "usr": "s:12PhoneKeyCore0aB7ManagerC12listBulkACLs6userIdSayAA0faB3AclVGSS_tKF",
             "mangledName": "$s12PhoneKeyCore0aB7ManagerC12listBulkACLs6userIdSayAA0faB3AclVGSS_tKF",
-            "moduleName": "PhoneKeyCore",
-            "declAttributes": [
-              "Final",
-              "RawDocComment"
-            ],
-            "isFromExtension": true,
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "listAllBulkACLs",
-            "printedName": "listAllBulkACLs()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : [PhoneKeyCore.BulkPhoneKeyAcl]]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[PhoneKeyCore.BulkPhoneKeyAcl]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "BulkPhoneKeyAcl",
-                        "printedName": "PhoneKeyCore.BulkPhoneKeyAcl",
-                        "usr": "s:12PhoneKeyCore04BulkaB3AclV"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:12PhoneKeyCore0aB7ManagerC15listAllBulkACLsSDySSSayAA0gaB3AclVGGyKF",
-            "mangledName": "$s12PhoneKeyCore0aB7ManagerC15listAllBulkACLsSDySSSayAA0gaB3AclVGGyKF",
             "moduleName": "PhoneKeyCore",
             "declAttributes": [
               "Final",
