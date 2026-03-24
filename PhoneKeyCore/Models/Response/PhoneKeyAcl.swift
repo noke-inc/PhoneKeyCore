@@ -53,7 +53,7 @@ public struct BulkPhoneKeyAclRoot: Codable {
 }
 
 public struct BulkPhoneKeyAcl: Codable {
-    public var result: String
+    public var result: String?               // Optional: only present when returned as single item, not in bulk array
     public var lockMac: String
     public var aclBinary: String
     public var aclSignature: String
@@ -71,7 +71,7 @@ public struct BulkPhoneKeyAcl: Codable {
         case storedAt
     }
     
-    public init(result: String, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) {
+    public init(result: String? = nil, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) {
         self.result = result
         self.lockMac = lockMac
         self.aclBinary = aclBinary
@@ -84,7 +84,7 @@ public struct BulkPhoneKeyAcl: Codable {
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.result = try c.decode(String.self, forKey: .result)
+        self.result = try? c.decode(String.self, forKey: .result)  // Optional
         self.lockMac = try c.decode(String.self, forKey: .lockMac)
         
         self.aclBinary = try c.decode(String.self, forKey: .aclBinary)
@@ -92,7 +92,14 @@ public struct BulkPhoneKeyAcl: Codable {
 
         self.issuedAt = try Self.decodeFlexibleDateValue(container: c, key: .issuedAt)
         self.expiresAt = try Self.decodeFlexibleDateValue(container: c, key: .expiresAt)
-        self.storedAt = try Self.decodeFlexibleInt64Value(container: c, key: .storedAt)
+        
+        // storedAt is optional in the response - if not present, null, or invalid, use current time
+        // Check if key exists and is not null before attempting decode
+        if c.contains(.storedAt), !(try c.decodeNil(forKey: .storedAt)) {
+            self.storedAt = (try? Self.decodeFlexibleInt64Value(container: c, key: .storedAt)) ?? Int64(Date().timeIntervalSince1970 * 1000)
+        } else {
+            self.storedAt = Int64(Date().timeIntervalSince1970 * 1000)
+        }
     }
 
     // MARK: Encoding
