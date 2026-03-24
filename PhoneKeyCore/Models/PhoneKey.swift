@@ -588,56 +588,78 @@ public extension PhoneKeyManager {
     }
     private var aclDecoder: JSONDecoder { JSONDecoder() }
 
-    func saveACLEnvelope(userId: String, mac: String, _ aclEnvelope: PhoneKeyAclEnvelope) throws {
-        let envelopeId = normalize("\(userId)-\(mac)")
-        guard !envelopeId.isEmpty else { throw ACLError.missingEnvelopeId }
-        let data = try aclEncoder.encode(aclEnvelope)
-        let itemKey = ACLStoreKeys.item(envelopeId)
+    /// Save all bulk ACLs for a userId, replacing any existing ACLs.
+    func saveBulkACLs(userId: String, _ bulkACLs: [BulkPhoneKeyAcl]) throws {
+        let normalizedUserId = normalize(userId)
+        guard !normalizedUserId.isEmpty else { throw ACLError.missingEnvelopeId }
+        let data = try aclEncoder.encode(bulkACLs)
+        let itemKey = ACLStoreKeys.item(normalizedUserId)
         try keychain.setValue(data.base64EncodedString(), forKey: itemKey)
 
         var index = try loadACLIndex()
-        if !index.contains(envelopeId) {
-            index.append(envelopeId)
+        if !index.contains(normalizedUserId) {
+            index.append(normalizedUserId)
             try storeACLIndex(index)
         }
     }
 
+    /// Update bulk ACLs for a userId. If merge closure is provided, it will be called with existing ACLs.
     @discardableResult
-    func updateACL(userId: String, mac: String, _ updatedEnvelope: PhoneKeyAclEnvelope,
-                   merge: ((PhoneKeyAclEnvelope) -> PhoneKeyAclEnvelope)? = nil) throws -> PhoneKeyAclEnvelope {
-        guard !userId.isEmpty, !mac.isEmpty else { throw ACLError.missingEnvelopeId }
-        if let existing = try getACLEnvelope(userId: userId, mac: mac), let merge = merge {
+    func updateBulkACLs(userId: String, _ updatedACLs: [BulkPhoneKeyAcl],
+                        merge: (([BulkPhoneKeyAcl]) -> [BulkPhoneKeyAcl])? = nil) throws -> [BulkPhoneKeyAcl] {
+        guard !userId.isEmpty else { throw ACLError.missingEnvelopeId }
+        if let existing = try getBulkACLs(userId: userId), let merge = merge {
             let merged = merge(existing)
-            try saveACLEnvelope(userId: userId, mac: mac, merged)
+            try saveBulkACLs(userId: userId, merged)
             return merged
         } else {
-            try saveACLEnvelope(userId: userId, mac: mac, updatedEnvelope)
-            return updatedEnvelope
+            try saveBulkACLs(userId: userId, updatedACLs)
+            return updatedACLs
         }
     }
 
-    func getACLEnvelope(userId: String, mac: String) throws -> PhoneKeyAclEnvelope? {
-        let envelopeId = normalize("\(userId)-\(mac)")
-        let itemKey = ACLStoreKeys.item(envelopeId)
+    /// Get all bulk ACLs for a userId.
+    func getBulkACLs(userId: String) throws -> [BulkPhoneKeyAcl]? {
+        let normalizedUserId = normalize(userId)
+        let itemKey = ACLStoreKeys.item(normalizedUserId)
         guard let b64 = try keychain.getValue(forKey: itemKey),
               let data = Data(base64Encoded: b64) else {
             return nil
         }
-        return try aclDecoder.decode(PhoneKeyAclEnvelope.self, from: data)
+        return try aclDecoder.decode([BulkPhoneKeyAcl].self, from: data)
     }
 
-    func deleteACL(userId: String, mac: String) throws {
-        let envelopeId = normalize("\(userId)-\(mac)")
-        let itemKey = ACLStoreKeys.item(envelopeId)
+    /// Get a specific ACL by lockMac for a userId.
+    func getBulkACL(userId: String, lockMac: String) throws -> BulkPhoneKeyAcl? {
+        guard let acls = try getBulkACLs(userId: userId) else { return nil }
+        return acls.first { $0.lockMac.lowercased() == lockMac.lowercased() }
+    }
+
+    /// Delete all ACLs for a userId.
+    func deleteACL(userId: String) throws {
+        let normalizedUserId = normalize(userId)
+        let itemKey = ACLStoreKeys.item(normalizedUserId)
         try keychain.removeValue(for: itemKey)
 
         var index = try loadACLIndex()
-        if let i = index.firstIndex(of: envelopeId) {
+        if let i = index.firstIndex(of: normalizedUserId) {
             index.remove(at: i)
             try storeACLIndex(index)
         }
     }
+
+    /// Delete a specific ACL by lockMac for a userId.
+    func deleteACL(userId: String, lockMac: String) throws {
+        guard var acls = try getBulkACLs(userId: userId) else { return }
+        acls.removeAll { $0.lockMac.lowercased() == lockMac.lowercased() }
+        if acls.isEmpty {
+            try deleteACL(userId: userId)
+        } else {
+            try saveBulkACLs(userId: userId, acls)
+        }
+    }
     
+    /// Delete all ACLs for all users.
     func deleteAllACLs() throws {
         let ids = try loadACLIndex()
         for id in ids {
@@ -647,20 +669,32 @@ public extension PhoneKeyManager {
         try storeACLIndex([])
     }
 
-    func listACLEnvelopes(userId: String, mac: String) throws -> [PhoneKeyAclEnvelope] {
-        let ids = try loadACLIndex()
-        var out: [PhoneKeyAclEnvelope] = []
-        out.reserveCapacity(ids.count)
+    /// List all bulk ACLs for a userId.
+    func listBulkACLs(userId: String) throws -> [BulkPhoneKeyAcl] {
+        guard let acls = try getBulkACLs(userId: userId) else {
+            return []
+        }
+        return acls
+    }
 
-        for id in ids {
-            if let aclEnvelope = try getACLEnvelope(userId: userId, mac: mac) {
-                out.append(aclEnvelope)
+    /// List all bulk ACLs for all users.
+    func listAllBulkACLs() throws -> [String: [BulkPhoneKeyAcl]] {
+        let ids = try loadACLIndex()
+        var result: [String: [BulkPhoneKeyAcl]] = [:]
+        
+        for userId in ids {
+            if let acls = try getBulkACLs(userId: userId) {
+                result[userId] = acls
             } else {
-                try removeIdFromIndex(userId: userId, mac: mac)
+                try removeIdFromIndex(userId: userId)
             }
         }
-        return out
+        return result
     }
+    
+    
+    
+    
     
     // MARK: - Phone Key Info persistence
     
@@ -699,10 +733,10 @@ public extension PhoneKeyManager {
         try keychain.setValue(data.base64EncodedString(), forKey: ACLStoreKeys.index)
     }
 
-    private func removeIdFromIndex(userId: String, mac: String) throws {
-        let envelopeId = normalize("\(userId)-\(mac)")
+    private func removeIdFromIndex(userId: String) throws {
+        let normalizedUserId = normalize(userId)
         var index = try loadACLIndex()
-        if let i = index.firstIndex(of: envelopeId) {
+        if let i = index.firstIndex(of: normalizedUserId) {
             index.remove(at: i)
             try storeACLIndex(index)
         }

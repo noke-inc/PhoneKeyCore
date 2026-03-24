@@ -113,7 +113,7 @@ final class PhoneKeyCoreTests: XCTestCase {
         XCTAssertEqual(newInfo.seed, seed) // because mock always returns the same seed
     }
     
-    func testSaveAclEnvelope() throws {
+    func testSaveBulkACLs() throws {
         let seed = Data(repeating: 0x01, count: 32)
         let pub  = Data(repeating: 0x02, count: 32)
         let hash = Data(repeating: 0x03, count: 32)
@@ -122,11 +122,21 @@ final class PhoneKeyCoreTests: XCTestCase {
         let provider = MockCryptoProvider(seed: seed, pub: pub, hash: hash, signature: sig)
         
         let mgr = PhoneKeyManager(serviceName: "test.acl", provider: provider)
-        let mockAcl = PhoneKeyAcl.mockP256()
-        let mockAclEnvelope = PhoneKeyAclEnvelope(result: "success", acl: mockAcl, aclSignature: sig.base64EncodedString())
-        try? mgr.saveACLEnvelope(mockAclEnvelope)
-        let envelope = try? mgr.getACLEnvelope(trackingId: "2")
-        XCTAssertNotNil(envelope)
-        XCTAssertEqual(envelope?.aclSignature, sig.base64EncodedString())
+        let now = Date()
+        let mockBulkACL = BulkPhoneKeyAcl(
+            result: "success",
+            lockMac: "AA:BB:CC:DD:EE:FF",
+            aclBinary: "mockBinaryData",
+            aclSignature: sig.base64EncodedString(),
+            issuedAt: now,
+            expiresAt: now.addingTimeInterval(86400),
+            storedAt: now
+        )
+        try mgr.saveBulkACLs(userId: "testUser", [mockBulkACL])
+        let acls = try mgr.getBulkACLs(userId: "testUser")
+        XCTAssertNotNil(acls)
+        XCTAssertEqual(acls?.count, 1)
+        XCTAssertEqual(acls?.first?.aclSignature, sig.base64EncodedString())
+        XCTAssertEqual(acls?.first?.lockMac, "AA:BB:CC:DD:EE:FF")
     }
 }
