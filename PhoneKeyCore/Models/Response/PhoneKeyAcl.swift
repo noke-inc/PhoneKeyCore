@@ -60,6 +60,7 @@ public struct BulkPhoneKeyAcl: Codable {
     public let issuedAt: Date                // ISO8601 string in payload
     public let expiresAt: Date               // ISO8601 string in payload
     public let storedAt: Int64               // Milliseconds since epoch (like Android's System.currentTimeMillis())
+    public let storedClockBoottime: Int64    // Seconds since boot (CLOCK_BOOTTIME)
     
     enum CodingKeys: String, CodingKey {
         case result
@@ -69,9 +70,10 @@ public struct BulkPhoneKeyAcl: Codable {
         case issuedAt
         case expiresAt
         case storedAt
+        case storedClockBoottime
     }
     
-    public init(result: String? = nil, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Int64 = Int64(Date().timeIntervalSince1970 * 1000)) {
+    public init(result: String? = nil, lockMac: String, aclBinary: String, aclSignature: String, issuedAt: Date, expiresAt: Date, storedAt: Int64 = Int64(Date().timeIntervalSince1970 * 1000), storedClockBoottime: Int64 = Int64(ProcessInfo.processInfo.systemUptime)) {
         self.result = result
         self.lockMac = lockMac
         self.aclBinary = aclBinary
@@ -79,6 +81,7 @@ public struct BulkPhoneKeyAcl: Codable {
         self.issuedAt = issuedAt
         self.expiresAt = expiresAt
         self.storedAt = storedAt
+        self.storedClockBoottime = storedClockBoottime
     }
     
     public init(from decoder: Decoder) throws {
@@ -100,6 +103,13 @@ public struct BulkPhoneKeyAcl: Codable {
         } else {
             self.storedAt = Int64(Date().timeIntervalSince1970 * 1000)
         }
+        
+        // storedClockBoottime is optional in response - if missing/null/invalid, use current boot time
+        if c.contains(.storedClockBoottime), !(try c.decodeNil(forKey: .storedClockBoottime)) {
+            self.storedClockBoottime = (try? Self.decodeFlexibleInt64Value(container: c, key: .storedClockBoottime)) ?? Int64(ProcessInfo.processInfo.systemUptime)
+        } else {
+            self.storedClockBoottime = Int64(ProcessInfo.processInfo.systemUptime)
+        }
     }
 
     // MARK: Encoding
@@ -117,6 +127,8 @@ public struct BulkPhoneKeyAcl: Codable {
         try c.encode(ISO8601.string(from: expiresAt), forKey: .expiresAt)
         // Encode storedAt as Int64 milliseconds
         try c.encode(storedAt, forKey: .storedAt)
+        // Encode storedClockBoottime as Int64 seconds
+        try c.encode(storedClockBoottime, forKey: .storedClockBoottime)
     }
     
     // Flexible decoder: epoch seconds (Int/Double/String) or ISO8601
