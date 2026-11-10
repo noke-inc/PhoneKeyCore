@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhoneKeyCore'
-  s.version          = '1.1.1'
+  s.version          = '1.1.2'
   s.summary          = 'Ed25519 and ECDSA P-256 key generation, storage, and signing for iOS and watchOS.'
   s.description      = <<-DESC
 PhoneKeyCore is an iOS/watchOS SDK for cryptographic key management and signing.
